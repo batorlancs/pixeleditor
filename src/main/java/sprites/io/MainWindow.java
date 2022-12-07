@@ -7,7 +7,9 @@ public class MainWindow {
         javax.swing.JFrame frame = new javax.swing.JFrame("sprites.io");
         frame.setSize(800, 600);
         frame.setResizable(true);
-        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+
     }
 }

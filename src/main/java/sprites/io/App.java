@@ -4,6 +4,8 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+
+        //MainWindow app = new MainWindow();
+        testUI app = new testUI();
     }
 }
