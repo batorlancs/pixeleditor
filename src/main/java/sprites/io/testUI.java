@@ -18,7 +18,6 @@ public class testUI
     JPanel layerPanel = new JPanel();
    
     JButton open = new JButton();
-   
     public void CreateDisplay()
     {
         mainFrame.setSize(1024,640);
