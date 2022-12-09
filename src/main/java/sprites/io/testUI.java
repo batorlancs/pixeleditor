@@ -14,10 +14,15 @@ public class testUI
 
     JPanel canvasPanel = new JPanel();
     JPanel toolPanel = new JPanel();
+    GridLayout toolbarLayout = new GridLayout(8,2);
     JPanel menuPanel = new JPanel();
     JPanel layerPanel = new JPanel();
    
     JButton open = new JButton();
+
+    JButton draw = new JButton("DRAW");
+    JButton size = new JButton("SIZE");
+    JButton line = new JButton("LINE");
     public void CreateDisplay()
     {
         mainFrame.setSize(1024,640);
@@ -38,6 +43,11 @@ public class testUI
 
         toolPanel.setBackground(Color.red);
         toolPanel.setBounds(0,64,128,512);
+        toolPanel.setLayout(toolbarLayout);
+        toolPanel.add(draw);
+        toolPanel.add(size);
+        toolPanel.add(line);
+
 
         layerPanel.setBackground(Color.blue);
         layerPanel.setBounds(640,64,384,512);

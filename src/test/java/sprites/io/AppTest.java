@@ -21,8 +21,10 @@ public class AppTest
     @Test
     public void shouldShowMainWindow()
     {
-        MainWindow mainWindow = new MainWindow();
-        assertTrue( mainWindow != null );
+        //MainWindow mainWindow = new MainWindow();
+        //assertTrue( mainWindow != null );
+        testUI app = new testUI();
+        assertTrue( app != null );
     }
 
 }
