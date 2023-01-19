@@ -1,5 +1,8 @@
 package sprites.io;
 
+import sprites.io.panels.Canvas;
+import sprites.io.panels.MenuPanel;
+
 import java.awt.*;
 
 import javax.swing.JButton;
@@ -10,19 +13,18 @@ public class testUI
 {
     JFrame mainFrame = new JFrame();
 
-    Canvas canvas = new Canvas(70, 6, 500, 500);
+    sprites.io.panels.Canvas canvas = new Canvas(70, 6, 500, 500);
     JPanel canvasPanel = new JPanel();
     JPanel toolPanel = new JPanel();
     GridLayout toolbarLayout = new GridLayout(8,2);
-    JPanel menuPanel = new JPanel();
     JPanel layerPanel = new JPanel();
-   
-    JButton open = new JButton();
 
     JButton draw = new JButton("DRAW");
     JButton size = new JButton("SIZE");
     JButton line = new JButton("LINE");
 
+    //other things
+    MenuPanel menuPanel = new MenuPanel(0, 0, 1024, 64, canvas);
 
     public void CreateDisplay()
     {
@@ -30,11 +32,6 @@ public class testUI
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(null);
         mainFrame.setResizable(false);
-
-        menuPanel.setBackground(Color.GREEN);
-        menuPanel.setBounds(0,0,1024,64);
-        
-        menuPanel.add(open);
 
         canvasPanel.setBackground(Color.BLACK);
         canvasPanel.setBounds(128,64,640,512);
