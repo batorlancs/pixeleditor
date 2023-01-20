@@ -1,4 +1,6 @@
-package sprites.io.panels;
+package sprites.io.UI.canvaspanel;
+
+import sprites.io.driver.Driver;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -11,6 +13,7 @@ public class Canvas extends JPanel implements MouseListener {
     final int pixelNumber = 2500;
     private JLabel[] pixels = new JLabel[pixelNumber];
 
+    private Driver driverRef;
     private boolean isMousePressed = false;
 
     /**
@@ -20,7 +23,8 @@ public class Canvas extends JPanel implements MouseListener {
      * @param width Width of canvas.
      * @param height Height of canvas.
      */
-    public Canvas(int posx, int posy, int width, int height) {
+    public Canvas(int posx, int posy, int width, int height, Driver driver) {
+        driverRef = driver;
 
         this.setBounds(posx, posy, width, height);
         this.setLayout(new GridLayout(50, 50, 0, 0));
@@ -55,7 +59,7 @@ public class Canvas extends JPanel implements MouseListener {
 
         for (int i = 0; i < pixelNumber; i++) {
             if (e.getSource() == pixels[i]) {
-                pixels[i].setBackground(Color.BLUE);
+                pixels[i].setBackground(driverRef.getCurrColor());
             }
         }
     }
@@ -78,7 +82,7 @@ public class Canvas extends JPanel implements MouseListener {
         if (isMousePressed) {
             for (int i = 0; i < pixelNumber; i++) {
                 if (e.getSource() == pixels[i]) {
-                    pixels[i].setBackground(Color.BLUE);
+                    pixels[i].setBackground(driverRef.getCurrColor());
                 }
             }
         }

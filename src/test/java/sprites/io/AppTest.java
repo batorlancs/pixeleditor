@@ -3,6 +3,7 @@ package sprites.io;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import sprites.io.UI.MainUI;
 
 /**
  * Unit test for simple App.
@@ -23,7 +24,7 @@ public class AppTest
     {
         //MainWindow mainWindow = new MainWindow();
         //assertTrue( mainWindow != null );
-        testUI app = new testUI();
+        MainUI app = new MainUI();
         assertTrue( app != null );
     }
 

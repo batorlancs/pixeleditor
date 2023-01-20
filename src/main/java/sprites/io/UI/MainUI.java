@@ -1,30 +1,30 @@
-package sprites.io;
+package sprites.io.UI;
 
-import sprites.io.panels.Canvas;
-import sprites.io.panels.MenuPanel;
+import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.UI.menupanel.MenuPanel;
+import sprites.io.UI.toolpanel.ToolPanel;
+import sprites.io.driver.Driver;
 
 import java.awt.*;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class testUI
+public class MainUI
 {
     JFrame mainFrame = new JFrame();
 
-    sprites.io.panels.Canvas canvas = new Canvas(70, 6, 500, 500);
+    Driver driver = new Driver();
+
+    sprites.io.UI.canvaspanel.Canvas canvas = new Canvas(70, 6, 500, 500, driver);
     JPanel canvasPanel = new JPanel();
-    JPanel toolPanel = new JPanel();
-    GridLayout toolbarLayout = new GridLayout(8,2);
+
+    ToolPanel toolPanel = new ToolPanel(0, 64, 128, 512, driver);
+
     JPanel layerPanel = new JPanel();
-
-    JButton draw = new JButton("DRAW");
-    JButton size = new JButton("SIZE");
-    JButton line = new JButton("LINE");
-
-    //other things
     MenuPanel menuPanel = new MenuPanel(0, 0, 1024, 64, canvas);
+
+
 
     public void CreateDisplay()
     {
@@ -38,14 +38,6 @@ public class testUI
         canvasPanel.setLayout(null);
         canvasPanel.add(canvas);
 
-        toolPanel.setBackground(Color.red);
-        toolPanel.setBounds(0,64,128,512);
-        toolPanel.setLayout(toolbarLayout);
-        toolPanel.add(draw);
-        toolPanel.add(size);
-        toolPanel.add(line);
-
-
         layerPanel.setBackground(Color.blue);
         layerPanel.setBounds(640,64,384,512);
 
@@ -56,9 +48,5 @@ public class testUI
 
         mainFrame.setVisible(true);
     }
-
-
-
-
 
 }

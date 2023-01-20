@@ -1,6 +1,7 @@
-package sprites.io.panels;
+package sprites.io.UI.menupanel;
 
-import file.FileManager;
+import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.file.FileManager;
 
 import javax.swing.*;
 import java.awt.Color;
@@ -46,12 +47,11 @@ public class MenuPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == save) {
-            System.out.println("saving file...");
-            fileManager.saveFile(canvasRef.getPixels(), "something.txt");
+            fileManager.saveFile(canvasRef.getPixels());
         }
         else if (e.getSource() == open) {
             System.out.println("opening file");
-            fileManager.openFile(canvasRef.getPixels(), "something.txt");
+            fileManager.openFile(canvasRef.getPixels());
         }
     }
 }

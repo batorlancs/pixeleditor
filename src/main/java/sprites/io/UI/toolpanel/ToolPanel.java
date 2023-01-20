@@ -1,0 +1,46 @@
+package sprites.io.UI.toolpanel;
+
+import sprites.io.driver.Driver;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class ToolPanel extends JPanel implements ActionListener {
+
+    private JButton drawButton = new JButton("DRAW");
+    private JButton sizeButton = new JButton("SIZE");
+    private JButton lineButton = new JButton("LINE");
+    private JButton colorButton = new JButton("CHANGE COLOR");
+
+    Driver driverRef;
+
+    public ToolPanel(int posx, int posy, int width, int height, Driver driver) {
+        driverRef = driver;
+
+        this.setBackground(Color.red);
+        this.setBounds(0,64,128,512);
+        this.setLayout(new GridLayout(8, 2));
+
+        drawButton.addActionListener(this);
+        sizeButton.addActionListener(this);
+        lineButton.addActionListener(this);
+        colorButton.addActionListener(this);
+
+        this.add(drawButton);
+        this.add(sizeButton);
+        this.add(lineButton);
+        this.add(colorButton);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == colorButton) {
+            JColorChooser colorChooser = new JColorChooser();
+            Color color = JColorChooser.showDialog(null, "Pick a color", Color.black);
+            driverRef.setCurrColor(color);
+
+        }
+    }
+}
