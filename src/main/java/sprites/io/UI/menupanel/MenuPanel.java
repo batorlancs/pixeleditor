@@ -12,6 +12,8 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     private JButton save = new JButton("SAVE");
     private JButton open = new JButton("OPEN");
+    private JButton clear = new JButton("CLEAR");
+    private JButton newProject = new JButton("NEW PROJECT");
 
     private FileManager fileManager = new FileManager();
     private Canvas canvasRef;
@@ -26,16 +28,25 @@ public class MenuPanel extends JPanel implements ActionListener {
      */
     public MenuPanel(int posx, int posy, int width, int height, Canvas canvas) {
         this.setBounds(posx, posy, width, height);
-        this.setBackground(Color.green);
+        this.setBackground(Color.gray);
         this.setLayout(null);
 
         this.canvasRef = canvas;
 
+        newProject.setBounds(500, 0, 200, 64);
+        newProject.addActionListener(this);
+
+        clear.setBounds(700, 0, 100, 64);
+        clear.addActionListener(this);
+
         save.setBounds(800, 0, 100, 64);
         save.addActionListener(this);
+
         open.setBounds(900, 0, 100, 64);
         open.addActionListener(this);
 
+        this.add(newProject);
+        this.add(clear);
         this.add(save);
         this.add(open);
     }
@@ -47,11 +58,18 @@ public class MenuPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == save) {
+            System.out.println("saving file..");
             fileManager.saveFile(canvasRef.getPixels());
         }
         else if (e.getSource() == open) {
-            System.out.println("opening file");
+            System.out.println("opening file..");
             fileManager.openFile(canvasRef.getPixels());
+        }
+        else if (e.getSource() == clear) {
+            canvasRef.clearCanvas();
+        }
+        else if (e.getSource() == newProject) {
+            // open main menu
         }
     }
 }
