@@ -16,15 +16,11 @@ public class MainUI
 
     Driver driver = new Driver();
 
-    sprites.io.UI.canvaspanel.Canvas canvas = new Canvas(70, 6, 500, 500, driver);
+    Canvas canvas = new Canvas(70, 6, 500, 500, driver);
     JPanel canvasPanel = new JPanel();
-
     ToolPanel toolPanel = new ToolPanel(0, 64, 128, 512, driver);
-
     JPanel layerPanel = new JPanel();
     MenuPanel menuPanel = new MenuPanel(0, 0, 1024, 64, canvas);
-
-
 
     public void CreateDisplay()
     {
