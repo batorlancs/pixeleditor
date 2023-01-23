@@ -1,6 +1,7 @@
 package sprites.io;
 
 import sprites.io.UI.MainUI;
+import sprites.io.UI.mainMenu.MainMenu;
 
 public class App
 {
@@ -9,7 +10,10 @@ public class App
 
         //MainWindow app = new MainWindow();
         MainUI app = new MainUI();
-        app.CreateDisplay();
+        //app.CreateDisplay();
+
+        MainMenu appMainMenu = new MainMenu();
+        appMainMenu.createDisplay();
 
     }
 }
