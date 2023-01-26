@@ -8,30 +8,31 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainMenu extends JPanel implements ActionListener
 {
-    JFrame mainFrame = new JFrame();
+    private JFrame mainFrame = new JFrame();
 
-    JPanel mainPanel = new JPanel();
-    JPanel topPanel = new JPanel();
+    private JPanel mainPanel = new JPanel();
+    private JPanel topPanel = new JPanel();
 
-    JLabel mainMenulbl = new JLabel("PAINT");
-    JLabel mainMenuPiclbl = new JLabel();
-    JLabel mainMenuPic2lbl = new JLabel();
-    JButton resumeBtn = new JButton("RESUME");
-    JButton openBtn = new JButton("OPEN");
-    JButton newBtn = new JButton("NEW");
+    private JLabel mainMenulbl = new JLabel("PAINT");
+    private JLabel mainMenuPiclbl = new JLabel();
+    private JLabel mainMenuPic2lbl = new JLabel();
+    private JButton resumeBtn = new JButton("RESUME");
+    private JButton openBtn = new JButton("OPEN");
+    private JButton newBtn = new JButton("NEW");
 
-    GridLayout mainMenLayout = new GridLayout(1,3);
-    GridLayout mainMenuLayoutTop = new GridLayout(2,0);
+    private GridLayout mainMenLayout = new GridLayout(1,3);
+    private GridLayout mainMenuLayoutTop = new GridLayout(2,0);
 
     private FileManager fileManager = new FileManager();
     private Canvas canvasRef;
 
+    public MainMenu() {
+        this.createDisplay();
+    }
 
     public void createDisplay()
     {
@@ -80,8 +81,7 @@ public class MainMenu extends JPanel implements ActionListener
         {
             mainFrame.setVisible(false);
 
-            MainUI app = new MainUI();
-            app.CreateDisplay();
+            new MainUI();
         }
 
         if (e.getSource() == resumeBtn){

@@ -1,5 +1,6 @@
 package sprites.io.UI.menupanel;
 
+import sprites.io.UI.MainUI;
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.file.FileManager;
 
@@ -17,6 +18,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     private FileManager fileManager = new FileManager();
     private Canvas canvasRef;
+    private MainUI mainUI;
 
     /**
      *
@@ -26,7 +28,9 @@ public class MenuPanel extends JPanel implements ActionListener {
      * @param height Height of panel.
      * @param canvas Reference of Canvas to get Pixel values.
      */
-    public MenuPanel(int posx, int posy, int width, int height, Canvas canvas) {
+    public MenuPanel(int posx, int posy, int width, int height, Canvas canvas, MainUI mainUI) {
+        this.mainUI = mainUI;
+
         this.setBounds(posx, posy, width, height);
         this.setBackground(Color.gray);
         this.setLayout(null);
@@ -69,7 +73,8 @@ public class MenuPanel extends JPanel implements ActionListener {
             canvasRef.clearCanvas();
         }
         else if (e.getSource() == newProject) {
-            // open main menu
+            mainUI.dispose();
+            new MainUI();
         }
     }
 }
