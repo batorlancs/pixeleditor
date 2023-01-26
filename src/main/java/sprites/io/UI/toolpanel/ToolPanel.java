@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 public class ToolPanel extends JPanel implements ActionListener {
 
     private JButton drawButton = new JButton("DRAW");
+    private JButton eraseButton = new JButton("ERASER");
     private JButton sizeButton = new JButton("SIZE");
     private JButton lineButton = new JButton("LINE");
     private JButton colorButton = new JButton("CHANGE COLOR");
@@ -24,11 +25,13 @@ public class ToolPanel extends JPanel implements ActionListener {
         this.setLayout(new GridLayout(8, 2));
 
         drawButton.addActionListener(this);
+        eraseButton.addActionListener(this);
         sizeButton.addActionListener(this);
         lineButton.addActionListener(this);
         colorButton.addActionListener(this);
 
         this.add(drawButton);
+        this.add(eraseButton);
         this.add(sizeButton);
         this.add(lineButton);
         this.add(colorButton);
@@ -36,11 +39,15 @@ public class ToolPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
         if (e.getSource() == colorButton) {
             JColorChooser colorChooser = new JColorChooser();
             Color color = JColorChooser.showDialog(null, "Pick a color", Color.black);
             driverRef.setCurrColor(color);
+        }
 
+        if (e.getSource() == eraseButton) {
+            driverRef.setCurrColor(Color.WHITE);
         }
     }
 }
