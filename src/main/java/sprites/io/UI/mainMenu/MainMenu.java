@@ -17,7 +17,7 @@ public class MainMenu extends JPanel implements ActionListener
     private JPanel mainPanel = new JPanel();
     private JPanel topPanel = new JPanel();
 
-    private JLabel mainMenulbl = new JLabel("PAINT");
+    private JLabel mainMenulbl = new JLabel("SPRITES.IO");
     private JLabel mainMenuPiclbl = new JLabel();
     private JLabel mainMenuPic2lbl = new JLabel();
     private JButton resumeBtn = new JButton("RESUME");
