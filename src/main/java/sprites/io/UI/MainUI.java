@@ -10,28 +10,26 @@ import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class MainUI
-{
-    JFrame mainFrame = new JFrame();
+public class MainUI extends JFrame {
 
-    Driver driver = new Driver();
+    private Driver driver = new Driver();
 
-    sprites.io.UI.canvaspanel.Canvas canvas = new Canvas(70, 6, 500, 500, driver);
-    JPanel canvasPanel = new JPanel();
+    private Canvas canvas = new Canvas(70, 6, 500, 500, driver);
+    private JPanel canvasPanel = new JPanel();
+    private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 512, driver);
+    private JPanel layerPanel = new JPanel();
+    private MenuPanel menuPanel = new MenuPanel(0, 0, 1024, 64, canvas, this);
 
-    ToolPanel toolPanel = new ToolPanel(0, 64, 128, 512, driver);
+    public MainUI() {
+        this.createDisplay();
+    }
 
-    JPanel layerPanel = new JPanel();
-    MenuPanel menuPanel = new MenuPanel(0, 0, 1024, 64, canvas);
-
-
-
-    public void CreateDisplay()
+    public void createDisplay()
     {
-        mainFrame.setSize(1024,640);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setLayout(null);
-        mainFrame.setResizable(false);
+        this.setSize(1024,640);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(null);
+        this.setResizable(false);
 
         canvasPanel.setBackground(Color.BLACK);
         canvasPanel.setBounds(128,64,640,512);
@@ -41,12 +39,12 @@ public class MainUI
         layerPanel.setBackground(Color.blue);
         layerPanel.setBounds(640,64,384,512);
 
-        mainFrame.add(canvasPanel);
-        mainFrame.add(toolPanel);
-        mainFrame.add(layerPanel);
-        mainFrame.add(menuPanel);
+        this.add(canvasPanel);
+        this.add(toolPanel);
+        this.add(layerPanel);
+        this.add(menuPanel);
 
-        mainFrame.setVisible(true);
+        this.setVisible(true);
     }
 
 }
