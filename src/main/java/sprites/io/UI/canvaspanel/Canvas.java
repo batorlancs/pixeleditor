@@ -43,6 +43,15 @@ public class Canvas extends JPanel implements MouseListener {
 
     }
 
+    /**
+     * Clears all pixels on the canvas
+     */
+    public void clearCanvas() {
+        for (JLabel pixel: pixels) {
+            pixel.setBackground(Color.white);
+        }
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 

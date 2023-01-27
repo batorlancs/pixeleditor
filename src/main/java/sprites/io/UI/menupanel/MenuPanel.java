@@ -1,5 +1,6 @@
 package sprites.io.UI.menupanel;
 
+import sprites.io.UI.MainUI;
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.file.FileManager;
 
@@ -12,9 +13,12 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     private JButton save = new JButton("SAVE");
     private JButton open = new JButton("OPEN");
+    private JButton clear = new JButton("CLEAR");
+    private JButton newProject = new JButton("NEW PROJECT");
 
     private FileManager fileManager = new FileManager();
     private Canvas canvasRef;
+    private MainUI mainUI;
 
     /**
      *
@@ -24,18 +28,29 @@ public class MenuPanel extends JPanel implements ActionListener {
      * @param height Height of panel.
      * @param canvas Reference of Canvas to get Pixel values.
      */
-    public MenuPanel(int posx, int posy, int width, int height, Canvas canvas) {
+    public MenuPanel(int posx, int posy, int width, int height, Canvas canvas, MainUI mainUI) {
+        this.mainUI = mainUI;
+
         this.setBounds(posx, posy, width, height);
-        this.setBackground(Color.green);
+        this.setBackground(Color.gray);
         this.setLayout(null);
 
         this.canvasRef = canvas;
 
+        newProject.setBounds(500, 0, 200, 64);
+        newProject.addActionListener(this);
+
+        clear.setBounds(700, 0, 100, 64);
+        clear.addActionListener(this);
+
         save.setBounds(800, 0, 100, 64);
         save.addActionListener(this);
+
         open.setBounds(900, 0, 100, 64);
         open.addActionListener(this);
 
+        this.add(newProject);
+        this.add(clear);
         this.add(save);
         this.add(open);
     }
@@ -47,11 +62,19 @@ public class MenuPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == save) {
+            System.out.println("saving file..");
             fileManager.saveFile(canvasRef.getPixels());
         }
         else if (e.getSource() == open) {
-            System.out.println("opening file");
+            System.out.println("opening file..");
             fileManager.openFile(canvasRef.getPixels());
+        }
+        else if (e.getSource() == clear) {
+            canvasRef.clearCanvas();
+        }
+        else if (e.getSource() == newProject) {
+            mainUI.dispose();
+            new MainUI();
         }
     }
 }
