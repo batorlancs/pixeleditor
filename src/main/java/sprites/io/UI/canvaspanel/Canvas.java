@@ -12,9 +12,7 @@ public class Canvas extends JPanel implements MouseListener {
 
     final int pixelNumber = 2500;
     private JLabel[] pixels = new JLabel[pixelNumber];
-
-    private Driver driverRef;
-    private boolean isMousePressed = false;
+    private Driver driver;
 
     /**
      * Create Canvas with 50x50 pixels.
@@ -23,9 +21,7 @@ public class Canvas extends JPanel implements MouseListener {
      * @param width Width of canvas.
      * @param height Height of canvas.
      */
-    public Canvas(int posx, int posy, int width, int height, Driver driver) {
-        driverRef = driver;
-
+    public Canvas(int posx, int posy, int width, int height) {
         this.setBounds(posx, posy, width, height);
         this.setLayout(new GridLayout(50, 50, 0, 0));
         this.setBackground(Color.gray);
@@ -41,6 +37,10 @@ public class Canvas extends JPanel implements MouseListener {
 
         this.addMouseListener(this);
 
+    }
+
+    public void addDriver(Driver driver) {
+        this.driver = driver;
     }
 
     /**
@@ -64,13 +64,15 @@ public class Canvas extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
 
-        isMousePressed = true;
+        driver.setMousePressed(true);
 
         for (int i = 0; i < pixelNumber; i++) {
             if (e.getSource() == pixels[i]) {
-                pixels[i].setBackground(driverRef.getCurrColor());
+                driver.setMousePressLocation(i);
             }
         }
+
+        driver.draw();
     }
 
     /**
@@ -79,7 +81,7 @@ public class Canvas extends JPanel implements MouseListener {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        isMousePressed = false;
+        driver.setMousePressed(false);
     }
 
     /**
@@ -88,13 +90,12 @@ public class Canvas extends JPanel implements MouseListener {
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (isMousePressed) {
-            for (int i = 0; i < pixelNumber; i++) {
-                if (e.getSource() == pixels[i]) {
-                    pixels[i].setBackground(driverRef.getCurrColor());
-                }
+        for (int i = 0; i < pixelNumber; i++) {
+            if (e.getSource() == pixels[i]) {
+                driver.setMouseCurrentLocation(i);
             }
         }
+        driver.draw();
     }
 
     @Override
@@ -108,6 +109,10 @@ public class Canvas extends JPanel implements MouseListener {
      */
     public JLabel[] getPixels() {
         return this.pixels;
+    }
+
+    public JLabel getPixel(int number) {
+        return this.pixels[number];
     }
 
     public int getPixelSize() {

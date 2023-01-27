@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 
 public class MainUI extends JFrame {
 
-    private Driver driver = new Driver();
 
-    private Canvas canvas = new Canvas(70, 6, 500, 500, driver);
+    private Canvas canvas = new Canvas(70, 6, 500, 500);
+    private Driver driver = new Driver(canvas);
     private JPanel canvasPanel = new JPanel();
     private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 512, driver);
     private JPanel layerPanel = new JPanel();
@@ -26,10 +26,13 @@ public class MainUI extends JFrame {
 
     public void createDisplay()
     {
+
         this.setSize(1024,640);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
         this.setResizable(false);
+
+        canvas.addDriver(driver);
 
         canvasPanel.setBackground(Color.BLACK);
         canvasPanel.setBounds(128,64,640,512);

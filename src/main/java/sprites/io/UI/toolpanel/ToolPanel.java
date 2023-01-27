@@ -50,11 +50,11 @@ public class ToolPanel extends JPanel implements ActionListener {
         }
 
         if (e.getSource() == eraseButton) {
-            driverRef.setCurrColor(Color.WHITE);
+            driverRef.setCurrToolToEraser();
         }
 
         if( e.getSource() == drawButton) {
-            driverRef.setCurrColor(prevColor);
+            driverRef.setCurrToolToPen();
         }
     }
 }
