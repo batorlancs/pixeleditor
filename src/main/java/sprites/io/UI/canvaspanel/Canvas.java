@@ -110,4 +110,8 @@ public class Canvas extends JPanel implements MouseListener {
         return this.pixels;
     }
 
+    public int getPixelSize() {
+        return pixelNumber;
+    }
+
 }
