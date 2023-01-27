@@ -2,13 +2,9 @@ package sprites.io.driver;
 
 import java.awt.Color;
 import sprites.io.UI.canvaspanel.Canvas;
-import sprites.io.driver.tools.EraserTool;
 import sprites.io.driver.tools.PenTool;
 import sprites.io.driver.tools.Tool;
 
-/**
- * Manages all the tools to draw on the canvas
- */
 public class Driver {
 
     private Canvas canvas;
@@ -22,20 +18,10 @@ public class Driver {
         this.canvas = canvas;
     }
 
-    /**
-     * call the current tool to draw on the canvas
-     */
     public void draw() {
         currTool.draw(canvas, currColor, isMousePressed, mousePressLocation, mouseCurrentLocation);
     }
 
-    public void setCurrToolToPen() {this.currTool = new PenTool();}
-    public void setCurrToolToEraser() {this.currTool = new EraserTool();}
-
-    /**
-     * change the current color
-     * @param currColor the color to be changed
-     */
     public void setCurrColor(Color currColor) {
         this.currColor = currColor;
     }
