@@ -11,7 +11,7 @@ import sprites.io.UI.canvaspanel.Canvas;
 
 public class CanvasTest {
     
-    private Canvas newCanvas = new Canvas(1, 1, 50, 50, null);
+    private Canvas newCanvas = new Canvas(1, 1, 50, 50);
 
     @Test
     public void showCanvas(){
