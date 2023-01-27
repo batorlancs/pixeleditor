@@ -73,7 +73,6 @@ public class MainMenu extends JPanel implements ActionListener
         if (e.getSource() == openBtn) {
 
             System.out.println("opening file");
-            //fileManager.openFile(canvasRef.getPixels());
 
         }
 
