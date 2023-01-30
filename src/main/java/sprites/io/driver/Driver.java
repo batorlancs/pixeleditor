@@ -4,6 +4,7 @@ import java.awt.Color;
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.driver.tools.EraserTool;
 import sprites.io.driver.tools.PenTool;
+import sprites.io.driver.tools.SquareTool;
 import sprites.io.driver.tools.Tool;
 
 /**
@@ -31,6 +32,7 @@ public class Driver {
 
     public void setCurrToolToPen() {this.currTool = new PenTool();}
     public void setCurrToolToEraser() {this.currTool = new EraserTool();}
+    public void setCurrToolToSquare() {this.currTool = new SquareTool();}
 
     /**
      * change the current color
