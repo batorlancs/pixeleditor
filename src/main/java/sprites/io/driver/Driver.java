@@ -2,9 +2,11 @@ package sprites.io.driver;
 
 import java.awt.Color;
 import sprites.io.UI.canvaspanel.Canvas;
-import sprites.io.driver.tools.EraserTool;
+import sprites.io.driver.tools.Eraser;
 import sprites.io.driver.tools.PenTool;
 import sprites.io.driver.tools.Tool;
+import sprites.io.driver.tools.Brush;
+import sprites.io.driver.tools.FillTool;
 
 /**
  * Manages all the tools to draw on the canvas
@@ -17,6 +19,7 @@ public class Driver {
     private int mouseCurrentLocation = 0;
     private Tool currTool = new PenTool();
     private Color currColor = new Color(0, 0, 0);
+    private int brushSize = 1;
 
     public Driver(Canvas canvas) {
         this.canvas = canvas;
@@ -30,7 +33,9 @@ public class Driver {
     }
 
     public void setCurrToolToPen() {this.currTool = new PenTool();}
-    public void setCurrToolToEraser() {this.currTool = new EraserTool();}
+    public void setCurrToolToEraser() {this.currTool = new Eraser(brushSize);}
+    public void setCurrToolToBrushSize() {this.currTool = new Brush(brushSize);}
+    public void setCurrToolToFillTool() {this.currTool = new FillTool();}
 
     /**
      * change the current color
@@ -50,5 +55,13 @@ public class Driver {
 
     public void setMouseCurrentLocation(int mouseCurrentLocation) {
         this.mouseCurrentLocation = mouseCurrentLocation;
+    }
+
+    public void setBrushSize(int brushSize) {
+        this.brushSize = brushSize;
+    }
+
+    public int getBrushSize() {
+        return brushSize;
     }
 }

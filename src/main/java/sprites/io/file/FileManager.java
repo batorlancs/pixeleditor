@@ -6,7 +6,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileManager {
@@ -64,6 +63,7 @@ public class FileManager {
                 pixels[counter].setBackground(new Color(rgb));
                 counter++;
             }
+            scan.close();
 
         } catch (Exception e) {
             System.out.println("There was a problem opening the file");

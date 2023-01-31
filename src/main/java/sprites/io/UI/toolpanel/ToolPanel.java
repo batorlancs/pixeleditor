@@ -9,15 +9,16 @@ import java.awt.event.ActionListener;
 
 public class ToolPanel extends JPanel implements ActionListener {
 
-    private Color prevColor = Color.BLACK;
 
     private JButton drawButton = new JButton("DRAW");
     private JButton eraseButton = new JButton("ERASER");
     private JButton sizeButton = new JButton("SIZE");
+    private JButton fillButton = new JButton("FILL");
     private JButton lineButton = new JButton("LINE");
     private JButton colorButton = new JButton("CHANGE COLOR");
 
     Driver driverRef;
+    private Color prevColor = Color.black;
 
     public ToolPanel(int posx, int posy, int width, int height, Driver driver) {
         driverRef = driver;
@@ -29,12 +30,14 @@ public class ToolPanel extends JPanel implements ActionListener {
         drawButton.addActionListener(this);
         eraseButton.addActionListener(this);
         sizeButton.addActionListener(this);
+        fillButton.addActionListener(this);
         lineButton.addActionListener(this);
         colorButton.addActionListener(this);
 
         this.add(drawButton);
         this.add(eraseButton);
         this.add(sizeButton);
+        this.add(fillButton);
         this.add(lineButton);
         this.add(colorButton);
     }
@@ -47,6 +50,7 @@ public class ToolPanel extends JPanel implements ActionListener {
             Color color = JColorChooser.showDialog(null, "Pick a color", Color.black);
             driverRef.setCurrColor(color);
             this.prevColor = color;
+            colorButton.setBackground(color);
         }
 
         if (e.getSource() == eraseButton) {
@@ -54,7 +58,31 @@ public class ToolPanel extends JPanel implements ActionListener {
         }
 
         if( e.getSource() == drawButton) {
-            driverRef.setCurrToolToPen();
+            driverRef.setCurrColor(this.prevColor);
+            driverRef.setCurrToolToBrushSize();
+        }
+
+        if(e.getSource() == sizeButton){
+
+            // pop up dialog box to ask for the size
+            Object[] options = {"small", "medium", "large"};
+            int n = JOptionPane.showOptionDialog(null,
+                    "Choose a size",
+                    "Size",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[2]);
+
+            // set the size, and set the tool to brush
+            driverRef.setBrushSize(n+1);
+            driverRef.setCurrToolToBrushSize();
+        }
+
+        if(e.getSource() == fillButton){
+            driverRef.setCurrToolToFillTool();
         }
     }
+
 }
