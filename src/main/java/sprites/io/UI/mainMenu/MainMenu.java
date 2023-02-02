@@ -30,6 +30,8 @@ public class MainMenu extends JPanel implements ActionListener
     private FileManager fileManager = new FileManager();
     private Canvas canvasRef;
 
+    private int openFile[];
+
     public MainMenu() {
         this.createDisplay();
     }
@@ -74,11 +76,14 @@ public class MainMenu extends JPanel implements ActionListener
 
             System.out.println("opening file");
 
+            mainFrame.dispose();
+            new MainUI().createDisplayOpenFile(fileManager.getRGB());
+
         }
 
         if (e.getSource() == newBtn)
         {
-            mainFrame.setVisible(false);
+            mainFrame.dispose();
 
             new MainUI();
         }
