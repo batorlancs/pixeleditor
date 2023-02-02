@@ -70,6 +70,35 @@ public class FileManager {
         }
     }
 
+    public int[] getRGB() {
+
+        int results[] = new int[2500];
+
+        File chosenFile;
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt only", "txt", "text");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            chosenFile = new File(fileChooser.getSelectedFile().getAbsolutePath());
+        } else return null;
+
+        int i = 0;
+        try {
+            Scanner scan = new Scanner(chosenFile);
+            while (scan.hasNextLine()) {
+                results[i] = Integer.parseInt(scan.nextLine());
+                i++;
+                System.out.println(results);
+            }
+
+        } catch (Exception e) {
+            System.out.println("There was a problem opening the file");
+        }
+        return results;
+    }
+
     /**
      * Get a file name and make it to .txt extension
      * @param fileName the name to add the .txt extension to

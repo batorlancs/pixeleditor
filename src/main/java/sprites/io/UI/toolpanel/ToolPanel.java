@@ -15,6 +15,7 @@ public class ToolPanel extends JPanel implements ActionListener {
     private JButton eraseButton = new JButton("ERASER");
     private JButton sizeButton = new JButton("SIZE");
     private JButton lineButton = new JButton("LINE");
+    private JButton fillButton = new JButton("FILL");
     private JButton colorButton = new JButton("CHANGE COLOR");
 
     Driver driverRef;
@@ -30,12 +31,14 @@ public class ToolPanel extends JPanel implements ActionListener {
         eraseButton.addActionListener(this);
         sizeButton.addActionListener(this);
         lineButton.addActionListener(this);
+        fillButton.addActionListener(this);
         colorButton.addActionListener(this);
 
         this.add(drawButton);
         this.add(eraseButton);
         this.add(sizeButton);
         this.add(lineButton);
+        this.add(fillButton);
         this.add(colorButton);
     }
 
