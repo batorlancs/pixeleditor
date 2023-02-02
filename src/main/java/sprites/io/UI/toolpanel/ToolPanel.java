@@ -90,6 +90,9 @@ public class ToolPanel extends JPanel implements ActionListener {
         if( e.getSource() == squareButton) {
             driverRef.setCurrToolToSquare();
         }
+        if( e.getSource() == squareButton) {
+            driverRef.setCurrToolToSquare();
+        }
     }
 
 }
