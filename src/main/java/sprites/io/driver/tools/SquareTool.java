@@ -20,9 +20,6 @@ public class SquareTool extends Tool{
     }
 
     public void release(Canvas canvas, Color color, int mouseCurrentLocation) {
-
-        System.out.println("Release executes");
-
         endingXValue = getXValue(mouseCurrentLocation);
         endingYValue = getYValue(mouseCurrentLocation);
 
