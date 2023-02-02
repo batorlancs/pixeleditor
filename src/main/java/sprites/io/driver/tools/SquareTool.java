@@ -5,32 +5,41 @@ import sprites.io.UI.canvaspanel.Canvas;
 import java.awt.*;
 
 public class SquareTool extends Tool{
+
+    int startingXValue;
+    int startingYValue;
+    int endingXValue;
+    int endingYValue;
     @Override
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation) {
         if (isMousePressed) {
-            int startingXValue = getXValue(mousePressLocation);
-            int startingYValue = getYValue(mousePressLocation);
-
-            if (!isMousePressed) {
-                int endingXValue = getXValue(mouseCurrentLocation);
-                int endingYValue = getYValue(mouseCurrentLocation);
-
-                int[] orderedX = orderXValues(startingXValue, endingXValue);
-                int[] orderedY = orderYValues(startingYValue, endingYValue);
-
-                int repeatXCount = Math.abs(endingXValue - startingXValue);
-                int repeatYCount = Math.abs(endingYValue - startingYValue);
-
-
-
-                drawHorizontalLine(canvas, color, orderedX[0], orderedY[0], repeatXCount);
-                drawHorizontalLine(canvas, color, orderedX[0], orderedY[1], repeatXCount);
-
-                drawVerticallLine(canvas, color, orderedX[0], orderedY[0], repeatYCount);
-                drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
-            }
+            startingXValue = getXValue(mousePressLocation);
+            startingYValue = getYValue(mousePressLocation);
         }
 
+    }
+
+    public void release(Canvas canvas, Color color, int mouseCurrentLocation) {
+
+        System.out.println("Release executes");
+
+        endingXValue = getXValue(mouseCurrentLocation);
+        endingYValue = getYValue(mouseCurrentLocation);
+
+        int[] orderedX = orderXValues(startingXValue, endingXValue);
+        int[] orderedY = orderYValues(startingYValue, endingYValue);
+
+        int repeatXCount = Math.abs(endingXValue - startingXValue) + 1;
+        int repeatYCount = Math.abs(endingYValue - startingYValue);
+
+
+        // Draw 2 horizontal lines
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[0], repeatXCount);
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[1], repeatXCount);
+
+        // Draw 2 vertical lines and complete the square
+        drawVerticallLine(canvas, color, orderedX[0], orderedY[0], repeatYCount);
+        drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
     }
 
     private int[] orderXValues(int val1, int val2) {
@@ -84,15 +93,15 @@ public class SquareTool extends Tool{
         yValue++;
         repeatYCount--;
 
-        drawHorizontalLine(canvas, color, xValue, yValue, repeatYCount);
+        drawVerticallLine(canvas, color, xValue, yValue, repeatYCount);
     }
 
     public int getPixelNum(int xValue, int yValue) {
-        return (((yValue -1)*50) + xValue);
+        return (((yValue - 1)*50) + xValue);
     }
 
     public int getYValue(int pixelNum) {
-        return (int) Math.floor((pixelNum / 50));
+        return (int) (Math.floor((pixelNum / 50)) + 1);
     }
 
     public int getXValue (int pixelNum) {
