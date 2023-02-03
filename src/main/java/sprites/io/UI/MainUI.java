@@ -51,6 +51,7 @@ public class MainUI extends JFrame {
 
     public void createDisplayOpenFile(int[] openFile)
     {
+        this.setVisible(false);
         this.setSize(1024,640);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
