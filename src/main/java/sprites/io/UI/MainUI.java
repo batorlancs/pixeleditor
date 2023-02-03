@@ -3,7 +3,9 @@ package sprites.io.UI;
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.UI.menupanel.MenuPanel;
 import sprites.io.UI.toolpanel.ToolPanel;
+import sprites.io.UI.infopanel.InfoPanel;
 import sprites.io.driver.Driver;
+
 
 import java.awt.*;
 
@@ -15,6 +17,7 @@ public class MainUI extends JFrame {
 
     private Canvas canvas = new Canvas(70, 6, 500, 500);
     private Driver driver = new Driver(canvas);
+    private InfoPanel infoPanel = new InfoPanel();
     private JPanel canvasPanel = new JPanel();
     private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 512, driver);
     private JPanel layerPanel = new JPanel();

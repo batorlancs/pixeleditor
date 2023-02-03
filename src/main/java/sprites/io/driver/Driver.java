@@ -2,11 +2,13 @@ package sprites.io.driver;
 
 import java.awt.Color;
 import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.UI.infopanel.InfoPanel;
 import sprites.io.driver.tools.Eraser;
 import sprites.io.driver.tools.PenTool;
 import sprites.io.driver.tools.Tool;
 import sprites.io.driver.tools.Brush;
 import sprites.io.driver.tools.FillTool;
+
 
 /**
  * Manages all the tools to draw on the canvas
@@ -14,6 +16,7 @@ import sprites.io.driver.tools.FillTool;
 public class Driver {
 
     private Canvas canvas;
+    private InfoPanel infoPanel;
     private boolean isMousePressed = false;
     private int mousePressLocation = 0;
     private int mouseCurrentLocation = 0;
@@ -21,8 +24,9 @@ public class Driver {
     private Color currColor = new Color(0, 0, 0);
     private int brushSize = 1;
 
-    public Driver(Canvas canvas) {
+    public Driver(Canvas canvas, InfoPanel infoPanel) {
         this.canvas = canvas;
+        this.infoPanel = infoPanel;
     }
 
     /**
@@ -43,6 +47,12 @@ public class Driver {
      */
     public void setCurrColor(Color currColor) {
         this.currColor = currColor;
+        infoPanel.setColor(currColor);
+
+    }
+
+    public Color getCurrColor() {
+        return currColor;
     }
 
     public void setMousePressed(boolean mousePressed) {
@@ -59,9 +69,11 @@ public class Driver {
 
     public void setBrushSize(int brushSize) {
         this.brushSize = brushSize;
+        infoPanel.setBrushSize(brushSize);
     }
 
     public int getBrushSize() {
         return brushSize;
     }
+
 }

@@ -1,0 +1,57 @@
+package sprites.io.UI.infopanel;
+import sprites.io.driver.Driver;
+
+import javax.swing.JPanel;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Color;
+import javax.swing.BoxLayout;
+
+
+public class InfoPanel extends JPanel {
+    private JComponent colorPanel;
+    private JLabel brushSizeLabel;
+
+    public InfoPanel(){
+        setPreferredSize(new Dimension(128, 128));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        colorPanel = new JComponent(){
+            @Override
+            public void paintComponent(Graphics g){
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.setColor(Color.BLACK);
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                }
+            }
+        };
+        colorPanel.setPreferredSize(new Dimension(128, 64));
+        add(colorPanel);
+
+        brushSizeLabel = new JLabel("Brush Size: " + "small");
+        add(brushSizeLabel);
+    }
+
+    public void setColor(Color color){
+        colorPanel.setBackground(color);
+        colorPanel.repaint();
+    }
+
+    public void setBrushSize(int size){
+        switch (size) {
+            case 1:
+                brushSizeLabel.setText("Brush Size: " + "small");
+                break;
+            case 2:
+                brushSizeLabel.setText("Brush Size: " + "medium");
+                break;
+            case 3:
+                brushSizeLabel.setText("Brush Size: " + "large");
+                break;
+        }
+    }
+    
+}
