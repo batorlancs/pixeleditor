@@ -34,6 +34,7 @@ public class ToolPanel extends JPanel implements ActionListener {
         sizeButton.addActionListener(this);
         fillButton.addActionListener(this);
         lineButton.addActionListener(this);
+        fillButton.addActionListener(this);
         colorButton.addActionListener(this);
         squareButton.addActionListener(this);
 
@@ -42,6 +43,7 @@ public class ToolPanel extends JPanel implements ActionListener {
         this.add(sizeButton);
         this.add(fillButton);
         this.add(lineButton);
+        this.add(fillButton);
         this.add(colorButton);
         this.add(squareButton);
     }
