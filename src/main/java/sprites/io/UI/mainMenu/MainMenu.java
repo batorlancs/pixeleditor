@@ -79,6 +79,7 @@ public class MainMenu extends JPanel implements ActionListener
             mainFrame.dispose();
             new MainUI().createDisplayOpenFile(fileManager.getRGB());
 
+
         }
 
         if (e.getSource() == newBtn)
