@@ -27,7 +27,7 @@ public class SquareTool extends Tool{
         int[] orderedY = orderYValues(startingYValue, endingYValue);
 
         int repeatXCount = Math.abs(endingXValue - startingXValue) + 1;
-        int repeatYCount = Math.abs(endingYValue - startingYValue);
+        int repeatYCount = Math.abs(endingYValue - startingYValue) + 1;
 
 
         // Draw 2 horizontal lines
