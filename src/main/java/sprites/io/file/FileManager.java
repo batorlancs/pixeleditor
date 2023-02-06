@@ -6,6 +6,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileManager {
@@ -63,11 +64,39 @@ public class FileManager {
                 pixels[counter].setBackground(new Color(rgb));
                 counter++;
             }
-            scan.close();
 
         } catch (Exception e) {
             System.out.println("There was a problem opening the file");
         }
+    }
+
+    public int[] getRGB() {
+
+        int results[] = new int[2500];
+
+        File chosenFile;
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt only", "txt", "text");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            chosenFile = new File(fileChooser.getSelectedFile().getAbsolutePath());
+        } else return null;
+
+        int i = 0;
+        try {
+            Scanner scan = new Scanner(chosenFile);
+            while (scan.hasNextLine()) {
+                results[i] = Integer.parseInt(scan.nextLine());
+                i++;
+                System.out.println(results);
+            }
+
+        } catch (Exception e) {
+            System.out.println("There was a problem opening the file");
+        }
+        return results;
     }
 
     /**

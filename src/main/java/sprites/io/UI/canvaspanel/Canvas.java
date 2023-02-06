@@ -82,6 +82,14 @@ public class Canvas extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         driver.setMousePressed(false);
+
+        for (int i = 0; i < pixelNumber; i++) {
+            if (e.getSource() == pixels[i]) {
+                driver.setMousePressLocation(i);
+            }
+        }
+
+        driver.release();
     }
 
     /**

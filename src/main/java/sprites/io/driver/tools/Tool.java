@@ -8,4 +8,8 @@ public class Tool {
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation) {
 
     }
+
+    public void release(Canvas canvas, Color color, int mouseCurrentLocation) {
+
+    }
 }

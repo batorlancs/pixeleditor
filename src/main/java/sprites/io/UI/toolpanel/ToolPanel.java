@@ -13,9 +13,11 @@ public class ToolPanel extends JPanel implements ActionListener {
     private JButton drawButton = new JButton("DRAW");
     private JButton eraseButton = new JButton("ERASER");
     private JButton sizeButton = new JButton("SIZE");
-    private JButton fillButton = new JButton("FILL");
     private JButton lineButton = new JButton("LINE");
+    private JButton fillButton = new JButton("FILL");
     private JButton colorButton = new JButton("CHANGE COLOR");
+
+    private JButton squareButton = new JButton("SQUARE");
 
     Driver driverRef;
     private Color prevColor = Color.black;
@@ -32,14 +34,18 @@ public class ToolPanel extends JPanel implements ActionListener {
         sizeButton.addActionListener(this);
         fillButton.addActionListener(this);
         lineButton.addActionListener(this);
+        fillButton.addActionListener(this);
         colorButton.addActionListener(this);
+        squareButton.addActionListener(this);
 
         this.add(drawButton);
         this.add(eraseButton);
         this.add(sizeButton);
         this.add(fillButton);
         this.add(lineButton);
+        this.add(fillButton);
         this.add(colorButton);
+        this.add(squareButton);
     }
 
     @Override
@@ -81,6 +87,12 @@ public class ToolPanel extends JPanel implements ActionListener {
 
         if(e.getSource() == fillButton){
             driverRef.setCurrToolToFillTool();
+        }
+        if( e.getSource() == squareButton) {
+            driverRef.setCurrToolToSquare();
+        }
+        if( e.getSource() == squareButton) {
+            driverRef.setCurrToolToSquare();
         }
     }
 

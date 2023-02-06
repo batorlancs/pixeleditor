@@ -2,13 +2,7 @@ package sprites.io.driver;
 
 import java.awt.Color;
 import sprites.io.UI.canvaspanel.Canvas;
-import sprites.io.UI.infopanel.InfoPanel;
-import sprites.io.driver.tools.Eraser;
-import sprites.io.driver.tools.PenTool;
-import sprites.io.driver.tools.Tool;
-import sprites.io.driver.tools.Brush;
-import sprites.io.driver.tools.FillTool;
-
+import sprites.io.driver.tools.*;
 
 /**
  * Manages all the tools to draw on the canvas
@@ -18,13 +12,15 @@ public class Driver {
     private Canvas canvas;
     private InfoPanel infoPanel;
     private boolean isMousePressed = false;
+
+
     private int mousePressLocation = 0;
     private int mouseCurrentLocation = 0;
     private Tool currTool = new PenTool();
     private Color currColor = new Color(0, 0, 0);
     private int brushSize = 1;
 
-    public Driver(Canvas canvas, InfoPanel infoPanel) {
+    public Driver(Canvas canvas) {
         this.canvas = canvas;
         this.infoPanel = infoPanel;
     }
@@ -34,6 +30,14 @@ public class Driver {
      */
     public void draw() {
         currTool.draw(canvas, currColor, isMousePressed, mousePressLocation, mouseCurrentLocation);
+    }
+
+    public void release() {
+        currTool.release(canvas, currColor, mouseCurrentLocation);
+    }
+
+    public void setCurrToolToSquare() {
+        this.currTool = new SquareTool();
     }
 
     public void setCurrToolToPen() {this.currTool = new PenTool();}
