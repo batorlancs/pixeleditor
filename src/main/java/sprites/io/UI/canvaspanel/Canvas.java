@@ -127,4 +127,10 @@ public class Canvas extends JPanel implements MouseListener {
         return pixelNumber;
     }
 
+    public void updateCanvas(Color[] pixels) {
+        for (int i = 0; i < pixelNumber; i++) {
+            this.pixels[i].setBackground(pixels[i]);
+        }
+    }
+
 }

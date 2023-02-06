@@ -2,6 +2,7 @@ package sprites.io.driver.tools;
 
 import sprites.io.UI.canvaspanel.Canvas;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class SquareTool extends Tool{
@@ -10,9 +11,22 @@ public class SquareTool extends Tool{
     int startingYValue;
     int endingXValue;
     int endingYValue;
+
+    public Color[] startingPixels;
+
     @Override
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation) {
         if (isMousePressed) {
+            if (startingPixels == null) {
+                startingPixels = new Color[canvas.getPixels().length];
+                for (int i = 0; i < canvas.getPixels().length; i++) {
+                    startingPixels[i] = new Color(canvas.getPixel(i).getBackground().getRGB());
+                }
+            } else {
+                canvas.updateCanvas(startingPixels);
+                drawSquare(canvas, color, mouseCurrentLocation);
+            }
+
             startingXValue = getXValue(mousePressLocation);
             startingYValue = getYValue(mousePressLocation);
         }
@@ -20,6 +34,13 @@ public class SquareTool extends Tool{
     }
 
     public void release(Canvas canvas, Color color, int mouseCurrentLocation) {
+        // calling it again to reduce buggy effects when updating the canvas
+        canvas.updateCanvas(startingPixels);
+        drawSquare(canvas, color, mouseCurrentLocation);
+        startingPixels = null;
+    }
+
+    private void drawSquare(Canvas canvas, Color color, int mouseCurrentLocation) {
         endingXValue = getXValue(mouseCurrentLocation);
         endingYValue = getYValue(mouseCurrentLocation);
 
@@ -27,7 +48,7 @@ public class SquareTool extends Tool{
         int[] orderedY = orderYValues(startingYValue, endingYValue);
 
         int repeatXCount = Math.abs(endingXValue - startingXValue) + 1;
-        int repeatYCount = Math.abs(endingYValue - startingYValue) + 1;
+        int repeatYCount = Math.abs(endingYValue - startingYValue);
 
 
         // Draw 2 horizontal lines
@@ -74,7 +95,7 @@ public class SquareTool extends Tool{
             return;
         }
         canvas.getPixel(getPixelNum(xValue, yValue)).setBackground(color);
-        
+
         xValue++;
         repeatXCount--;
 
@@ -104,6 +125,5 @@ public class SquareTool extends Tool{
     public int getXValue (int pixelNum) {
         return pixelNum % 50;
     }
-
 
 }
