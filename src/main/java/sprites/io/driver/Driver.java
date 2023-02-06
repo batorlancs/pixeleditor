@@ -47,7 +47,8 @@ public class Driver {
      */
     public void setCurrColor(Color currColor) {
         this.currColor = currColor;
-        infoPanel.setColor(currColor);
+        this.infoPanel.setColor(currColor);
+        this.infoPanel.repaint();
 
     }
 
@@ -69,7 +70,7 @@ public class Driver {
 
     public void setBrushSize(int brushSize) {
         this.brushSize = brushSize;
-        infoPanel.setBrushSize(brushSize);
+        this.infoPanel.setBrushSize(brushSize);
     }
 
     public int getBrushSize() {

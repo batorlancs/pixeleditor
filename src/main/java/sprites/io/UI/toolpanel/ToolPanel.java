@@ -24,7 +24,7 @@ public class ToolPanel extends JPanel implements ActionListener {
         driverRef = driver;
 
         this.setBackground(Color.red);
-        this.setBounds(0,64,128,512);
+        this.setBounds(0,64,width,height);
         this.setLayout(new GridLayout(8, 2));
 
         drawButton.addActionListener(this);
@@ -50,7 +50,6 @@ public class ToolPanel extends JPanel implements ActionListener {
             Color color = JColorChooser.showDialog(null, "Pick a color", Color.black);
             driverRef.setCurrColor(color);
             this.prevColor = color;
-            colorButton.setBackground(color);
         }
 
         if (e.getSource() == eraseButton) {
