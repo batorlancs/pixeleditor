@@ -10,6 +10,7 @@ import sprites.io.driver.tools.*;
 public class Driver {
 
     private Canvas canvas;
+    private InfoPanel infoPanel;
     private boolean isMousePressed = false;
 
 
@@ -19,10 +20,9 @@ public class Driver {
     private Color currColor = new Color(0, 0, 0);
     private int brushSize = 1;
 
-
-
     public Driver(Canvas canvas) {
         this.canvas = canvas;
+        this.infoPanel = infoPanel;
     }
 
     /**
@@ -51,6 +51,13 @@ public class Driver {
      */
     public void setCurrColor(Color currColor) {
         this.currColor = currColor;
+        this.infoPanel.setColor(currColor);
+        this.infoPanel.repaint();
+
+    }
+
+    public Color getCurrColor() {
+        return currColor;
     }
 
     public void setMousePressed(boolean mousePressed) {
@@ -67,9 +74,11 @@ public class Driver {
 
     public void setBrushSize(int brushSize) {
         this.brushSize = brushSize;
+        this.infoPanel.setBrushSize(brushSize);
     }
 
     public int getBrushSize() {
         return brushSize;
     }
+
 }
