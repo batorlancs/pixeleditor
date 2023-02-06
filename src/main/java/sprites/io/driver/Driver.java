@@ -2,6 +2,7 @@ package sprites.io.driver;
 
 import java.awt.Color;
 import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.UI.infopanel.InfoPanel;
 import sprites.io.driver.tools.*;
 
 /**
@@ -20,7 +21,7 @@ public class Driver {
     private Color currColor = new Color(0, 0, 0);
     private int brushSize = 1;
 
-    public Driver(Canvas canvas) {
+    public Driver(Canvas canvas, InfoPanel infoPanel) {
         this.canvas = canvas;
         this.infoPanel = infoPanel;
     }
