@@ -16,6 +16,8 @@ public class MenuPanel extends JPanel implements ActionListener {
     private JButton clear = new JButton("CLEAR");
     private JButton newProject = new JButton("NEW PROJECT");
 
+    private JButton exportPng = new JButton("EXPORT");
+
     private FileManager fileManager = new FileManager();
     private Canvas canvasRef;
     private MainUI mainUI;
@@ -37,22 +39,26 @@ public class MenuPanel extends JPanel implements ActionListener {
 
         this.canvasRef = canvas;
 
-        newProject.setBounds(500, 0, 200, 64);
+        newProject.setBounds(400, 0, 200, 64);
         newProject.addActionListener(this);
 
-        clear.setBounds(700, 0, 100, 64);
+        clear.setBounds(600, 0, 100, 64);
         clear.addActionListener(this);
 
-        save.setBounds(800, 0, 100, 64);
+        save.setBounds(700, 0, 100, 64);
         save.addActionListener(this);
 
-        open.setBounds(900, 0, 100, 64);
+        open.setBounds(800, 0, 100, 64);
         open.addActionListener(this);
+
+        exportPng.setBounds(900,0,100,64);
+        exportPng.addActionListener(this);
 
         this.add(newProject);
         this.add(clear);
         this.add(save);
         this.add(open);
+        this.add(exportPng);
     }
 
     /**
@@ -75,6 +81,9 @@ public class MenuPanel extends JPanel implements ActionListener {
         else if (e.getSource() == newProject) {
             mainUI.dispose();
             new MainUI();
+        }
+        else if (e.getSource() == exportPng){
+            fileManager.exportAsPng(canvasRef.getPixels(),50,50);
         }
     }
 }
