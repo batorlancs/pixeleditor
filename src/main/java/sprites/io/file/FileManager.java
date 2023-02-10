@@ -8,6 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+
 
 public class FileManager {
     /**
@@ -38,6 +41,51 @@ public class FileManager {
             System.out.println("file writing unsuccessful");
         }
     }
+
+    private String addPngToString(String filePath){
+        if(!filePath.endsWith(".png")){
+            return filePath + ".png";
+        }
+        return filePath;
+    }
+
+    /**
+     * allows the user to save as a png
+     * @param pixels the pixels on the canvas
+     * @param width the width of the image
+     * @param height the size of the image
+     */
+    public void exportAsPng(JLabel[] pixels, int width, int height) {
+        File chosenFile;
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filterPng = new FileNameExtensionFilter("PNG files","png");
+        fileChooser.setFileFilter(filterPng);
+        int result = fileChooser.showSaveDialog(null);
+
+    if(result == JFileChooser.APPROVE_OPTION){
+            chosenFile = new File(addPngToString(fileChooser.getSelectedFile().getAbsolutePath()));
+        }else  return;
+
+    try {
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for (int i =0; i<pixels.length; i++){
+            JLabel pixel = pixels[i];
+            int x = i % width;
+            int y = i / width;
+            image.setRGB(x,y,pixel.getBackground().getRGB());
+        }
+        ImageIO.write(image, "png", chosenFile);
+        System.out.println("file exported as png");
+    } catch (IOException e){
+        e.printStackTrace();
+        System.out.println("file export fail");
+    }
+
+
+
+    }
+
+
 
     /**
      * Opens file by the given filename.
@@ -70,6 +118,10 @@ public class FileManager {
         }
     }
 
+    /**
+     * This is used to open a file from the main menu as this has to create a canvas that is already filled in
+     * @return this returns the values that are the pixels so it can be filled in.
+     */
     public int[] getRGB() {
 
         int results[] = new int[2500];
