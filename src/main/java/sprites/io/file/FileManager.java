@@ -49,6 +49,12 @@ public class FileManager {
         return filePath;
     }
 
+    /**
+     * allows the user to save as a png
+     * @param pixels the pixels on the canvas
+     * @param width the width of the image
+     * @param height the size of the image
+     */
     public void exportAsPng(JLabel[] pixels, int width, int height) {
         File chosenFile;
         JFileChooser fileChooser = new JFileChooser();
