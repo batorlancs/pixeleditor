@@ -1,6 +1,7 @@
 package sprites.io.UI;
 
 import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.UI.canvaspanel.LayersPanel;
 import sprites.io.UI.menupanel.MenuPanel;
 import sprites.io.UI.toolpanel.ToolPanel;
 import sprites.io.UI.infopanel.InfoPanel;
@@ -21,6 +22,8 @@ public class MainUI extends JFrame {
     private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 400, driver);
     private JPanel layerPanel = new JPanel();
     private MenuPanel menuPanel = new MenuPanel(0, 0, 1024, 64, canvas, this);
+
+
     
     public MainUI() {
         this.createDisplay();
@@ -29,7 +32,7 @@ public class MainUI extends JFrame {
     public void createDisplay()
     {
 
-        this.setSize(1024, 620);
+        this.setSize(1100, 620);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
         this.setResizable(false);

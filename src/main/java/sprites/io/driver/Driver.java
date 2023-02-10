@@ -21,6 +21,12 @@ public class Driver {
     private Color currColor = new Color(0, 0, 0);
     private int brushSize = 1;
 
+
+    // variables to test layer function
+    private int currentLayer = 0;
+    private int layerSize = 0;
+
+
     public Driver(Canvas canvas, InfoPanel infoPanel) {
         this.canvas = canvas;
         this.infoPanel = infoPanel;
@@ -37,10 +43,7 @@ public class Driver {
         currTool.release(canvas, currColor, mouseCurrentLocation);
     }
 
-    public void setCurrToolToSquare() {
-        this.currTool = new SquareTool();
-    }
-
+    public void setCurrToolToSquare() {this.currTool = new SquareTool();}
     public void setCurrToolToPen() {this.currTool = new PenTool();}
     public void setCurrToolToEraser() {this.currTool = new Eraser(brushSize);}
     public void setCurrToolToBrushSize() {this.currTool = new Brush(brushSize);}
@@ -80,6 +83,20 @@ public class Driver {
 
     public int getBrushSize() {
         return brushSize;
+    }
+
+    // methods to test layer functionality
+    public void addLayer() {
+        canvas.addLayer();
+        layerSize++;
+        this.infoPanel.setLayersNum(layerSize);
+        currentLayer = layerSize;
+        this.infoPanel.setCurrentLayer(currentLayer);
+        this.infoPanel.repaint();
+    }
+
+    public void layerTest(){
+        canvas.setCurrentLayer(0);
     }
 
 }
