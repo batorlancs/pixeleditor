@@ -62,7 +62,6 @@ public class Driver {
         // update undo array everytime the mouse is released
         updateUndoArray();
         undoFlag = 1;
-        System.out.println("Released");
     }
 
     public void setCurrToolToSquare() {
