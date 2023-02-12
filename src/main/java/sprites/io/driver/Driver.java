@@ -1,6 +1,8 @@
 package sprites.io.driver;
 
 import java.awt.Color;
+import java.util.ArrayList;
+
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.UI.infopanel.InfoPanel;
 import sprites.io.driver.tools.*;
@@ -21,6 +23,16 @@ public class Driver {
     private Color currColor = new Color(0, 0, 0);
     private int brushSize = 1;
 
+    /**
+     * For use by the undo function
+     */
+    private ArrayList<Color[]> undoArray = new ArrayList<Color[]>();
+
+    private int undoFlag = 0;
+    private Color[] undoEntry;
+
+    private boolean firstDraw = true;
+
     public Driver(Canvas canvas, InfoPanel infoPanel) {
         this.canvas = canvas;
         this.infoPanel = infoPanel;
@@ -30,11 +42,23 @@ public class Driver {
      * call the current tool to draw on the canvas
      */
     public void draw() {
+        if (firstDraw) {
+            undoEntry = new Color[canvas.getPixels().length];
+            for (int i = 0; i < canvas.getPixels().length; i++) {
+                undoEntry[i] = new Color(255, 255, 255);
+            }
+            undoArray.add(undoEntry);
+            firstDraw = false;
+        }
         currTool.draw(canvas, currColor, isMousePressed, mousePressLocation, mouseCurrentLocation);
     }
 
     public void release() {
         currTool.release(canvas, currColor, mouseCurrentLocation);
+        // update undo array everytime the mouse is released
+        updateUndoArray();
+        undoFlag = 1;
+        System.out.println("Released");
     }
 
     public void setCurrToolToSquare() {
@@ -80,6 +104,43 @@ public class Driver {
 
     public int getBrushSize() {
         return brushSize;
+    }
+
+    /**
+     * Update undo array
+     */
+    public void updateUndoArray(){
+        if (undoArray.size() == 4) {
+            undoArray.remove(0);
+        }
+        undoEntry = new Color[canvas.getPixels().length];
+        for (int i = 0; i < canvas.getPixels().length; i++) {
+            undoEntry[i] = new Color(canvas.getPixel(i).getBackground().getRGB());
+        }
+        undoArray.add(undoEntry);
+    }
+
+    /**
+     * Actual undo function
+     */
+    public void undoChange() {
+        // Remove most recent addition to the array if it's the first undo after a draw
+        if (undoFlag == 1) {
+            undoArray.remove(undoArray.size()-1);
+        }
+        undoFlag = 2;
+        if (undoFlag == 2) {
+            canvas.updateCanvas(undoArray.get(undoArray.size()-1));
+            undoArray.remove(undoArray.size()-1);
+        }
+        if (undoArray.size() == 0) {
+            undoFlag = 0;
+            undoEntry = new Color[canvas.getPixels().length];
+            for (int i = 0; i < canvas.getPixels().length; i++) {
+                undoEntry[i] = new Color(canvas.getPixel(i).getBackground().getRGB());
+            }
+            undoArray.add(undoEntry);
+        }
     }
 
 }
