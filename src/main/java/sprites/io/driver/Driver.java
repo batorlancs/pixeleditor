@@ -27,7 +27,11 @@ public class Driver {
      * For use by the undo function
      */
     private ArrayList<Color[]> undoArray = new ArrayList<Color[]>();
-
+    /**
+     * To check if an undo is the first undo (after a draw),
+     * or if it's a subsequent undo
+     * Also to see if we've reached the end of the 3 undo limit
+     */
     private int undoFlag = 0;
     private Color[] undoEntry;
 
@@ -125,14 +129,19 @@ public class Driver {
      */
     public void undoChange() {
         // Remove most recent addition to the array if it's the first undo after a draw
+        // Otherwise the first press of the undo button will appear to do nothing
         if (undoFlag == 1) {
             undoArray.remove(undoArray.size()-1);
         }
+        // If it is a subsequent/chained undo
         undoFlag = 2;
         if (undoFlag == 2) {
             canvas.updateCanvas(undoArray.get(undoArray.size()-1));
             undoArray.remove(undoArray.size()-1);
         }
+
+        // Necessary to make this a proper undo
+        // Update the array to store how it was after the last undo
         if (undoArray.size() == 0) {
             undoFlag = 0;
             undoEntry = new Color[canvas.getPixels().length];
