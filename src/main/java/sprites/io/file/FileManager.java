@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 
 
 public class FileManager {
@@ -49,13 +52,22 @@ public class FileManager {
         return filePath;
     }
 
+    public BufferedImage scaleImage(BufferedImage image, int newWidth, int newHeight){
+        BufferedImage scaledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = scaledImage.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.drawImage(image, 0, 0, newWidth, newHeight, null);
+        g2d.dispose();
+        return scaledImage;
+    }
+
     /**
      * allows the user to save as a png
      * @param pixels the pixels on the canvas
      * @param width the width of the image
      * @param height the size of the image
      */
-    public void exportAsPng(JLabel[] pixels, int width, int height) {
+    public void exportAsPng(JLabel[] pixels, int width, int height, int widthBuff, int heightBuff) {
         File chosenFile;
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filterPng = new FileNameExtensionFilter("PNG files","png");
@@ -74,16 +86,27 @@ public class FileManager {
             int y = i / width;
             image.setRGB(x,y,pixel.getBackground().getRGB());
         }
-        ImageIO.write(image, "png", chosenFile);
+
+        if (widthBuff == 0){
+            ImageIO.write(image, "png", chosenFile);
+        }
+
+        if(widthBuff >0) {
+            ImageIO.write(scaleImage(image,widthBuff,heightBuff),"png",chosenFile);
+        }
+
+
+        //this.scaleImage(image,widthBuff,heightBuff);
+
+
         System.out.println("file exported as png");
     } catch (IOException e){
         e.printStackTrace();
         System.out.println("file export fail");
     }
 
-
-
     }
+
 
 
 
