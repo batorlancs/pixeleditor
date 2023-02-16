@@ -21,6 +21,8 @@ public class ToolPanel extends JPanel implements ActionListener {
 
     private JButton undoButton = new JButton("UNDO");
 
+    private JButton redoButton = new JButton("REDO");
+
     Driver driverRef;
     private Color prevColor = Color.black;
 
@@ -40,6 +42,7 @@ public class ToolPanel extends JPanel implements ActionListener {
         colorButton.addActionListener(this);
         squareButton.addActionListener(this);
         undoButton.addActionListener(this);
+        redoButton.addActionListener(this);
 
         this.add(drawButton);
         this.add(eraseButton);
@@ -50,6 +53,7 @@ public class ToolPanel extends JPanel implements ActionListener {
         this.add(colorButton);
         this.add(squareButton);
         this.add(undoButton);
+        this.add(redoButton);
     }
 
     @Override
@@ -101,6 +105,10 @@ public class ToolPanel extends JPanel implements ActionListener {
 
         if(e.getSource() == undoButton) {
             driverRef.undoChange();
+        }
+
+        if(e.getSource() == redoButton) {
+            driverRef.redoChange();
         }
     }
 
