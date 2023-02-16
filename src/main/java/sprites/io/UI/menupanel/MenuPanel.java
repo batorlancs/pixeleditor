@@ -82,6 +82,9 @@ public class MenuPanel extends JPanel implements ActionListener {
             mainUI.dispose();
             new MainUI();
         }
+        /**
+         * allows for the exportPng to be used to save the image at different sizes
+         */
         else if (e.getSource() == exportPng){
 
             Object[] options = {"small(50x50)", "medium(250x250)", "large(500x500)"};
@@ -106,9 +109,6 @@ public class MenuPanel extends JPanel implements ActionListener {
             {
                 fileManager.exportAsPng(canvasRef.getPixels(),50,50,500,500);
             }
-
-
-            //fileManager.scaleImage(canvasRef.getPixels(),500,500);
 
         }
     }

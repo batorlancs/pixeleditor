@@ -52,6 +52,13 @@ public class FileManager {
         return filePath;
     }
 
+    /**
+     *
+     * @param image the image that has been made
+     * @param newWidth the new size
+     * @param newHeight the new size
+     * @return the new image
+     */
     public BufferedImage scaleImage(BufferedImage image, int newWidth, int newHeight){
         BufferedImage scaledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = scaledImage.createGraphics();
@@ -63,9 +70,11 @@ public class FileManager {
 
     /**
      * allows the user to save as a png
-     * @param pixels the pixels on the canvas
-     * @param width the width of the image
-     * @param height the size of the image
+     * @param pixels the pixels that are going to be save
+     * @param width the width of canvas
+     * @param height the hight of canvas
+     * @param widthBuff the new width if the user wants it larger
+     * @param heightBuff the new hight if the user wants it larger
      */
     public void exportAsPng(JLabel[] pixels, int width, int height, int widthBuff, int heightBuff) {
         File chosenFile;
@@ -86,19 +95,12 @@ public class FileManager {
             int y = i / width;
             image.setRGB(x,y,pixel.getBackground().getRGB());
         }
-
         if (widthBuff == 0){
             ImageIO.write(image, "png", chosenFile);
         }
-
         if(widthBuff >0) {
             ImageIO.write(scaleImage(image,widthBuff,heightBuff),"png",chosenFile);
         }
-
-
-        //this.scaleImage(image,widthBuff,heightBuff);
-
-
         System.out.println("file exported as png");
     } catch (IOException e){
         e.printStackTrace();
@@ -106,10 +108,6 @@ public class FileManager {
     }
 
     }
-
-
-
-
     /**
      * Opens file by the given filename.
      * @param pixels Pixels of the canvas to change the background of each pixel.
