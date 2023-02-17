@@ -16,7 +16,6 @@ public class ToolPanel extends JPanel implements ActionListener {
     private JButton lineButton = new JButton("LINE");
     private JButton fillButton = new JButton("FILL");
     private JButton colorButton = new JButton("CHANGE COLOR");
-
     private JButton squareButton = new JButton("SQUARE");
 
     private JButton undoButton = new JButton("UNDO");
@@ -50,7 +49,6 @@ public class ToolPanel extends JPanel implements ActionListener {
         this.add(fillButton);
         this.add(lineButton);
         this.add(fillButton);
-        this.add(colorButton);
         this.add(squareButton);
         this.add(undoButton);
         this.add(redoButton);

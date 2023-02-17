@@ -16,6 +16,8 @@ public class MenuPanel extends JPanel implements ActionListener {
     private JButton clear = new JButton("CLEAR");
     private JButton newProject = new JButton("NEW PROJECT");
 
+    private JButton exportPng = new JButton("EXPORT");
+
     private FileManager fileManager = new FileManager();
     private Canvas canvasRef;
     private MainUI mainUI;
@@ -37,22 +39,26 @@ public class MenuPanel extends JPanel implements ActionListener {
 
         this.canvasRef = canvas;
 
-        newProject.setBounds(500, 0, 200, 64);
+        newProject.setBounds(400, 0, 200, 64);
         newProject.addActionListener(this);
 
-        clear.setBounds(700, 0, 100, 64);
+        clear.setBounds(600, 0, 100, 64);
         clear.addActionListener(this);
 
-        save.setBounds(800, 0, 100, 64);
+        save.setBounds(700, 0, 100, 64);
         save.addActionListener(this);
 
-        open.setBounds(900, 0, 100, 64);
+        open.setBounds(800, 0, 100, 64);
         open.addActionListener(this);
+
+        exportPng.setBounds(900,0,100,64);
+        exportPng.addActionListener(this);
 
         this.add(newProject);
         this.add(clear);
         this.add(save);
         this.add(open);
+        this.add(exportPng);
     }
 
     /**
@@ -75,6 +81,35 @@ public class MenuPanel extends JPanel implements ActionListener {
         else if (e.getSource() == newProject) {
             mainUI.dispose();
             new MainUI();
+        }
+        /**
+         * allows for the exportPng to be used to save the image at different sizes
+         */
+        else if (e.getSource() == exportPng){
+
+            Object[] options = {"small(50x50)", "medium(250x250)", "large(500x500)"};
+            int n = JOptionPane.showOptionDialog(null,
+                    "Choose a size for the image",
+                    "File Size",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[2]);
+
+            if(n==0)
+            {
+                fileManager.exportAsPng(canvasRef.getPixels(),50,50,0,0);
+            }
+            if(n==1)
+            {
+                fileManager.exportAsPng(canvasRef.getPixels(),50,50,250,250);
+            }
+            if(n==2)
+            {
+                fileManager.exportAsPng(canvasRef.getPixels(),50,50,500,500);
+            }
+
         }
     }
 }
