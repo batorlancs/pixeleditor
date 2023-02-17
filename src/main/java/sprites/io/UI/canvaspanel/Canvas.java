@@ -72,26 +72,64 @@ public class Canvas extends JPanel implements MouseListener {
     }
 
     public void removeLayer() {
-        if (layers.size() > 1) {
-            layers.remove(layers.size() - 1);
-            
-            //get the next visible layer
-            int layer = 0;
-            for (int i = layers.size() - 1; i >= 0; i--) {
-                if (layers.get(i).isVisible()) {
-                    layer = i;
-                    break;
-                }
+        // remove all the selected layers
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).isSelected()) {
+                layers.remove(i);
+                i--;
             }
-
-
-            // replace the pixels in the canvas with the new layer
-            for (int i = 0; i < pixelNumber; i++) {
-                currentPixels[i] = layers.get(layer).getPixel(i);
-                currentPixels[i].addMouseListener(this);
-            }
-
         }
+
+        // if there are no layers, create a new one
+        if (layers.size() == 0) {
+            layers.add(new Layer("Layer 1"));
+        }
+
+        // set the current layer to the last layer
+        currentLayer = layers.size() - 1;
+
+        // remove the current pixels from the canvas
+        for (int i = 0; i < pixelNumber; i++) {
+            // remove the mouse listener from the old pixel
+            currentPixels[i].removeMouseListener(this);
+            this.remove(currentPixels[i]);    
+        }
+
+        // update the canvas with the new layer
+        for (int i = 0; i < pixelNumber; i++) {
+            currentPixels[i] = layers.get(layers.size() - 1).getPixel(i);
+            this.add(currentPixels[i]);
+            currentPixels[i].addMouseListener(this);
+        }
+
+        this.repaint();
+    }
+
+    public void mergeLayers() {
+        // merge all the selected layers
+        ArrayList<Layer> temp = new ArrayList<>();
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).isSelected()) {
+                temp.add(layers.get(i));
+            }
+        }
+        
+        // create a new layer with the merged layers
+        Layer mergedLayer = new Layer("Merged Layer");
+        for (int i = 0; i < temp.size(); i++) {
+            mergedLayer.merge(temp.get(i));
+        }
+
+        // remove the merged layers
+        for (int i = 0; i < temp.size(); i++) {
+            layers.remove(temp.get(i));
+        }
+
+        // add the merged layer
+        layers.add(mergedLayer);
+        this.setCurrentLayer(layers.size() - 1);
+        this.repaint();
+
     }
 
     public int getLayerNumber() {

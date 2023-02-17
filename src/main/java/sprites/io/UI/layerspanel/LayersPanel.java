@@ -39,11 +39,21 @@ public class LayersPanel extends JPanel {
         add(layersContainer, BorderLayout.CENTER);
 
         JPanel buttonsContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        add(buttonsContainer, BorderLayout.SOUTH);
         
-        JButton addLayerButton = new JButton("Add Layer");
+        JButton addLayerButton = new JButton("Add");
         addLayerButton.addActionListener(new AddLayerAction());
         buttonsContainer.add(addLayerButton);
+
+        JButton removeLayerButton = new JButton("Remove");
+        removeLayerButton.addActionListener(new RemoveLayerAction());
+        buttonsContainer.add(removeLayerButton);
+
+        JButton mergeButton = new JButton("Merge");
+        mergeButton.addActionListener(new MergeAction());
+        buttonsContainer.add(mergeButton);
+
+        buttonsContainer.setMaximumSize(buttonsContainer.getPreferredSize());
+        add(buttonsContainer, BorderLayout.SOUTH);
 
         updateLayers();
     }
@@ -122,6 +132,22 @@ public class LayersPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             layer.setSelected(!layer.isSelected());
             canvas.repaint();
+        }
+    }
+
+    private class RemoveLayerAction implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            canvas.removeLayer();
+            updateLayers();
+        }
+    }
+
+    private class MergeAction implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            canvas.mergeLayers();
+            updateLayers();
         }
     }
 

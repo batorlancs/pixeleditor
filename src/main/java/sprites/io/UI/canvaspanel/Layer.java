@@ -72,4 +72,11 @@ public class Layer extends JPanel {
         return this;
     }
 
+    public void merge(Layer layer) {
+        for (int i = 0; i < pixels.length; i++) {
+            if (layer.getPixel(i).getBackground() != Color.white) {
+                pixels[i].setBackground(layer.getPixel(i).getBackground());
+            }
+        }
+    }
 }
