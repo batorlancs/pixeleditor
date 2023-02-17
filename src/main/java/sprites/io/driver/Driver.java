@@ -147,7 +147,7 @@ public class Driver {
 
         // Necessary to make this a proper undo
         // Update the array to store how it was after the last undo
-        if (undoArray.size() == 1) {
+        if (undoFlag == 0) {
             canvas.updateCanvas(undoArray.get(undoArray.size()-1));
             undoFlag = 0;
             undoEntry = new Color[canvas.getPixels().length];
