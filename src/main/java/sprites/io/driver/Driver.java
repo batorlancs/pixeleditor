@@ -22,11 +22,6 @@ public class Driver {
     private int brushSize = 1;
 
 
-    // variables to test layer function
-    private int currentLayer = 0;
-    private int layerSize = 0;
-
-
     public Driver(Canvas canvas, InfoPanel infoPanel) {
         this.canvas = canvas;
         this.infoPanel = infoPanel;
@@ -85,18 +80,5 @@ public class Driver {
         return brushSize;
     }
 
-    // methods to test layer functionality
-    public void addLayer() {
-        canvas.addLayer();
-        layerSize++;
-        this.infoPanel.setLayersNum(layerSize);
-        currentLayer = layerSize;
-        this.infoPanel.setCurrentLayer(currentLayer);
-        this.infoPanel.repaint();
-    }
-
-    public void layerTest(){
-        canvas.setCurrentLayer(0);
-    }
 
 }

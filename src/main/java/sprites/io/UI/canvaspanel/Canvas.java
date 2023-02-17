@@ -11,11 +11,14 @@ import java.util.ArrayList;
 
 public class Canvas extends JPanel implements MouseListener {
 
-    private ArrayList<Layer> layers;
-    private int currentLayer = 0;
+    // variables for the canvas
     final int pixelNumber = 2500;
     private JLabel[] currentPixels = new JLabel[pixelNumber];
     private Driver driver;
+
+    // variables for layers
+    private ArrayList<Layer> layers;
+    private int currentLayer = 0;
 
     /**
      * Create Canvas with 50x50 pixels.
@@ -31,7 +34,8 @@ public class Canvas extends JPanel implements MouseListener {
 
         // create the first layer
         layers = new ArrayList<>();
-        layers.add(new Layer());
+        layers.add(new Layer("Layer 1"));
+        
         // add the pixels to the canvas
         for (int i = 0; i < pixelNumber; i++) {
             currentPixels[i] = layers.get(0).getPixel(i);
@@ -42,12 +46,12 @@ public class Canvas extends JPanel implements MouseListener {
     }
 
     /**
-     * Add a new layer to the canvas.
+     * These methods are required for the layer implementation.
      */
-    public Layer addLayer() {
+    public void addLayer() {
         
         // create a new layer in the list
-        layers.add(new Layer());
+        layers.add(new Layer("Layer " + (layers.size() + 1) + ""));
         currentLayer = layers.size() - 1;
 
         // remove the current pixels from the canvas
@@ -57,8 +61,6 @@ public class Canvas extends JPanel implements MouseListener {
             this.remove(currentPixels[i]);    
         }
 
-        // set the visibility of the previous layer to false
-        layers.get(layers.size() - 2).setVisible(false);
         
         // update the canvas with the new layer
         for (int i = 0; i < pixelNumber; i++) {
@@ -66,14 +68,8 @@ public class Canvas extends JPanel implements MouseListener {
             this.add(currentPixels[i]);
             currentPixels[i].addMouseListener(this);
         }
-        
-        return layers.get(layers.size() - 1);
 
     }
-
-    /**
-     * Remove the last layer from the canvas.
-     */
 
     public void removeLayer() {
         if (layers.size() > 1) {
@@ -98,49 +94,51 @@ public class Canvas extends JPanel implements MouseListener {
         }
     }
 
-    /**
-     * Get the number of layers in the canvas.
-     * @return the number of layers in the canvas.
-     */
     public int getLayerNumber() {
         return layers.size();
     }
 
-    /**
-     * Get the layer at the specified index.
-     * @param index the index of the layer to return.
-     * @return the layer at the specified index.
-     */
     public Layer getLayer(int index) {
         return layers.get(index);
     }
 
-    public void addDriver(Driver driver) {
-        this.driver = driver;
+    public ArrayList<Layer> getLayers() {
+        return layers;
     }
 
-    /**
-     * Clears all pixels on the canvas
-     */
-    public void clearCanvas() {
-        
-        // get the first visible layer
-        int layer = 0;
-        for (int i = 0; i < layers.size(); i++) {
-            if (layers.get(i).isVisible()) {
-                layer = i;
-                break;
-            }
-        }
+    public int getCurrentLayer () {
+        return currentLayer;
+    }
 
-        // clear the pixels
+    public void setCurrentLayer(int layer) {
+        currentLayer = layer;
+
+        // remove the mouse listener from the old pixel
         for (int i = 0; i < pixelNumber; i++) {
-            layers.get(layer).setPixel(i, Color.white);
+            currentPixels[i].removeMouseListener(this);
+            this.remove(currentPixels[i]);    
         }
-        
+
+        // set the new pixels
+        for (int i = 0; i < pixelNumber; i++) {
+            currentPixels[i] = layers.get(currentLayer).getPixel(i);
+            this.add(currentPixels[i]);
+            currentPixels[i].addMouseListener(this);
+        }
+
+        this.repaint();
     }
 
-    @Override
+    /*
+     * End of layer methods
+     */
+
+
+    /*
+     * These methods are required for the mouse listener implementation.
+     */
+
+     @Override
     public void mouseClicked(MouseEvent e) {
 
     }
@@ -199,6 +197,35 @@ public class Canvas extends JPanel implements MouseListener {
 
     }
 
+    /*
+     * End of mouse listener methods
+     */
+    
+    /**
+     * Canvas methods
+     */
+
+     public void addDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public void clearCanvas() {
+        
+        // get the first visible layer
+        int layer = 0;
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).isVisible()) {
+                layer = i;
+                break;
+            }
+        }
+
+        // clear the pixels
+        for (int i = 0; i < pixelNumber; i++) {
+            layers.get(layer).setPixel(i, Color.white);
+        }
+        
+    }
     /**
      * Returns all pixels of the canvas.
      * @return The pixels of the canvas.
@@ -258,30 +285,4 @@ public class Canvas extends JPanel implements MouseListener {
             this.currentPixels[i].setBackground(pixels[i]);
         }
     }
-
-    public ArrayList<Layer> getLayers() {
-        return layers;
-    }
-
-    public int getCurrentLayer () {
-        return currentLayer;
-    }
-
-    public void setCurrentLayer(int layer) {
-        currentLayer = layer;
-
-        // remove the mouse listener from the old pixel
-        for (int i = 0; i < pixelNumber; i++) {
-            currentPixels[i].removeMouseListener(this);
-            this.remove(currentPixels[i]);    
-        }
-
-        // set the new pixels
-        for (int i = 0; i < pixelNumber; i++) {
-            currentPixels[i] = layers.get(currentLayer).getPixel(i);
-            this.add(currentPixels[i]);
-            currentPixels[i].addMouseListener(this);
-        }
-    }
-
 }

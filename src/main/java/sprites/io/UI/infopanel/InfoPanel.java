@@ -12,10 +12,6 @@ import javax.swing.BoxLayout;
 public class InfoPanel extends JPanel {
     private JComponent colorPanel;
     private JLabel brushSizeLabel;
-    private JLabel layerLabel1;
-    private JLabel layerLabel2;
-    private int layersNum = 1;
-    private int currentLayer = 1;
     private Color color = Color.black;
 
     public InfoPanel(int x, int y){
@@ -26,10 +22,6 @@ public class InfoPanel extends JPanel {
         brushSizeLabel = new JLabel("Brush size: " + "small");
         add(brushSizeLabel);
 
-        layerLabel1 = new JLabel("No of Layers: " + layersNum);
-        layerLabel2 = new JLabel("Current Layer: " + currentLayer);
-        add(layerLabel1);
-        add(layerLabel2);
 
         JLabel colorLabel = new JLabel("Current color:");
         add(colorLabel);
@@ -64,14 +56,4 @@ public class InfoPanel extends JPanel {
         }
     }
 
-    public void setLayersNum(int layersNum){
-        this.layersNum = layersNum;
-        layerLabel1.setText("No of Layers: " + layersNum);
-    }
-
-    public void setCurrentLayer(int currentLayer){
-        this.currentLayer = currentLayer;
-        layerLabel2.setText("Current Layer: " + currentLayer);
-    }
-    
 }

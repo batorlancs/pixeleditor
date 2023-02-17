@@ -66,7 +66,7 @@ public class LayersPanel extends JPanel {
   private class AddLayerAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-      Layer layer = canvas.addLayer();
+      //Layer layer = canvas.addLayer();
       updateLayers();
     }
   }

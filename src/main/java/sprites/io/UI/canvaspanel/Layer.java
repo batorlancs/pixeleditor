@@ -9,11 +9,12 @@ import java.awt.GridLayout;
 public class Layer extends JPanel {
     private JLabel[] pixels = new JLabel[2500];
     private boolean visible = true;
+    private boolean selected = true;
     private String name;
 
-    public Layer() {
+    public Layer(String name) {
         this.setBounds(0, 0, 500, 500);
-        //this.name = "Layer " + layerNumber;
+        this.name = name;
         // set grid layout of 50x50
         this.setLayout(new GridLayout(50, 50, 0, 0));
         for (int i = 0; i < 2500; i++) {
@@ -40,17 +41,34 @@ public class Layer extends JPanel {
         return visible;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     public int getPixelSize() {
         return pixels.length;
     }
 
     public Layer getNameLabel() {
+        /* 
+        // if name label already exists, remove it
+        if (this.getComponentCount() > 0) {
+            this.remove(0);
+        }
+        
         // get the name of the layer
         JLabel nameLabel = new JLabel(name);
         nameLabel.setBounds(0, 0, 500, 20);
         nameLabel.setOpaque(true);
         nameLabel.setBackground(Color.white);
         this.add(nameLabel, 0);
+        return this;
+    }
+        */
         return this;
     }
 

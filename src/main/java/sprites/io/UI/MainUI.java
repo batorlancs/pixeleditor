@@ -1,10 +1,10 @@
 package sprites.io.UI;
 
 import sprites.io.UI.canvaspanel.Canvas;
-import sprites.io.UI.canvaspanel.LayersPanel;
 import sprites.io.UI.menupanel.MenuPanel;
 import sprites.io.UI.toolpanel.ToolPanel;
 import sprites.io.UI.infopanel.InfoPanel;
+import sprites.io.UI.layerspanel.LayersPanel;
 import sprites.io.driver.Driver;
 
 
@@ -20,7 +20,7 @@ public class MainUI extends JFrame {
     private JPanel canvasPanel = new JPanel();
     private Driver driver = new Driver(canvas, infoPanel);
     private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 400, driver);
-    private JPanel layerPanel = new JPanel();
+    private LayersPanel layerPanel = new LayersPanel(canvas);
     private MenuPanel menuPanel = new MenuPanel(0, 0, 1024, 64, canvas, this);
 
 
@@ -44,8 +44,8 @@ public class MainUI extends JFrame {
         canvasPanel.setLayout(null);
         canvasPanel.add(canvas);
 
-        layerPanel.setBackground(Color.blue);
-        layerPanel.setBounds(640,64,384,512);
+        layerPanel.setCanvas(canvas);
+        layerPanel.setBounds(768,64,280,512);
 
         this.add(canvasPanel);
         this.add(toolPanel);
@@ -78,10 +78,8 @@ public class MainUI extends JFrame {
 
         canvasPanel.add(canvas);
 
-
-
-        layerPanel.setBackground(Color.blue);
-        layerPanel.setBounds(640,64,384,512);
+        layerPanel.setCanvas(canvas);
+        layerPanel.setBounds(768,64,280,350);
 
         this.add(canvasPanel);
         this.add(toolPanel);
