@@ -19,7 +19,6 @@ public class ToolPanel extends JPanel implements ActionListener {
     private JButton squareButton = new JButton("SQUARE");
 
     private JButton undoButton = new JButton("UNDO");
-
     private JButton redoButton = new JButton("REDO");
 
     Driver driverRef;
@@ -30,7 +29,7 @@ public class ToolPanel extends JPanel implements ActionListener {
 
         this.setBackground(Color.red);
         this.setBounds(0,64,width,height);
-        this.setLayout(new GridLayout(8, 2));
+        this.setLayout(new GridLayout(10, 2));
 
         drawButton.addActionListener(this);
         eraseButton.addActionListener(this);
@@ -50,6 +49,7 @@ public class ToolPanel extends JPanel implements ActionListener {
         this.add(lineButton);
         this.add(fillButton);
         this.add(squareButton);
+        this.add(colorButton);
         this.add(undoButton);
         this.add(redoButton);
     }

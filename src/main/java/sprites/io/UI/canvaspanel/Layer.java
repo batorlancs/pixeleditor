@@ -74,8 +74,14 @@ public class Layer extends JPanel {
 
     public void merge(Layer layer) {
         for (int i = 0; i < pixels.length; i++) {
-            if (layer.getPixel(i).getBackground() != Color.white) {
+            if (layer.getPixel(i).getBackground() != Color.white && pixels[i].getBackground() == Color.white) {
                 pixels[i].setBackground(layer.getPixel(i).getBackground());
+            } else if (layer.getPixel(i).getBackground() != Color.white && pixels[i].getBackground() != Color.white) {
+                // merge the colors
+                int red = (pixels[i].getBackground().getRed() + layer.getPixel(i).getBackground().getRed()) / 2;
+                int green = (pixels[i].getBackground().getGreen() + layer.getPixel(i).getBackground().getGreen()) / 2;
+                int blue = (pixels[i].getBackground().getBlue() + layer.getPixel(i).getBackground().getBlue()) / 2;
+                pixels[i].setBackground(new Color(red, green, blue));
             }
         }
     }
