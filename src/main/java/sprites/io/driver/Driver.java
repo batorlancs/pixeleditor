@@ -19,12 +19,17 @@ public class Driver {
     private int mouseCurrentLocation = 0;
     private Tool currTool = new PenTool();
     private Color currColor = new Color(0, 0, 0);
+    private Color prevColors[] = new Color[6];
     private int brushSize = 1;
 
 
     public Driver(Canvas canvas, InfoPanel infoPanel) {
         this.canvas = canvas;
         this.infoPanel = infoPanel;
+
+        for (Color prevColor: prevColors) {
+            prevColor = Color.black;
+        }
     }
 
     /**
@@ -52,7 +57,7 @@ public class Driver {
         this.currColor = currColor;
         this.infoPanel.setColor(currColor);
         this.infoPanel.repaint();
-
+        updatePrevColors(currColor);
     }
 
     public Color getCurrColor() {
@@ -80,5 +85,15 @@ public class Driver {
         return brushSize;
     }
 
+    private void updatePrevColors(Color newColor) {
+        for (int i = 5; i > 0; i--) {
+            prevColors[i] = prevColors[i-1];
+        }
+        prevColors[0] = newColor;
+    }
+
+    public Color getPrevColor(int num) {
+        return prevColors[num];
+    }
 
 }
