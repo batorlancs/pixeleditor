@@ -1,7 +1,5 @@
 package sprites.io.UI.infopanel;
 
-import sprites.io.driver.Driver;
-
 import javax.swing.JPanel;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -23,6 +21,7 @@ public class InfoPanel extends JPanel {
 
         brushSizeLabel = new JLabel("Brush size: " + "small");
         add(brushSizeLabel);
+
 
         JLabel colorLabel = new JLabel("Current color:");
         add(colorLabel);
@@ -56,5 +55,5 @@ public class InfoPanel extends JPanel {
                 break;
         }
     }
-    
+
 }

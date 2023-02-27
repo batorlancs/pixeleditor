@@ -1,6 +1,8 @@
 package sprites.io.driver;
 
 import java.awt.Color;
+import java.util.ArrayList;
+
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.UI.infopanel.InfoPanel;
 import sprites.io.driver.tools.*;
@@ -21,6 +23,21 @@ public class Driver {
     private Color currColor = new Color(0, 0, 0);
     private int brushSize = 1;
 
+    /**
+     * For use by the undo function
+     */
+    private ArrayList<Color[]> undoArray = new ArrayList<Color[]>();
+    private ArrayList<Color[]> redoArray = new ArrayList<Color[]>();
+    /**
+     * To check if an undo is the first undo (after a draw),
+     * or if it's a subsequent undo
+     * Also to see if we've reached the end of the 3 undo limit
+     */
+    private int undoFlag = 0;
+    private Color[] undoEntry;
+
+    private boolean firstDraw = true;
+
     public Driver(Canvas canvas, InfoPanel infoPanel) {
         this.canvas = canvas;
         this.infoPanel = infoPanel;
@@ -30,17 +47,26 @@ public class Driver {
      * call the current tool to draw on the canvas
      */
     public void draw() {
+        if (firstDraw) {
+            undoEntry = new Color[canvas.getPixels().length];
+            for (int i = 0; i < canvas.getPixels().length; i++) {
+                undoEntry[i] = new Color(255, 255, 255);
+            }
+            undoArray.add(undoEntry);
+            firstDraw = false;
+        }
         currTool.draw(canvas, currColor, isMousePressed, mousePressLocation, mouseCurrentLocation);
     }
 
     public void release() {
         currTool.release(canvas, currColor, mouseCurrentLocation);
+        // update undo array everytime the mouse is released
+        updateUndoArray();
+        redoArray = new ArrayList<Color[]>();
+        undoFlag = 1;
     }
 
-    public void setCurrToolToSquare() {
-        this.currTool = new SquareTool();
-    }
-
+    public void setCurrToolToSquare() {this.currTool = new SquareTool();}
     public void setCurrToolToPen() {this.currTool = new PenTool();}
     public void setCurrToolToEraser() {this.currTool = new Eraser(brushSize);}
     public void setCurrToolToBrushSize() {this.currTool = new Brush(brushSize);}
@@ -80,6 +106,61 @@ public class Driver {
 
     public int getBrushSize() {
         return brushSize;
+    }
+
+    /**
+     * Update undo array
+     */
+    public void updateUndoArray(){
+        undoEntry = new Color[canvas.getPixels().length];
+        for (int i = 0; i < canvas.getPixels().length; i++) {
+            undoEntry[i] = new Color(canvas.getPixel(i).getBackground().getRGB());
+        }
+        undoArray.add(undoEntry);
+    }
+
+    /**
+     * Actual undo function
+     */
+    public void undoChange() {
+        // Remove most recent addition to the array if it's the first undo after a draw
+        // Otherwise the first press of the undo button will appear to do nothing
+        if (undoFlag == 1) {
+            redoArray.add(undoArray.get(undoArray.size()-1));
+            undoArray.remove(undoArray.size()-1);
+        }
+        // If it is a subsequent/chained undo
+        undoFlag = 2;
+        if (undoFlag == 2) {
+            canvas.updateCanvas(undoArray.get(undoArray.size()-1));
+
+            redoArray.add(undoArray.get(undoArray.size()-1));
+            undoArray.remove(undoArray.size()-1);
+
+            if (undoArray.size() == 1) {
+                undoFlag = 0;
+            }
+        }
+
+        // Necessary to make this a proper undo
+        // Update the array to store how it was after the last undo
+        if (undoFlag == 0) {
+            canvas.updateCanvas(undoArray.get(undoArray.size()-1));
+            undoFlag = 0;
+            undoEntry = new Color[canvas.getPixels().length];
+            for (int i = 0; i < canvas.getPixels().length; i++) {
+                undoEntry[i] = new Color(canvas.getPixel(i).getBackground().getRGB());
+            }
+            undoArray.add(undoEntry);
+        }
+    }
+
+    public void redoChange() {
+        if (redoArray.size() != 0) {
+            canvas.updateCanvas(redoArray.get(redoArray.size()-1));
+            undoArray.add((redoArray.get(redoArray.size()-1)));
+            redoArray.remove(redoArray.size()-1);
+        }
     }
 
 }
