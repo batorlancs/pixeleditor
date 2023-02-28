@@ -9,35 +9,25 @@ import java.awt.event.ActionListener;
 public class ColorPickerPanel extends JPanel implements ActionListener {
 
     private JButton[] buttons = new JButton[12];
-    private JButton[] prevButtons = new JButton[6];
-    private Color[] colors = {Color.blue, Color.yellow, Color.red, Color.green, Color.blue, Color.yellow, Color.red, Color.green, Color.blue, Color.yellow, Color.red, Color.green};
+    private Color[] colors = {
+            Color.black, Color.white, Color.red, Color.green,
+            Color.blue, Color.yellow, Color.red, Color.green,
+            Color.blue, Color.yellow, Color.red, Color.green
+    };
     private Driver driver;
 
-    public ColorPickerPanel(int x, int y, Driver driver) {
+    public ColorPickerPanel(int posx, int posy, int width, int height, Driver driver) {
         this.driver = driver;
-        this.setBounds(x, y, 128, 63);
-        this.setBackground(Color.blue);
-        this.setLayout(new GridLayout(3, 6));
+        this.setBounds(posx, posy, width, height);
+        this.setBackground(Color.darkGray);
+        this.setLayout(new GridLayout(3, 4));
+        this.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton();
             buttons[i].setBackground(colors[i]);
             buttons[i].addActionListener(this);
             this.add(buttons[i]);
-        }
-
-        for (int i = 0; i < prevButtons.length; i++) {
-            prevButtons[i] = new JButton();
-            prevButtons[i].setBackground(Color.black);
-            prevButtons[i].addActionListener(this);
-            this.add(prevButtons[i]);
-        }
-
-    }
-
-    private void updatePrevButtons() {
-        for (int i = 0; i < prevButtons.length; i++) {
-            prevButtons[i].setBackground(driver.getPrevColor(i));
         }
     }
 
@@ -46,7 +36,6 @@ public class ColorPickerPanel extends JPanel implements ActionListener {
         for (int i = 0; i < buttons.length; i++) {
             if (e.getSource() == buttons[i]) {
                 driver.setCurrColor(colors[i]);
-                updatePrevButtons();
             }
         }
     }
