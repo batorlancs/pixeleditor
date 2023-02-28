@@ -27,8 +27,20 @@ public class PrevColorPanel extends JPanel implements ActionListener {
         }
     }
 
+    public void updatePrevColors() {
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].setBackground(driver.getPrevColor(i));
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        for (int i = 0; i < buttons.length; i++) {
+            if (e.getSource() == buttons[i]) {
+                driver.setCurrColor(buttons[i].getBackground());
+                updatePrevColors();
+                break;
+            }
+        }
     }
 }

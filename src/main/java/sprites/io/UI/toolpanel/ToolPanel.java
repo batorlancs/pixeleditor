@@ -5,8 +5,10 @@ import sprites.io.UI.buttonStyles.StyledLabel;
 import sprites.io.driver.Driver;
 import javax.swing.*;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ToolPanel extends JPanel {
+public class ToolPanel extends JPanel implements ActionListener {
 
     private Driver driverRef;
     private StyledLabel toolsLabel;
@@ -16,14 +18,13 @@ public class ToolPanel extends JPanel {
     private StyledButton colorPickerButton;
     private StyledLabel prevColorLabel;
     private PrevColorPanel prevColorPanel;
-//    private InfoPanel infoPanel = new InfoPanel(0, 464);
 
     public ToolPanel(int posx, int posy, int width, int height, Driver driver) {
         this.driverRef = driver;
         this.toolsLabel = new StyledLabel(0, 0, 128, 50, "TOOLS");
         this.toolsPanel = new ToolsPanel(0, 50, 128, 150, driverRef);
         this.colorPickerLabel = new StyledLabel(0, 200, 128, 50, "COLORS");
-        this.colorPickerPanel = new ColorPickerPanel(0, 250, 128, 70, driverRef);
+        this.colorPickerPanel = new ColorPickerPanel(0, 250, 128, 75, driverRef, this);
         this.colorPickerButton = new StyledButton(0, 330, 128, 30, "MORE COLORS");
         this.prevColorLabel = new StyledLabel(0, 360,128, 50, "PREVIOUS");
         this.prevColorPanel = new PrevColorPanel(0, 410, 128, 50, driverRef);
@@ -32,6 +33,8 @@ public class ToolPanel extends JPanel {
         this.setLayout(null);
         this.setBackground(Color.darkGray);
 
+        colorPickerButton.addActionListener(this);
+
         this.add(toolsLabel);
         this.add(toolsPanel);
         this.add(colorPickerLabel);
@@ -39,5 +42,19 @@ public class ToolPanel extends JPanel {
         this.add(colorPickerButton);
         this.add(prevColorLabel);
         this.add(prevColorPanel);
+    }
+
+    public void updatePrevColors() {
+        prevColorPanel.updatePrevColors();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == colorPickerButton) {
+            JColorChooser colorChooser = new JColorChooser();
+            Color color = JColorChooser.showDialog(null, "Pick a color", Color.black);
+            driverRef.setCurrColor(color);
+            updatePrevColors();
+        }
     }
 }
