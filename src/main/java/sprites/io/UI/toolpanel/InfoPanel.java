@@ -1,4 +1,4 @@
-package sprites.io.UI.infopanel;
+package sprites.io.UI.toolpanel;
 
 import javax.swing.JPanel;
 import javax.swing.JComponent;

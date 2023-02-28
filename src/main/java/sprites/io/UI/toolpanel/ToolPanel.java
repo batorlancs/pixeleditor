@@ -1,113 +1,43 @@
 package sprites.io.UI.toolpanel;
 
+import sprites.io.UI.buttonStyles.StyledButton;
+import sprites.io.UI.buttonStyles.StyledLabel;
 import sprites.io.driver.Driver;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
 
-public class ToolPanel extends JPanel implements ActionListener {
+public class ToolPanel extends JPanel {
 
-
-    private JButton drawButton = new JButton("DRAW");
-    private JButton eraseButton = new JButton("ERASER");
-    private JButton sizeButton = new JButton("SIZE");
-    private JButton lineButton = new JButton("LINE");
-    private JButton fillButton = new JButton("FILL");
-    private JButton colorButton = new JButton("CHANGE COLOR");
-    private JButton squareButton = new JButton("SQUARE");
-
-    private JButton undoButton = new JButton("UNDO");
-    private JButton redoButton = new JButton("REDO");
-
-    Driver driverRef;
-    private Color prevColor = Color.black;
+    private Driver driverRef;
+    private StyledLabel toolsLabel;
+    private ToolsPanel toolsPanel;
+    private StyledLabel colorPickerLabel;
+    private ColorPickerPanel colorPickerPanel;
+    private StyledButton colorPickerButton;
+    private StyledLabel prevColorLabel;
+    private PrevColorPanel prevColorPanel;
+//    private InfoPanel infoPanel = new InfoPanel(0, 464);
 
     public ToolPanel(int posx, int posy, int width, int height, Driver driver) {
-        driverRef = driver;
+        this.driverRef = driver;
+        this.toolsLabel = new StyledLabel(0, 0, 128, 50, "TOOLS");
+        this.toolsPanel = new ToolsPanel(0, 50, 128, 150, driverRef);
+        this.colorPickerLabel = new StyledLabel(0, 200, 128, 50, "COLORS");
+        this.colorPickerPanel = new ColorPickerPanel(0, 250, 128, 70, driverRef);
+        this.colorPickerButton = new StyledButton(0, 330, 128, 30, "MORE COLORS");
+        this.prevColorLabel = new StyledLabel(0, 360,128, 50, "PREVIOUS");
+        this.prevColorPanel = new PrevColorPanel(0, 410, 128, 50, driverRef);
 
-        this.setBackground(Color.red);
-        this.setBounds(0,64,width,height);
-        this.setLayout(new GridLayout(10, 2));
+        this.setBounds(posx, posy, width, height);
+        this.setLayout(null);
+        this.setBackground(Color.darkGray);
 
-        drawButton.addActionListener(this);
-        eraseButton.addActionListener(this);
-        sizeButton.addActionListener(this);
-        fillButton.addActionListener(this);
-        lineButton.addActionListener(this);
-        fillButton.addActionListener(this);
-        colorButton.addActionListener(this);
-        squareButton.addActionListener(this);
-        undoButton.addActionListener(this);
-        redoButton.addActionListener(this);
-
-        this.add(drawButton);
-        this.add(eraseButton);
-        this.add(sizeButton);
-        this.add(fillButton);
-        this.add(lineButton);
-        this.add(fillButton);
-        this.add(squareButton);
-        this.add(colorButton);
-        this.add(undoButton);
-        this.add(redoButton);
+        this.add(toolsLabel);
+        this.add(toolsPanel);
+        this.add(colorPickerLabel);
+        this.add(colorPickerPanel);
+        this.add(colorPickerButton);
+        this.add(prevColorLabel);
+        this.add(prevColorPanel);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        
-        if (e.getSource() == colorButton) {
-            JColorChooser colorChooser = new JColorChooser();
-            Color color = JColorChooser.showDialog(null, "Pick a color", Color.black);
-            driverRef.setCurrColor(color);
-            this.prevColor = color;
-        }
-
-        if (e.getSource() == eraseButton) {
-            driverRef.setCurrToolToEraser();
-        }
-
-        if( e.getSource() == drawButton) {
-            driverRef.setCurrColor(this.prevColor);
-            driverRef.setCurrToolToBrushSize();
-        }
-
-        if(e.getSource() == sizeButton){
-
-            // pop up dialog box to ask for the size
-            Object[] options = {"small", "medium", "large"};
-            int n = JOptionPane.showOptionDialog(null,
-                    "Choose a size",
-                    "Size",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[2]);
-
-            // set the size, and set the tool to brush
-            driverRef.setBrushSize(n+1);
-            driverRef.setCurrToolToBrushSize();
-        }
-
-        if(e.getSource() == fillButton){
-            driverRef.setCurrToolToFillTool();
-        }
-        if( e.getSource() == squareButton) {
-            driverRef.setCurrToolToSquare();
-        }
-        if( e.getSource() == squareButton) {
-            driverRef.setCurrToolToSquare();
-        }
-
-        if(e.getSource() == undoButton) {
-            driverRef.undoChange();
-        }
-
-        if(e.getSource() == redoButton) {
-            driverRef.redoChange();
-        }
-    }
-
 }
