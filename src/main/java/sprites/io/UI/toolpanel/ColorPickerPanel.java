@@ -15,9 +15,12 @@ public class ColorPickerPanel extends JPanel implements ActionListener {
             Color.blue, Color.yellow, Color.red, Color.green
     };
     private Driver driver;
+    private ToolPanel toolPanel;
 
-    public ColorPickerPanel(int posx, int posy, int width, int height, Driver driver) {
+    public ColorPickerPanel(int posx, int posy, int width, int height, Driver driver, ToolPanel toolPanel) {
         this.driver = driver;
+        this.toolPanel = toolPanel;
+
         this.setBounds(posx, posy, width, height);
         this.setBackground(Color.darkGray);
         this.setLayout(new GridLayout(3, 4));
@@ -36,6 +39,7 @@ public class ColorPickerPanel extends JPanel implements ActionListener {
         for (int i = 0; i < buttons.length; i++) {
             if (e.getSource() == buttons[i]) {
                 driver.setCurrColor(colors[i]);
+                toolPanel.updatePrevColors();
             }
         }
     }

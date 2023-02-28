@@ -7,12 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Paths;
 
 public class ToolsPanel extends JPanel implements ActionListener {
 
 
-    private StyledButton drawButton = new StyledButton("DRAW");
-    private StyledButton eraseButton = new StyledButton("ERASER");
+    private StyledButton drawButton = new StyledButton("penIcon.png", "");
+    private StyledButton eraseButton = new StyledButton("eraserIcon.png", "");
     private StyledButton sizeButton = new StyledButton("SIZE");
     private StyledButton lineButton = new StyledButton("LINE");
     private StyledButton fillButton = new StyledButton("FILL");
@@ -23,7 +24,6 @@ public class ToolsPanel extends JPanel implements ActionListener {
     private StyledButton redoButton = new StyledButton("REDO");
 
     Driver driverRef;
-    private Color prevColor = Color.black;
 
     public ToolsPanel(int posx, int posy, int width, int height, Driver driver) {
         driverRef = driver;
@@ -59,10 +59,8 @@ public class ToolsPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == colorButton) {
-            JColorChooser colorChooser = new JColorChooser();
             Color color = JColorChooser.showDialog(null, "Pick a color", Color.black);
             driverRef.setCurrColor(color);
-            this.prevColor = color;
         }
 
         if (e.getSource() == eraseButton) {
@@ -70,7 +68,7 @@ public class ToolsPanel extends JPanel implements ActionListener {
         }
 
         if( e.getSource() == drawButton) {
-            driverRef.setCurrColor(this.prevColor);
+            driverRef.setCurrColor(driverRef.getPrevColor(0));
             driverRef.setCurrToolToBrushSize();
         }
 
@@ -94,9 +92,6 @@ public class ToolsPanel extends JPanel implements ActionListener {
 
         if(e.getSource() == fillButton){
             driverRef.setCurrToolToFillTool();
-        }
-        if( e.getSource() == squareButton) {
-            driverRef.setCurrToolToSquare();
         }
         if( e.getSource() == squareButton) {
             driverRef.setCurrToolToSquare();
