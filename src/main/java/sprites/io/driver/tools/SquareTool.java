@@ -20,7 +20,7 @@ public class SquareTool extends Tool{
             if (startingPixels == null) {
                 startingPixels = new Color[canvas.getPixels().length];
                 for (int i = 0; i < canvas.getPixels().length; i++) {
-                    startingPixels[i] = new Color(canvas.getPixel(i).getBackground().getRGB());
+                    startingPixels[i] = canvas.getPixel(i).getBackground();
                 }
             } else {
                 canvas.updateCanvas(startingPixels);

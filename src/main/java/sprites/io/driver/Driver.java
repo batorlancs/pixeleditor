@@ -16,7 +16,6 @@ public class Driver {
     private InfoPanel infoPanel;
     private boolean isMousePressed = false;
 
-
     private int mousePressLocation = 0;
     private int mouseCurrentLocation = 0;
     private Tool currTool = new PenTool();
