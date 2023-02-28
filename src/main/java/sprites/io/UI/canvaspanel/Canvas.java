@@ -37,9 +37,11 @@ public class Canvas extends JPanel implements MouseListener {
         layers = new ArrayList<>();
         layers.add(new Layer("Layer 1"));
         
-        // add the pixels to the canvas
+        // set the current pixels based on the color of the first layer
         for (int i = 0; i < pixelNumber; i++) {
-            currentPixels[i] = layers.get(0).getPixel(i);
+            currentPixels[i] = new JLabel();
+            currentPixels[i].setBackground(layers.get(0).getPixel(i));
+            currentPixels[i].setOpaque(true);
             this.add(currentPixels[i]);
             currentPixels[i].addMouseListener(this);
         }
@@ -60,24 +62,25 @@ public class Canvas extends JPanel implements MouseListener {
         layers.add(new Layer("Layer " + (layers.size() + 1) + ""));
         currentLayer = layers.size() - 1;
 
-        // remove the current pixels from the canvas
-        for (int i = 0; i < pixelNumber; i++) {
-            // remove the mouse listener from the old pixel
-            currentPixels[i].removeMouseListener(this);
-            this.remove(currentPixels[i]);    
-        }
-
-        
-        // update the canvas with the new layer
-        for (int i = 0; i < pixelNumber; i++) {
-            currentPixels[i] = layers.get(layers.size() - 1).getPixel(i);
-            this.add(currentPixels[i]);
-            currentPixels[i].addMouseListener(this);
-        }
-
+        updateCanvas();
+        this.repaint();
     }
 
     public void removeLayer() {
+        
+        // check if the current layer is selected
+        if (layers.get(currentLayer).isSelected()) {
+            layers.get(currentLayer).setSelected(false);
+        }
+
+        // set the current layer to the next layer that is not selected
+        for (int i = 0; i < layers.size(); i++) {
+            if (!layers.get(i).isSelected()) {
+                currentLayer = i;
+                break;
+            }
+        }
+
         // remove all the selected layers
         for (int i = 0; i < layers.size(); i++) {
             if (layers.get(i).isSelected()) {
@@ -86,28 +89,7 @@ public class Canvas extends JPanel implements MouseListener {
             }
         }
 
-        // if there are no layers, create a new one
-        if (layers.size() == 0) {
-            layers.add(new Layer("Layer 1"));
-        }
-
-        // set the current layer to the last layer
-        currentLayer = layers.size() - 1;
-
-        // remove the current pixels from the canvas
-        for (int i = 0; i < pixelNumber; i++) {
-            // remove the mouse listener from the old pixel
-            currentPixels[i].removeMouseListener(this);
-            this.remove(currentPixels[i]);    
-        }
-
-        // update the canvas with the new layer
-        for (int i = 0; i < pixelNumber; i++) {
-            currentPixels[i] = layers.get(layers.size() - 1).getPixel(i);
-            this.add(currentPixels[i]);
-            currentPixels[i].addMouseListener(this);
-        }
-
+        updateCanvas();
         this.repaint();
     }
 
@@ -126,16 +108,26 @@ public class Canvas extends JPanel implements MouseListener {
             mergedLayer.merge(temp.get(i));
         }
 
-        // remove the merged layers
-        for (int i = 0; i < temp.size(); i++) {
-            layers.remove(temp.get(i));
+        // get the visible layer and replace it with the merged layer
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).isVisible()) {
+                layers.set(i, mergedLayer);
+            }
         }
 
-        // get the visible layer and replace it with the merged layer
-        // TODO:
-        // add the merged layer to the list
-        layers.add(mergedLayer);
-        this.setCurrentLayer(layers.size() - 1);
+        // remove the merged layers except the new merged layer
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).isSelected()) {
+                if (!layers.get(i).isVisible()) {
+                    layers.remove(i);
+                    i--;
+                }
+            }
+        }
+
+        // set the current layer to the merged layer
+        currentLayer = layers.indexOf(mergedLayer);
+        updateCanvas();
         this.repaint();
 
     }
@@ -167,19 +159,9 @@ public class Canvas extends JPanel implements MouseListener {
             }
         }
 
-        // remove the mouse listener from the old pixel
-        for (int i = 0; i < pixelNumber; i++) {
-            currentPixels[i].removeMouseListener(this);
-            this.remove(currentPixels[i]);    
-        }
-
-        // set the new pixels
-        for (int i = 0; i < pixelNumber; i++) {
-            currentPixels[i] = layers.get(currentLayer).getPixel(i);
-            this.add(currentPixels[i]);
-            currentPixels[i].addMouseListener(this);
-        }
-
+        // set this layer to be selected
+        layers.get(currentLayer).setSelected(true);
+        updateCanvas();
         this.repaint();
     }
 
@@ -278,6 +260,9 @@ public class Canvas extends JPanel implements MouseListener {
         for (int i = 0; i < pixelNumber; i++) {
             layers.get(layer).setPixel(i, Color.white);
         }
+
+        updateCanvas();
+        this.repaint();
         
     }
     /**
@@ -290,7 +275,7 @@ public class Canvas extends JPanel implements MouseListener {
         return this.currentPixels;
     }
 
-    public JLabel getPixel(int number) {
+    public Color getPixel(int number) {
 
         // get the first visible layer
         int layer = 0;
@@ -302,8 +287,24 @@ public class Canvas extends JPanel implements MouseListener {
         }
 
         // get the pixel
-        currentPixels[number] = layers.get(layer).getPixel(number);
-        return this.currentPixels[number];
+        return layers.get(layer).getPixel(number);
+    }
+
+    public void setPixel(int number, Color color) {
+
+        // get the first visible layer
+        int layer = 0;
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).isVisible()) {
+                layer = i;
+                break;
+            }
+        }
+
+        // set the pixel
+        layers.get(layer).setPixel(number, color);
+        updateCanvas();
+        this.repaint();
     }
 
     public int getPixelSize() {
@@ -322,7 +323,7 @@ public class Canvas extends JPanel implements MouseListener {
         return pixelSize;
     }
 
-    public void updateCanvas(Color[] pixels) {
+    public void updateCanvasArray(Color[] newColors) {
         
         // get the first visible layer
         int layer = 0;
@@ -335,15 +336,17 @@ public class Canvas extends JPanel implements MouseListener {
 
         // update the pixels
         for (int i = 0; i < pixelNumber; i++) {
-            this.currentPixels[i] = layers.get(layer).getPixel(i);
-            this.currentPixels[i].setBackground(pixels[i]);
+            layers.get(layer).setPixel(i, newColors[i]);
         }
+
+        updateCanvas();
+        this.repaint();
     }
 
-    public void updateLayers() {
+    public void updateCanvas() {
         
         int onlyLayer = 0;
-        // merge all the selected layers
+        // get the selected layers
         for (int i = 0; i < layers.size(); i++) {
             if (layers.get(i).isSelected()) {
                 selectedLayers.add(layers.get(i));
@@ -351,70 +354,54 @@ public class Canvas extends JPanel implements MouseListener {
             }
         }
 
-        // if there is only one layer selected, then do nothing
-        if (selectedLayers.size()  < 2) {
-           
-            // remove the mouse listener from the old pixel
-            for (int i = 0; i < pixelNumber; i++) {
-                currentPixels[i].removeMouseListener(this);
-                this.remove(currentPixels[i]);    
+        // if there is no layer selected, then get the current layer
+        if (selectedLayers.size() == 0) {
+            for (int i = 0; i < layers.size(); i++) {
+                if (layers.get(i).isVisible()) {
+                    selectedLayers.add(layers.get(i));
+                    onlyLayer = i;
+                    break;
+                }
+            }
+            // set the current layer as selected
+            selectedLayers.get(0).setSelected(true);
+            // recall this method to update the layers
+            updateCanvas();
+        } else if (selectedLayers.size() == 1) {
+
+            // if current pixels are null then create them
+            if (currentPixels[0] == null) {
+                currentPixels = new JLabel[pixelNumber];
+                for (int i = 0; i < pixelNumber; i++) {
+                    currentPixels[i] = new JLabel();
+                    currentPixels[i].setOpaque(true);
+                    currentPixels[i].setBackground(Color.white);
+                    currentPixels[i].addMouseListener(this);
+                    this.add(currentPixels[i]);
+                }
             }
 
-            // set the new pixels with the selected layer
+            // update the current pixels with the selected layer
             for (int i = 0; i < pixelNumber; i++) {
-                currentPixels[i] = layers.get(onlyLayer).getPixel(i);
-                this.add(currentPixels[i]);
-                currentPixels[i].addMouseListener(this);
+                currentPixels[i].setBackground(layers.get(onlyLayer).getPixel(i));
             }
 
-            this.repaint();
-            return;
-
-        } else {
+        } else { // if there is more than one layer selected, then merge the layers
             // create a new layer with the merged layers
             Layer mergedLayer = new Layer("Merged Layer");
             for (int i = 0; i < selectedLayers.size(); i++) {
                 mergedLayer.merge(selectedLayers.get(i));
             }
 
-            // get the index of the visible layer
-            int index = 0;
-            for (int i = 0; i < layers.size(); i++) {
-                if (layers.get(i).isVisible()) {
-                    index = i;
-                    break;
-                }
-            }
-
-            // store all the pixels of the merged layer
-            
-
-            // remove the current pixel from the canvas
+            // update the current pixels with the merged layer
             for (int i = 0; i < pixelNumber; i++) {
-                currentPixels[i].removeMouseListener(this);
-                this.remove(currentPixels[i]);
+                currentPixels[i].setBackground(mergedLayer.getPixel(i));
             }
-
-            // set the new pixels
-            for (int i = 0; i < pixelNumber; i++) {
-                currentPixels[i] = mergedLayer.getPixel(i);
-                this.add(currentPixels[i]);
-                currentPixels[i].addMouseListener(this);
-            }
-
-            // replace the visible layer with the merged layer
-            //layers.set(index, mergedLayer);
-
-            // set the visible layer to the merged layer
-            //layers.get(index).setVisible(true);
-
-            // repaint the canvas
-            this.repaint();
-
         }
 
         // remove all layers from temp
         selectedLayers.clear();
+        this.repaint();
 
     }
 }

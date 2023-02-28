@@ -113,7 +113,7 @@ public class Driver {
     public void updateUndoArray(){
         undoEntry = new Color[canvas.getPixels().length];
         for (int i = 0; i < canvas.getPixels().length; i++) {
-            undoEntry[i] = new Color(canvas.getPixel(i).getBackground().getRGB());
+            undoEntry[i] = canvas.getPixel(i);
         }
         undoArray.add(undoEntry);
     }
@@ -131,7 +131,7 @@ public class Driver {
         // If it is a subsequent/chained undo
         undoFlag = 2;
         if (undoFlag == 2) {
-            canvas.updateCanvas(undoArray.get(undoArray.size()-1));
+            canvas.updateCanvasArray(undoArray.get(undoArray.size()-1));
 
             redoArray.add(undoArray.get(undoArray.size()-1));
             undoArray.remove(undoArray.size()-1);
@@ -144,11 +144,11 @@ public class Driver {
         // Necessary to make this a proper undo
         // Update the array to store how it was after the last undo
         if (undoFlag == 0) {
-            canvas.updateCanvas(undoArray.get(undoArray.size()-1));
+            canvas.updateCanvasArray(undoArray.get(undoArray.size()-1));
             undoFlag = 0;
             undoEntry = new Color[canvas.getPixels().length];
             for (int i = 0; i < canvas.getPixels().length; i++) {
-                undoEntry[i] = new Color(canvas.getPixel(i).getBackground().getRGB());
+                undoEntry[i] = canvas.getPixel(i);
             }
             undoArray.add(undoEntry);
         }
@@ -156,7 +156,7 @@ public class Driver {
 
     public void redoChange() {
         if (redoArray.size() != 0) {
-            canvas.updateCanvas(redoArray.get(redoArray.size()-1));
+            canvas.updateCanvasArray(redoArray.get(redoArray.size()-1));
             undoArray.add((redoArray.get(redoArray.size()-1)));
             redoArray.remove(redoArray.size()-1);
         }

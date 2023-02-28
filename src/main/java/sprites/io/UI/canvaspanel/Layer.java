@@ -1,13 +1,12 @@
 package sprites.io.UI.canvaspanel;
 
-import javax.swing.JLabel;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 
 
 public class Layer extends JPanel {
-    private JLabel[] pixels = new JLabel[2500];
+    private Color[] pixels = new Color[2500];
     private boolean visible = true;
     private boolean selected = true;
     private String name;
@@ -18,18 +17,15 @@ public class Layer extends JPanel {
         // set grid layout of 50x50
         this.setLayout(new GridLayout(50, 50, 0, 0));
         for (int i = 0; i < 2500; i++) {
-            pixels[i] = new JLabel();
-            pixels[i].setBackground(Color.white);
-            pixels[i].setOpaque(true);
-            this.add(pixels[i]);
+            pixels[i] = Color.WHITE;
         }
     }
 
     public void setPixel(int pixelNumber, Color color) {
-        pixels[pixelNumber].setBackground(color);
+        pixels[pixelNumber] = color;
     }
 
-    public JLabel getPixel(int pixelNumber) {
+    public Color getPixel(int pixelNumber) {
         return pixels[pixelNumber];
     }
 
@@ -74,14 +70,14 @@ public class Layer extends JPanel {
 
     public void merge(Layer layer) {
         for (int i = 0; i < pixels.length; i++) {
-            if (layer.getPixel(i).getBackground() != Color.white && pixels[i].getBackground() == Color.white) {
-                pixels[i].setBackground(layer.getPixel(i).getBackground());
-            } else if (layer.getPixel(i).getBackground() != Color.white && pixels[i].getBackground() != Color.white) {
+            if (layer.getPixel(i) != Color.white && pixels[i] == Color.white) {
+                pixels[i] = layer.getPixel(i);
+            } else if (layer.getPixel(i) != Color.white && pixels[i] != Color.white) {
                 // merge the colors
-                int red = (pixels[i].getBackground().getRed() + layer.getPixel(i).getBackground().getRed()) / 2;
-                int green = (pixels[i].getBackground().getGreen() + layer.getPixel(i).getBackground().getGreen()) / 2;
-                int blue = (pixels[i].getBackground().getBlue() + layer.getPixel(i).getBackground().getBlue()) / 2;
-                pixels[i].setBackground(new Color(red, green, blue));
+                int red = (pixels[i].getRed() + layer.getPixel(i).getRed()) / 2;
+                int green = (pixels[i].getGreen() + layer.getPixel(i).getGreen()) / 2;
+                int blue = (pixels[i].getBlue() + layer.getPixel(i).getBlue()) / 2;
+                pixels[i] = new Color(red, green, blue);
             }
         }
     }
