@@ -58,6 +58,18 @@ public class StyledButton extends JButton {
         createButton(title, 12);
     }
 
+    public StyledButton(int posx, int posy, int width, int height, String title, String toolTip, boolean isMenuPanel) {
+        if (isMenuPanel)
+            this.setBounds(posx, posy, width, height);
+        else
+            this.setBounds(posx + 10, posy, width-20, height);
+
+        this.setToolTipText(toolTip);
+        createButton(title, 12);
+        this.setForeground(Color.white);
+        this.setBackground(Color.darkGray);
+    }
+
     /**
      * create the styled button format
      * @param title text to be displayed
@@ -68,9 +80,9 @@ public class StyledButton extends JButton {
         this.setFocusable(false);
         this.setHorizontalTextPosition(JButton.CENTER);
         this.setVerticalTextPosition(JButton.CENTER);
-        this.setFont(new Font("Comic Sans", Font.BOLD, fontSize));
+        this.setFont(new Font("Comic Sans", Font.PLAIN, fontSize));
         this.setIconTextGap(-15);
-        this.setForeground(Color.white);
+        this.setForeground(Color.black);
         this.setBackground(Color.gray);
         this.setBorder(BorderFactory.createEtchedBorder());
     }

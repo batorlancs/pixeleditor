@@ -39,6 +39,7 @@ public class MainMenu extends JPanel implements ActionListener
     public void createDisplay()
     {
         mainFrame.setSize(384,128);
+        mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(mainMenuLayoutTop);
         mainFrame.setResizable(false);
