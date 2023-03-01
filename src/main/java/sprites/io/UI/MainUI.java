@@ -36,6 +36,7 @@ public class MainUI extends JFrame {
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setResizable(false);
+        this.getContentPane().setBackground(Color.darkGray);
 
         canvas.addDriver(driver);
 
@@ -46,7 +47,7 @@ public class MainUI extends JFrame {
         canvasPanel.add(canvas);
 
         layerPanel.setCanvas(canvas);
-        layerPanel.setBounds(768,64,280,512);
+//        layerPanel.setBounds(768,64,280,512);
 
         this.add(canvasPanel);
         this.add(toolPanel);
