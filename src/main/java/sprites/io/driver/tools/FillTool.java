@@ -8,7 +8,7 @@ public class FillTool extends Tool {
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation){
         if(isMousePressed){
             //get the color of the pixel that was clicked
-            Color originalColor = canvas.getPixel(mousePressLocation).getBackground();
+            Color originalColor = canvas.getPixel(mousePressLocation);
 
             //if the color of the pixel that was clicked is not the same as the color that is being used to fill
             if(!originalColor.equals(color)){
@@ -30,9 +30,9 @@ public class FillTool extends Tool {
         // if the pixel is within the canvas
         if(mousePressLocation >= 0 && mousePressLocation < 2500){
             // if the pixel is the same color as the original color
-            if(canvas.getPixel(mousePressLocation).getBackground().equals(originalColor)){
+            if(canvas.getPixel(mousePressLocation).equals(originalColor)){
                 // color the pixel
-                canvas.getPixel(mousePressLocation).setBackground(color);
+                canvas.setPixel(mousePressLocation, color);
 
                 // call the function again for the pixel to the right
                 fill(canvas, color, originalColor, mousePressLocation + 1);

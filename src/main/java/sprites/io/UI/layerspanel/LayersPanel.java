@@ -132,6 +132,8 @@ public class LayersPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             layer.setSelected(!layer.isSelected());
             canvas.repaint();
+            canvas.updateCanvas();
+            updateLayers();
         }
     }
 

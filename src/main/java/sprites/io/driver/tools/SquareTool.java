@@ -2,7 +2,6 @@ package sprites.io.driver.tools;
 
 import sprites.io.UI.canvaspanel.Canvas;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class SquareTool extends Tool{
@@ -20,10 +19,10 @@ public class SquareTool extends Tool{
             if (startingPixels == null) {
                 startingPixels = new Color[canvas.getPixels().length];
                 for (int i = 0; i < canvas.getPixels().length; i++) {
-                    startingPixels[i] = new Color(canvas.getPixel(i).getBackground().getRGB());
+                    startingPixels[i] = canvas.getPixel(i);
                 }
             } else {
-                canvas.updateCanvas(startingPixels);
+                canvas.updateCanvasArray(startingPixels);
                 drawSquare(canvas, color, mouseCurrentLocation);
             }
 
@@ -35,7 +34,7 @@ public class SquareTool extends Tool{
 
     public void release(Canvas canvas, Color color, int mouseCurrentLocation) {
         // calling it again to reduce buggy effects when updating the canvas
-        canvas.updateCanvas(startingPixels);
+        canvas.updateCanvasArray(startingPixels);
         drawSquare(canvas, color, mouseCurrentLocation);
         startingPixels = null;
     }
@@ -94,7 +93,7 @@ public class SquareTool extends Tool{
         if (repeatXCount == 0) {
             return;
         }
-        canvas.getPixel(getPixelNum(xValue, yValue)).setBackground(color);
+        canvas.setPixel(getPixelNum(xValue, yValue), color);
 
         xValue++;
         repeatXCount--;
@@ -106,7 +105,7 @@ public class SquareTool extends Tool{
         if (repeatYCount == 0) {
             return;
         }
-        canvas.getPixel(getPixelNum(xValue, yValue)).setBackground(color);
+        canvas.setPixel(getPixelNum(xValue, yValue), color);
 
         yValue++;
         repeatYCount--;

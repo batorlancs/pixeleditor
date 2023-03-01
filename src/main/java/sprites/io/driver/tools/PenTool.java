@@ -6,7 +6,7 @@ import java.awt.*;
 public class PenTool extends Tool {
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation) {
         if (isMousePressed) {
-            canvas.getPixel(mouseCurrentLocation).setBackground(color);
+            canvas.setPixel(mouseCurrentLocation, color);
         }
     }
 }
