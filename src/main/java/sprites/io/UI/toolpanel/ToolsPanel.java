@@ -12,16 +12,18 @@ import java.nio.file.Paths;
 public class ToolsPanel extends JPanel implements ActionListener {
 
 
-    private StyledButton drawButton = new StyledButton("penIcon.png", "");
-    private StyledButton eraseButton = new StyledButton("eraserIcon.png", "");
-    private StyledButton sizeButton = new StyledButton("SIZE");
-    private StyledButton lineButton = new StyledButton("LINE");
-    private StyledButton fillButton = new StyledButton("FILL");
-    private StyledButton colorButton = new StyledButton("CHANGE COLOR");
-    private StyledButton squareButton = new StyledButton("SQUARE");
+    private StyledButton drawButton = new StyledButton("penIcon.png", "", "Draw Tool");
+    private StyledButton eraseButton = new StyledButton("eraserIcon.png", "", "Eraser Tool");
 
-    private StyledButton undoButton = new StyledButton("UNDO");
-    private StyledButton redoButton = new StyledButton("REDO");
+    private StyledButton fillButton = new StyledButton("fillIcon.png", "", "Fill Tool");
+    private StyledButton emptyButton = new StyledButton("");
+
+    private StyledButton lineButton = new StyledButton("lineIcon.png", "", "Line Tool");
+    private StyledButton squareButton = new StyledButton("squareIcon.png", "", "Rectangle Shape Tool");
+
+    private StyledButton undoButton = new StyledButton("undoIcon.png", "", "Undo");
+    private StyledButton redoButton = new StyledButton("redoIcon.png", "", "Redo");
+
 
     Driver driverRef;
 
@@ -35,73 +37,68 @@ public class ToolsPanel extends JPanel implements ActionListener {
 
         drawButton.addActionListener(this);
         eraseButton.addActionListener(this);
-        sizeButton.addActionListener(this);
         fillButton.addActionListener(this);
         lineButton.addActionListener(this);
         fillButton.addActionListener(this);
-        colorButton.addActionListener(this);
         squareButton.addActionListener(this);
         undoButton.addActionListener(this);
         redoButton.addActionListener(this);
 
         this.add(drawButton);
         this.add(eraseButton);
-//        this.add(sizeButton);
         this.add(fillButton);
+        this.add(emptyButton);
         this.add(lineButton);
         this.add(squareButton);
-        this.add(colorButton);
         this.add(undoButton);
         this.add(redoButton);
+
+        setButtonHighlighted(drawButton);
+    }
+
+    private void setButtonHighlighted(JButton button) {
+        drawButton.setBackground(Color.gray);
+        eraseButton.setBackground(Color.gray);
+        lineButton.setBackground(Color.gray);
+        squareButton.setBackground(Color.gray);
+        fillButton.setBackground(Color.gray);
+        button.setBackground(Color.lightGray);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == colorButton) {
-            Color color = JColorChooser.showDialog(null, "Pick a color", Color.black);
-            driverRef.setCurrColor(color);
+        if (e.getSource() == drawButton) {
+            driverRef.setCurrColor(driverRef.getPrevColor(0));
+            driverRef.setCurrToolToBrushSize();
+            setButtonHighlighted(drawButton);
         }
 
         if (e.getSource() == eraseButton) {
             driverRef.setCurrToolToEraser();
+            setButtonHighlighted(eraseButton);
         }
 
-        if( e.getSource() == drawButton) {
-            driverRef.setCurrColor(driverRef.getPrevColor(0));
-            driverRef.setCurrToolToBrushSize();
-        }
-
-        if(e.getSource() == sizeButton){
-
-            // pop up dialog box to ask for the size
-            Object[] options = {"small", "medium", "large"};
-            int n = JOptionPane.showOptionDialog(null,
-                    "Choose a size",
-                    "Size",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[2]);
-
-            // set the size, and set the tool to brush
-            driverRef.setBrushSize(n+1);
-            driverRef.setCurrToolToBrushSize();
-        }
-
-        if(e.getSource() == fillButton){
+        if (e.getSource() == fillButton){
             driverRef.setCurrToolToFillTool();
-        }
-        if( e.getSource() == squareButton) {
-            driverRef.setCurrToolToSquare();
+            setButtonHighlighted(fillButton);
         }
 
-        if(e.getSource() == undoButton) {
+        if (e.getSource() == lineButton) {
+            driverRef.setCurrToolToSquare();
+            setButtonHighlighted(lineButton);
+        }
+
+        if (e.getSource() == squareButton) {
+            driverRef.setCurrToolToSquare();
+            setButtonHighlighted(squareButton);
+        }
+
+        if (e.getSource() == undoButton) {
             driverRef.undoChange();
         }
 
-        if(e.getSource() == redoButton) {
+        if (e.getSource() == redoButton) {
             driverRef.redoChange();
         }
     }

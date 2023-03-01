@@ -4,7 +4,7 @@ import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.UI.menupanel.MenuPanel;
 import sprites.io.UI.toolpanel.ColorPickerPanel;
 import sprites.io.UI.toolpanel.ToolPanel;
-import sprites.io.UI.infopanel.InfoPanel;
+import sprites.io.UI.toolpanel.InfoPanel;
 import sprites.io.UI.layerspanel.LayersPanel;
 import sprites.io.driver.Driver;
 
@@ -17,16 +17,14 @@ public class MainUI extends JFrame {
 
 
     private Canvas canvas = new Canvas(70, 6, 500, 500);
-    private InfoPanel infoPanel = new InfoPanel(0, 464);
+    private InfoPanel infoPanel = new InfoPanel(0, 0);
+    private MenuPanel menuPanel = new MenuPanel(128, 0, 896, 64, canvas, this);
     private JPanel canvasPanel = new JPanel();
     private Driver driver = new Driver(canvas, infoPanel);
-    private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 400, driver);
-    private ColorPickerPanel colorPickerPanel = new ColorPickerPanel(0, 464, driver);
+    private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 600, driver);
     private LayersPanel layerPanel = new LayersPanel(canvas);
-    private MenuPanel menuPanel = new MenuPanel(0, 0, 1024, 64, canvas, this);
 
 
-    
     public MainUI() {
         this.createDisplay();
     }
@@ -53,8 +51,7 @@ public class MainUI extends JFrame {
         this.add(toolPanel);
         this.add(layerPanel);
         this.add(menuPanel);
-//        this.add(infoPanel);
-        this.add(colorPickerPanel);
+        this.add(infoPanel);
 
         this.setVisible(true);
     }
