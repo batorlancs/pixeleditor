@@ -68,26 +68,39 @@ public class Canvas extends JPanel implements MouseListener {
 
     public void removeLayer() {
         
-        // check if the current layer is selected
-        if (layers.get(currentLayer).isSelected()) {
-            layers.get(currentLayer).setSelected(false);
-        }
-
-        // set the current layer to the next layer that is not selected
-        for (int i = 0; i < layers.size(); i++) {
-            if (!layers.get(i).isSelected()) {
-                currentLayer = i;
-                break;
-            }
-        }
-
-        // remove all the selected layers
+        // temp arraylist to store the layers that are selected
+        ArrayList<Layer> temp = new ArrayList<>();
         for (int i = 0; i < layers.size(); i++) {
             if (layers.get(i).isSelected()) {
-                layers.remove(i);
-                i--;
+                temp.add(layers.get(i));
             }
         }
+
+        // if the temp array is equal to the layers array, then remove all the layers
+        if (temp.size() == layers.size()) {
+            layers.clear();
+            layers.add(new Layer("Layer 1"));
+            currentLayer = 0;
+        } else {
+            // set the current layer to the first non-selected layer
+            for (int i = 0; i < layers.size(); i++) {
+                if (!layers.get(i).isSelected()) {
+                    currentLayer = i;
+                    layers.get(currentLayer).setVisible(true);
+                    break;
+                }
+            }
+            
+            // remove the selected layers
+            for (int i = 0; i < layers.size(); i++) {
+                if (layers.get(i).isSelected()) {
+                    layers.remove(i);
+                    i--;
+                }
+            }
+        }
+
+        temp.clear();
 
         updateCanvas();
         this.repaint();
