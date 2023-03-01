@@ -42,9 +42,6 @@ public class Driver {
     public Driver(Canvas canvas, InfoPanel infoPanel) {
         this.canvas = canvas;
         this.infoPanel = infoPanel;
-        for (Color prevColor: prevColors) {
-            prevColor = new Color(0);
-        }
     }
 
     /**
@@ -168,12 +165,14 @@ public class Driver {
     }
 
     private void updatePrevColors(Color newColor) {
-        for (Color prevColor: prevColors) {
-            if (prevColor == newColor) {
-                return;
+        int pos = prevColors.length - 1;
+
+        for (int i = 0; i < prevColors.length; i++) {
+            if (prevColors[i] == newColor) {
+                pos = i;
             }
         }
-        for (int i = 7; i > 0; i--) {
+        for (int i = pos; i > 0; i--) {
             prevColors[i] = prevColors[i-1];
         }
         prevColors[0] = newColor;

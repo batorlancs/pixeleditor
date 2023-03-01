@@ -10,9 +10,9 @@ public class ColorPickerPanel extends JPanel implements ActionListener {
 
     private JButton[] buttons = new JButton[12];
     private Color[] colors = {
-            Color.black, Color.white, Color.red, Color.green,
-            Color.blue, Color.yellow, Color.red, Color.green,
-            Color.blue, Color.yellow, Color.red, Color.green
+            Color.black, Color.white, Color.darkGray, Color.gray,
+            Color.red, Color.green, Color.blue, Color.magenta,
+            Color.yellow, Color.orange, Color.cyan, Color.pink
     };
     private Driver driver;
     private ToolPanel toolPanel;
