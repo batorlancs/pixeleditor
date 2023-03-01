@@ -1,4 +1,4 @@
-package sprites.io.UI.toolpanel;
+package sprites.io.UI.infoPanel;
 
 import javax.swing.*;
 import java.awt.Dimension;

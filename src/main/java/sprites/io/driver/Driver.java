@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import sprites.io.UI.canvaspanel.Canvas;
-import sprites.io.UI.toolpanel.InfoPanel;
+import sprites.io.UI.infoPanel.InfoPanel;
 import sprites.io.driver.tools.*;
 
 /**

@@ -1,6 +1,7 @@
 package sprites.io.UI.menupanel;
 
 import sprites.io.UI.MainUI;
+import sprites.io.UI.buttonStyles.StyledButton;
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.file.FileManager;
 
@@ -11,12 +12,11 @@ import java.awt.event.ActionListener;
 
 public class MenuPanel extends JPanel implements ActionListener {
 
-    private JButton save = new JButton("SAVE");
-    private JButton open = new JButton("OPEN");
-    private JButton clear = new JButton("CLEAR");
-    private JButton newProject = new JButton("NEW PROJECT");
-
-    private JButton exportPng = new JButton("EXPORT");
+    private StyledButton clear = new StyledButton(10, 16, 120, 32, "Clear Canvas", "Reset the Canvas", true);
+    private StyledButton save = new StyledButton(280, 16, 60, 32, "Save", "Save the Project", true);
+    private StyledButton open = new StyledButton(350, 16, 60, 32, "Open", "Open Project from File", true);
+    private StyledButton newProject = new StyledButton(420, 16, 100, 32, "New Project", "Create a New Project", true);
+    private StyledButton exportPng = new StyledButton(530, 16, 100, 32, "Export", "Export PNG File", true);
 
     private FileManager fileManager = new FileManager();
     private Canvas canvasRef;
@@ -34,24 +34,15 @@ public class MenuPanel extends JPanel implements ActionListener {
         this.mainUI = mainUI;
 
         this.setBounds(posx, posy, width, height);
-        this.setBackground(Color.gray);
+        this.setBackground(new Color(100, 100, 100));
         this.setLayout(null);
 
         this.canvasRef = canvas;
 
-        newProject.setBounds(400, 0, 200, 64);
         newProject.addActionListener(this);
-
-        clear.setBounds(600, 0, 100, 64);
         clear.addActionListener(this);
-
-        save.setBounds(700, 0, 100, 64);
         save.addActionListener(this);
-
-        open.setBounds(800, 0, 100, 64);
         open.addActionListener(this);
-
-        exportPng.setBounds(900,0,100,64);
         exportPng.addActionListener(this);
 
         this.add(newProject);
@@ -79,8 +70,15 @@ public class MenuPanel extends JPanel implements ActionListener {
             canvasRef.clearCanvas();
         }
         else if (e.getSource() == newProject) {
-            mainUI.dispose();
-            new MainUI();
+            int result = JOptionPane.showConfirmDialog(null,
+                    "Creating a new project will delete your current project if it is not saved! Do you want to continue?",
+                    "New Project",
+                    JOptionPane.YES_NO_CANCEL_OPTION
+            );
+            if (result == 0) {
+                mainUI.dispose();
+                new MainUI();
+            }
         }
         /**
          * allows for the exportPng to be used to save the image at different sizes
