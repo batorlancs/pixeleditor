@@ -1,6 +1,8 @@
 package sprites.io.UI.layerspanel;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import sprites.io.UI.MainUI;
 import sprites.io.UI.buttonStyles.StyledButton;
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.UI.canvaspanel.Layer;
@@ -17,12 +20,13 @@ public class LayersPanel extends JPanel {
     
     private ArrayList<Layer> layers;
     private Canvas canvas;
+    private MainUI mainUI;
     
     private JPanel layersContainer;
 
 
-    public LayersPanel(Canvas canvas){
-        
+    public LayersPanel(Canvas canvas, MainUI mainUI){
+        this.mainUI = mainUI;
         this.canvas = canvas;
         this.layers = canvas.getLayers();
         setLayout(new BorderLayout());
@@ -62,48 +66,58 @@ public class LayersPanel extends JPanel {
     }
 
 
-    private void updateLayers(){
+    public void updateLayers(){
         layersContainer.removeAll();
         for(int i = 0; i < layers.size(); i++){
             Layer layer = layers.get(i);
 
             Color backgroundColor = Color.darkGray;
             Color titleColor = new Color(100, 100, 100);
+            Color selectedColor = Color.gray;
+            String selectedText = "Not Selected";
             EtchedBorder etchedBorder = new EtchedBorder();
             if (layer.isSelected()) {
                 backgroundColor = new Color(80, 80, 80);
                 titleColor = Color.lightGray;
+                selectedColor = new Color(86, 166, 245);
+                selectedText = "Selected";
             }
             if (layer.isVisible()) {
                 etchedBorder = new EtchedBorder(EtchedBorder.RAISED, Color.white, Color.white);
             }
 
-            JPanel layerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+//            JPanel layerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            JPanel layerPanel = new JPanel();
+            layerPanel.setLayout(null);
             // set the maximum size of the layer panel
             layerPanel.setMaximumSize(layerPanel.getPreferredSize());
-//            layerPanel.setBorder(new EtchedBorder());
             TitledBorder titleBorder = new TitledBorder(etchedBorder, "Layer " + (i+1));
             titleBorder.setTitleColor(titleColor);
             layerPanel.setBorder(titleBorder);
             layerPanel.setBackground(backgroundColor);
-
-
-            JCheckBox layerVisibilityCheckBox = new JCheckBox("Set Current", layer.isVisible());
-            layerVisibilityCheckBox.setBackground(backgroundColor);
-            layerVisibilityCheckBox.setForeground(Color.lightGray);
-            layerVisibilityCheckBox.setFocusable(false);
-            layerVisibilityCheckBox.addActionListener(new LayerVisibilityAction(layer));
-            layerPanel.add(layerVisibilityCheckBox);
+            layerPanel.addMouseListener(new LayerPanelMouseListener(layer));
 
             // add checkbox to set layer as selected and add action listener and default value to false
-            JCheckBox layerSelectedCheckBox = new JCheckBox("Set Selected", layer.isSelected());
+            JCheckBox layerSelectedCheckBox = new JCheckBox(selectedText, layer.isSelected());
+            layerSelectedCheckBox.setBounds(80, 20, 100, 20);
             layerSelectedCheckBox.setBackground(backgroundColor);
-            layerSelectedCheckBox.setForeground(Color.lightGray);
+            layerSelectedCheckBox.setForeground(selectedColor);
             layerSelectedCheckBox.setFocusable(false);
             layerSelectedCheckBox.addActionListener(new LayerSelectedAction(layer));
             layerPanel.add(layerSelectedCheckBox);
 
-            layerPanel.add(layer.getNameLabel());
+            JPanel layerPreviewPanel = new JPanel();
+            layerPreviewPanel.setBounds(10, 25, 50, 50);
+            layerPreviewPanel.setLayout(new GridLayout(50, 50));
+            JLabel[] pixels = new JLabel[2500];
+            for (int j = 0; j < 2500; j++) {
+                pixels[j] = new JLabel();
+                pixels[j].setBackground(layer.getPixel(j));
+                pixels[j].setOpaque(true);
+                layerPreviewPanel.add(pixels[j]);
+            }
+
+            layerPanel.add(layerPreviewPanel);
 
             layersContainer.add(layerPanel);
         }
@@ -117,22 +131,31 @@ public class LayersPanel extends JPanel {
     private class AddLayerAction implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-        canvas.addLayer();
-        // make sure previous layers are not visible
-        for(int i = 0; i < layers.size()-1; i++){
-            layers.get(i).setVisible(false);
-        }
-        updateLayers();
+            if (layers.size() < 6) {
+                canvas.addLayer();
+                // make sure previous layers are not visible
+                for(int i = 0; i < layers.size()-1; i++){
+                    layers.get(i).setVisible(false);
+                }
+                updateLayers();
+            }
+
         }
     }
 
-    private class LayerVisibilityAction implements ActionListener{
+    private class LayerPanelMouseListener implements MouseListener {
         private Layer layer;
-        public LayerVisibilityAction(Layer layer){
+        public LayerPanelMouseListener(Layer layer) {
             this.layer = layer;
         }
+
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
             layer.setVisible(!layer.isVisible());
             // make sure all other layers are not visible
             for(Layer l : layers){
@@ -144,6 +167,21 @@ public class LayersPanel extends JPanel {
             int layerIndex = layers.indexOf(layer);
             canvas.setCurrentLayer(layerIndex);
             updateLayers();
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
         }
     }
 

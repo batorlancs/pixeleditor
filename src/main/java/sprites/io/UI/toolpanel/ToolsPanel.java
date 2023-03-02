@@ -16,7 +16,7 @@ public class ToolsPanel extends JPanel implements ActionListener {
     private StyledButton eraseButton = new StyledButton("eraserIcon.png", "", "Eraser Tool");
 
     private StyledButton fillButton = new StyledButton("fillIcon.png", "", "Fill Tool");
-    private StyledButton emptyButton = new StyledButton("");
+    private StyledButton colorButton = new StyledButton("colorPickerIcon.png", "", "Color Picker Tool");
 
     private StyledButton lineButton = new StyledButton("lineIcon.png", "", "Line Tool");
     private StyledButton squareButton = new StyledButton("squareIcon.png", "", "Rectangle Shape Tool");
@@ -37,9 +37,9 @@ public class ToolsPanel extends JPanel implements ActionListener {
 
         drawButton.addActionListener(this);
         eraseButton.addActionListener(this);
+        colorButton.addActionListener(this);
         fillButton.addActionListener(this);
         lineButton.addActionListener(this);
-        fillButton.addActionListener(this);
         squareButton.addActionListener(this);
         undoButton.addActionListener(this);
         redoButton.addActionListener(this);
@@ -47,7 +47,7 @@ public class ToolsPanel extends JPanel implements ActionListener {
         this.add(drawButton);
         this.add(eraseButton);
         this.add(fillButton);
-        this.add(emptyButton);
+        this.add(colorButton);
         this.add(lineButton);
         this.add(squareButton);
         this.add(undoButton);
@@ -59,9 +59,10 @@ public class ToolsPanel extends JPanel implements ActionListener {
     private void setButtonHighlighted(JButton button) {
         drawButton.setBackground(Color.gray);
         eraseButton.setBackground(Color.gray);
+        fillButton.setBackground(Color.gray);
+        colorButton.setBackground(Color.gray);
         lineButton.setBackground(Color.gray);
         squareButton.setBackground(Color.gray);
-        fillButton.setBackground(Color.gray);
         button.setBackground(Color.lightGray);
     }
 
@@ -82,6 +83,11 @@ public class ToolsPanel extends JPanel implements ActionListener {
         if (e.getSource() == fillButton){
             driverRef.setCurrToolToFillTool();
             setButtonHighlighted(fillButton);
+        }
+
+        if (e.getSource() == colorButton) {
+            driverRef.setCurrToolToColorPicker();
+            setButtonHighlighted(colorButton);
         }
 
         if (e.getSource() == lineButton) {

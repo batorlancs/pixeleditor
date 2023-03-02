@@ -15,13 +15,13 @@ import javax.swing.*;
 public class MainUI extends JFrame {
 
 
-    private Canvas canvas = new Canvas(70, 6, 500, 500);
+    private Canvas canvas = new Canvas(70, 6, 500, 500, this);
     private InfoPanel infoPanel = new InfoPanel(0, 0);
     private MenuPanel menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);
     private JPanel canvasPanel = new JPanel();
-    private Driver driver = new Driver(canvas, infoPanel);
+    private Driver driver = new Driver(canvas, infoPanel, this);
     private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 600, driver);
-    private LayersPanel layerPanel = new LayersPanel(canvas);
+    private LayersPanel layerPanel = new LayersPanel(canvas, this);
 
 
     public MainUI() {
@@ -70,7 +70,7 @@ public class MainUI extends JFrame {
         canvasPanel.setBounds(128,64,640,512);
         canvasPanel.setLayout(null);
 
-        Canvas openCanvas = new Canvas(70, 6, 500, 500);
+        Canvas openCanvas = new Canvas(70, 6, 500, 500, this);
 
         for (int i=0; i<2500; i++)
         {
@@ -89,6 +89,10 @@ public class MainUI extends JFrame {
         this.add(menuPanel);
 
         this.setVisible(true);
+    }
+
+    public void updateLayers() {
+        layerPanel.updateLayers();
     }
 
 }

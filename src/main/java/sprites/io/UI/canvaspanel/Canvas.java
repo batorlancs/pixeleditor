@@ -1,5 +1,6 @@
 package sprites.io.UI.canvaspanel;
 
+import sprites.io.UI.MainUI;
 import sprites.io.driver.Driver;
 
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ public class Canvas extends JPanel implements MouseListener {
     final int pixelNumber = 2500;
     private JLabel[] currentPixels = new JLabel[pixelNumber];
     private Driver driver;
+    private MainUI mainUI;
 
     // variables for layers
     private ArrayList<Layer> layers;
@@ -28,7 +30,8 @@ public class Canvas extends JPanel implements MouseListener {
      * @param width Width of canvas.
      * @param height Height of canvas.
      */
-    public Canvas(int posx, int posy, int width, int height) {
+    public Canvas(int posx, int posy, int width, int height, MainUI mainUI) {
+        this.mainUI = mainUI;
         this.setBounds(posx, posy, width, height);
         this.setLayout(new GridLayout(50, 50, 0, 0));
         this.setBackground(Color.gray);
@@ -225,6 +228,7 @@ public class Canvas extends JPanel implements MouseListener {
         }
 
         driver.release();
+        mainUI.updateLayers();
     }
 
     /**
@@ -276,7 +280,7 @@ public class Canvas extends JPanel implements MouseListener {
 
         updateCanvas();
         this.repaint();
-        
+        mainUI.updateLayers();
     }
     /**
      * Returns all pixels of the canvas.
