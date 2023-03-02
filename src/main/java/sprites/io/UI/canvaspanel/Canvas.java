@@ -1,5 +1,6 @@
 package sprites.io.UI.canvaspanel;
 
+import sprites.io.UI.MainUI;
 import sprites.io.driver.Driver;
 
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ public class Canvas extends JPanel implements MouseListener {
     final int pixelNumber = 2500;
     private JLabel[] currentPixels = new JLabel[pixelNumber];
     private Driver driver;
+    private MainUI mainUI;
 
     // variables for layers
     private ArrayList<Layer> layers;
@@ -28,14 +30,18 @@ public class Canvas extends JPanel implements MouseListener {
      * @param width Width of canvas.
      * @param height Height of canvas.
      */
-    public Canvas(int posx, int posy, int width, int height) {
+    public Canvas(int posx, int posy, int width, int height, MainUI mainUI, int[] pixels) {
+        this.mainUI = mainUI;
         this.setBounds(posx, posy, width, height);
         this.setLayout(new GridLayout(50, 50, 0, 0));
         this.setBackground(Color.gray);
 
         // create the first layer
         layers = new ArrayList<>();
-        layers.add(new Layer("Layer 1"));
+        if (pixels == null)
+            layers.add(new Layer("Layer 1"));
+        else
+            layers.add(new Layer("Layer 1", pixels));
         
         // set the current pixels based on the color of the first layer
         for (int i = 0; i < pixelNumber; i++) {
@@ -54,9 +60,9 @@ public class Canvas extends JPanel implements MouseListener {
     public void addLayer() {
         
         // if there is already a selected layer, deselect it
-        if (layers.get(currentLayer).isSelected()) {
-            layers.get(currentLayer).setSelected(false);
-        }
+//        if (layers.get(currentLayer).isSelected()) {
+//            layers.get(currentLayer).setSelected(false);
+//        }
 
         // create a new layer in the list
         layers.add(new Layer("Layer " + (layers.size() + 1) + ""));
@@ -225,6 +231,7 @@ public class Canvas extends JPanel implements MouseListener {
         }
 
         driver.release();
+        mainUI.updateLayers();
     }
 
     /**
@@ -276,7 +283,7 @@ public class Canvas extends JPanel implements MouseListener {
 
         updateCanvas();
         this.repaint();
-        
+        mainUI.updateLayers();
     }
     /**
      * Returns all pixels of the canvas.
@@ -416,5 +423,9 @@ public class Canvas extends JPanel implements MouseListener {
         selectedLayers.clear();
         this.repaint();
 
+    }
+
+    public void updatePrevColors() {
+        mainUI.updatePrevColors();
     }
 }

@@ -3,6 +3,7 @@ package sprites.io.driver;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import sprites.io.UI.MainUI;
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.UI.infoPanel.InfoPanel;
 import sprites.io.driver.tools.*;
@@ -12,16 +13,17 @@ import sprites.io.driver.tools.*;
  */
 public class Driver {
 
+    private MainUI mainUI;
     private Canvas canvas;
     private InfoPanel infoPanel;
     private boolean isMousePressed = false;
 
     private int mousePressLocation = 0;
     private int mouseCurrentLocation = 0;
-    private Tool currTool = new PenTool();
+    private int brushSize = 1;
+    private Tool currTool = new Brush(this);
     private Color currColor = new Color(0, 0, 0);
     private Color[] prevColors = new Color[8];
-    private int brushSize = 1;
 
     /**
      * For use by the undo function
@@ -38,7 +40,8 @@ public class Driver {
 
     private boolean firstDraw = true;
 
-    public Driver(Canvas canvas, InfoPanel infoPanel) {
+    public Driver(Canvas canvas, InfoPanel infoPanel, MainUI mainUI) {
+        this.mainUI = mainUI;
         this.canvas = canvas;
         this.infoPanel = infoPanel;
     }
@@ -59,7 +62,7 @@ public class Driver {
     }
 
     public void release() {
-        currTool.release(canvas, currColor, mouseCurrentLocation);
+        currTool.release(canvas, this, currColor, mouseCurrentLocation);
         // update undo array everytime the mouse is released
         updateUndoArray();
         redoArray = new ArrayList<Color[]>();
@@ -68,9 +71,10 @@ public class Driver {
 
     public void setCurrToolToSquare() {this.currTool = new SquareTool();}
     public void setCurrToolToPen() {this.currTool = new PenTool();}
-    public void setCurrToolToEraser() {this.currTool = new Eraser(brushSize);}
-    public void setCurrToolToBrushSize() {this.currTool = new Brush(brushSize);}
+    public void setCurrToolToEraser() {this.currTool = new Eraser(this);}
+    public void setCurrToolToBrushSize() {this.currTool = new Brush(this);}
     public void setCurrToolToFillTool() {this.currTool = new FillTool();}
+    public void setCurrToolToColorPicker() {this.currTool = new ColorPicker();}
 
     /**
      * change the current color
@@ -153,6 +157,7 @@ public class Driver {
             }
             undoArray.add(undoEntry);
         }
+        mainUI.updateLayers();
     }
 
     public void redoChange() {
@@ -161,6 +166,7 @@ public class Driver {
             undoArray.add((redoArray.get(redoArray.size()-1)));
             redoArray.remove(redoArray.size()-1);
         }
+        mainUI.updateLayers();
     }
 
     private void updatePrevColors(Color newColor) {

@@ -1,13 +1,14 @@
 package sprites.io.driver.tools;
 
 import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.driver.Driver;
 
 import java.awt.*;
 
 public class Eraser extends Brush {
-    
-    public Eraser(int size) {
-        super(size);
+
+    public Eraser(Driver driver) {
+        super(driver);
     }
 
     @Override

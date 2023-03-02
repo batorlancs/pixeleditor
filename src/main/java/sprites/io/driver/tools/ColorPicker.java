@@ -5,12 +5,9 @@ import sprites.io.driver.Driver;
 
 import java.awt.*;
 
-public class Tool {
-    public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation) {
-
-    }
-
+public class ColorPicker extends Tool {
     public void release(Canvas canvas, Driver driver, Color color, int mouseCurrentLocation) {
-
+        driver.setCurrColor(canvas.getPixel(mouseCurrentLocation));
+        canvas.updatePrevColors();
     }
 }

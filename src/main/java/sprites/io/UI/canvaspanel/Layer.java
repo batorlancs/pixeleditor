@@ -21,6 +21,16 @@ public class Layer extends JPanel {
         }
     }
 
+    public Layer(String name, int[] pixels) {
+        this.setBounds(0, 0, 500, 500);
+        this.name = name;
+        // set grid layout of 50x50
+        this.setLayout(new GridLayout(50, 50, 0, 0));
+        for (int i = 0; i < 2500; i++) {
+            this.pixels[i] = new Color(pixels[i]);
+        }
+    }
+
     public void setPixel(int pixelNumber, Color color) {
         pixels[pixelNumber] = color;
     }
@@ -47,25 +57,6 @@ public class Layer extends JPanel {
 
     public int getPixelSize() {
         return pixels.length;
-    }
-
-    public Layer getNameLabel() {
-        /* 
-        // if name label already exists, remove it
-        if (this.getComponentCount() > 0) {
-            this.remove(0);
-        }
-        
-        // get the name of the layer
-        JLabel nameLabel = new JLabel(name);
-        nameLabel.setBounds(0, 0, 500, 20);
-        nameLabel.setOpaque(true);
-        nameLabel.setBackground(Color.white);
-        this.add(nameLabel, 0);
-        return this;
-    }
-        */
-        return this;
     }
 
     public void merge(Layer layer) {

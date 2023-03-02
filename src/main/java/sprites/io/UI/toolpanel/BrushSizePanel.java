@@ -49,7 +49,6 @@ public class BrushSizePanel extends JPanel implements ActionListener {
         for (int i = 0; i < buttons.length; i++) {
             if (e.getSource() == buttons[i]) {
                 driver.setBrushSize(i+1);
-                driver.setCurrToolToBrushSize();
                 setButtonHighlighted(i);
             }
         }

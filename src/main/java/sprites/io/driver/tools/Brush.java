@@ -1,18 +1,21 @@
 package sprites.io.driver.tools;
 
 import java.awt.*;
+
 import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.driver.Driver;
 
 public class Brush extends Tool {
 
     private Canvas canvas;
+    private Driver driver;
     private Color color;
     private int mousePressLocation;
     private int currentSize;
     
     // constructor
-    public Brush(int size) {
-        this.currentSize = size;
+    public Brush(Driver driver) {
+        this.driver = driver;
     }
     
 
@@ -46,7 +49,7 @@ public class Brush extends Tool {
         
         
             // check the size of the brush
-        switch(currentSize){
+        switch(driver.getBrushSize()){
             case 1:
                 break;
             case 2: 

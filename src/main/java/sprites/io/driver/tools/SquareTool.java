@@ -1,6 +1,7 @@
 package sprites.io.driver.tools;
 
 import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.driver.Driver;
 
 import java.awt.*;
 
@@ -32,7 +33,7 @@ public class SquareTool extends Tool{
 
     }
 
-    public void release(Canvas canvas, Color color, int mouseCurrentLocation) {
+    public void release(Canvas canvas, Driver driver, Color color, int mouseCurrentLocation) {
         // calling it again to reduce buggy effects when updating the canvas
         canvas.updateCanvasArray(startingPixels);
         drawSquare(canvas, color, mouseCurrentLocation);
