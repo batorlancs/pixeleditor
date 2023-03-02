@@ -69,7 +69,7 @@ public class Driver {
         undoFlag = 1;
     }
 
-    public void setCurrToolToSquare() {this.currTool = new SquareTool();}
+    public void setCurrToolToSquare() {this.currTool = new SquareTool(this);}
     public void setCurrToolToPen() {this.currTool = new PenTool();}
     public void setCurrToolToEraser() {this.currTool = new Eraser(this);}
     public void setCurrToolToBrushSize() {this.currTool = new Brush(this);}
