@@ -8,5 +8,6 @@ import java.awt.*;
 public class ColorPicker extends Tool {
     public void release(Canvas canvas, Driver driver, Color color, int mouseCurrentLocation) {
         driver.setCurrColor(canvas.getPixel(mouseCurrentLocation));
+        canvas.updatePrevColors();
     }
 }

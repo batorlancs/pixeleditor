@@ -1,5 +1,7 @@
 package sprites.io.file;
 
+import sprites.io.UI.MainUI;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -129,7 +131,6 @@ public class FileManager {
             int counter = 0;
             while (scan.hasNextLine()) {
                 int rgb = Integer.parseInt(scan.nextLine());
-                System.out.println(rgb);
                 pixels[counter].setBackground(new Color(rgb));
                 counter++;
             }
@@ -143,7 +144,7 @@ public class FileManager {
      * This is used to open a file from the main menu as this has to create a canvas that is already filled in
      * @return this returns the values that are the pixels so it can be filled in.
      */
-    public int[] getRGB() {
+    public int[] getRGB(MainUI mainUI) {
 
         int results[] = new int[2500];
 
@@ -163,8 +164,8 @@ public class FileManager {
             while (scan.hasNextLine()) {
                 results[i] = Integer.parseInt(scan.nextLine());
                 i++;
-                System.out.println(results);
             }
+            if (mainUI != null) mainUI.dispose();
 
         } catch (Exception e) {
             System.out.println("There was a problem opening the file");

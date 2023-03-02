@@ -86,7 +86,6 @@ public class LayersPanel extends JPanel {
                 etchedBorder = new EtchedBorder(EtchedBorder.RAISED, Color.white, Color.white);
             }
 
-//            JPanel layerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             JPanel layerPanel = new JPanel();
             layerPanel.setLayout(null);
             // set the maximum size of the layer panel
@@ -99,7 +98,7 @@ public class LayersPanel extends JPanel {
 
             // add checkbox to set layer as selected and add action listener and default value to false
             JCheckBox layerSelectedCheckBox = new JCheckBox(selectedText, layer.isSelected());
-            layerSelectedCheckBox.setBounds(80, 20, 100, 20);
+            layerSelectedCheckBox.setBounds(80, 25, 100, 20);
             layerSelectedCheckBox.setBackground(backgroundColor);
             layerSelectedCheckBox.setForeground(selectedColor);
             layerSelectedCheckBox.setFocusable(false);
@@ -107,7 +106,7 @@ public class LayersPanel extends JPanel {
             layerPanel.add(layerSelectedCheckBox);
 
             JPanel layerPreviewPanel = new JPanel();
-            layerPreviewPanel.setBounds(10, 25, 50, 50);
+            layerPreviewPanel.setBounds(15, 25, 50, 50);
             layerPreviewPanel.setLayout(new GridLayout(50, 50));
             JLabel[] pixels = new JLabel[2500];
             for (int j = 0; j < 2500; j++) {

@@ -15,7 +15,7 @@ import javax.swing.*;
 public class MainUI extends JFrame {
 
 
-    private Canvas canvas = new Canvas(70, 6, 500, 500, this);
+    private Canvas canvas  = new Canvas(70, 6, 500, 500, this, null);
     private InfoPanel infoPanel = new InfoPanel(0, 0);
     private MenuPanel menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);
     private JPanel canvasPanel = new JPanel();
@@ -25,6 +25,17 @@ public class MainUI extends JFrame {
 
 
     public MainUI() {
+        this.createDisplay();
+    }
+    public MainUI(int[] fileContent) {
+        canvas = new Canvas(70, 6, 500, 500, this, fileContent);
+        infoPanel = new InfoPanel(0, 0);
+        menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);
+        canvasPanel = new JPanel();
+        driver = new Driver(canvas, infoPanel, this);
+        toolPanel = new ToolPanel(0, 64, 128, 600, driver);
+        layerPanel = new LayersPanel(canvas, this);
+
         this.createDisplay();
     }
 
@@ -47,7 +58,6 @@ public class MainUI extends JFrame {
         canvasPanel.add(canvas);
 
         layerPanel.setCanvas(canvas);
-//        layerPanel.setBounds(768,64,280,512);
 
         this.add(canvasPanel);
         this.add(toolPanel);
@@ -58,41 +68,12 @@ public class MainUI extends JFrame {
         this.setVisible(true);
     }
 
-    public void createDisplayOpenFile(int[] openFile)
-    {
-        this.setVisible(false);
-        this.setSize(1024,640);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(null);
-        this.setResizable(false);
-
-        canvasPanel.setBackground(Color.BLACK);
-        canvasPanel.setBounds(128,64,640,512);
-        canvasPanel.setLayout(null);
-
-        Canvas openCanvas = new Canvas(70, 6, 500, 500, this);
-
-        for (int i=0; i<2500; i++)
-        {
-            canvas.getPixels()[i].setBackground(new Color(openFile[i]));
-
-        }
-
-        canvasPanel.add(canvas);
-
-        layerPanel.setCanvas(canvas);
-        layerPanel.setBounds(768,64,280,350);
-
-        this.add(canvasPanel);
-        this.add(toolPanel);
-        this.add(layerPanel);
-        this.add(menuPanel);
-
-        this.setVisible(true);
-    }
-
     public void updateLayers() {
         layerPanel.updateLayers();
+    }
+
+    public void updatePrevColors() {
+        toolPanel.updatePrevColors();
     }
 
 }

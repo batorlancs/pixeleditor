@@ -1,6 +1,7 @@
 package sprites.io.UI.mainMenu;
 
 import sprites.io.UI.MainUI;
+import sprites.io.UI.buttonStyles.StyledButton;
 import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.file.FileManager;
 
@@ -14,23 +15,14 @@ public class MainMenu extends JPanel implements ActionListener
 {
     private JFrame mainFrame = new JFrame();
 
-    private JPanel mainPanel = new JPanel();
     private JPanel topPanel = new JPanel();
+    private JPanel buttonPanel = new JPanel();
 
     private JLabel mainMenulbl = new JLabel("SPRITES.IO");
-    private JLabel mainMenuPiclbl = new JLabel();
-    private JLabel mainMenuPic2lbl = new JLabel();
-    private JButton resumeBtn = new JButton("RESUME");
-    private JButton openBtn = new JButton("OPEN");
-    private JButton newBtn = new JButton("NEW");
-
-    private GridLayout mainMenLayout = new GridLayout(1,3);
-    private GridLayout mainMenuLayoutTop = new GridLayout(2,0);
+    private StyledButton openBtn = new StyledButton("Open");
+    private StyledButton newBtn = new StyledButton("New");
 
     private FileManager fileManager = new FileManager();
-    private Canvas canvasRef;
-
-    private int openFile[];
 
     public MainMenu() {
         this.createDisplay();
@@ -38,35 +30,33 @@ public class MainMenu extends JPanel implements ActionListener
 
     public void createDisplay()
     {
-        mainFrame.setSize(384,128);
+        mainFrame.setSize(400,128);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setLayout(mainMenuLayoutTop);
+        mainFrame.setLayout(new GridLayout(2, 1));
         mainFrame.setResizable(false);
+        mainFrame.getContentPane().setBackground(Color.darkGray);
 
-        topPanel.setLayout(mainMenLayout);
-        topPanel.add(mainMenuPiclbl);
+        mainMenulbl.setForeground(Color.white);
+        mainMenulbl.setHorizontalAlignment(JLabel.CENTER);
+        mainMenulbl.setFont(new Font("Comic Sans", Font.BOLD, 15));
+
+        topPanel.setLayout(new GridLayout(0, 1));
+        topPanel.setBackground(Color.darkGray);
         topPanel.add(mainMenulbl);
-        topPanel.add(mainMenuPic2lbl);
 
-        mainFrame.add(topPanel);
-
-        mainPanel.setLayout(mainMenLayout);
-        mainPanel.setBackground(Color.black);
-
-        resumeBtn.setSize(128,128);
-        openBtn.setSize(128,128);
-        newBtn.setSize(128,128);
+        buttonPanel.setLayout(new GridLayout(1, 2, 10, 10));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 10, 50));
+        buttonPanel.setBackground(Color.darkGray);
 
         newBtn.addActionListener(this);
         openBtn.addActionListener(this);
-        resumeBtn.addActionListener(this);
 
-        mainPanel.add(resumeBtn);
-        mainPanel.add(openBtn);
-        mainPanel.add(newBtn);
+        buttonPanel.add(openBtn);
+        buttonPanel.add(newBtn);
 
-        mainFrame.add(mainPanel);
+        mainFrame.add(topPanel);
+        mainFrame.add(buttonPanel);
 
         mainFrame.setVisible(true);
     }
@@ -75,23 +65,20 @@ public class MainMenu extends JPanel implements ActionListener
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == openBtn) {
 
-            System.out.println("opening file");
-
+            System.out.println("opening file..");
             mainFrame.dispose();
-            new MainUI().createDisplayOpenFile(fileManager.getRGB());
-
+            int[] fileContent = fileManager.getRGB(null);
+            if (fileContent != null)
+                new MainUI(fileContent);
+            else
+                new MainMenu();
 
         }
 
         if (e.getSource() == newBtn)
         {
             mainFrame.dispose();
-
             new MainUI();
-        }
-
-        if (e.getSource() == resumeBtn){
-
         }
     }
 }

@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 public class MenuPanel extends JPanel implements ActionListener {
 
-    private StyledButton clear = new StyledButton(10, 16, 120, 32, "Clear Canvas", "Reset the Canvas", true);
+    private StyledButton clear = new StyledButton(10, 16, 120, 32, "Clear Canvas", "Clear The Current Layer", true);
     private StyledButton save = new StyledButton(280, 16, 60, 32, "Save", "Save the Project", true);
     private StyledButton open = new StyledButton(350, 16, 60, 32, "Open", "Open Project from File", true);
     private StyledButton newProject = new StyledButton(420, 16, 100, 32, "New Project", "Create a New Project", true);
@@ -64,7 +64,10 @@ public class MenuPanel extends JPanel implements ActionListener {
         }
         else if (e.getSource() == open) {
             System.out.println("opening file..");
-            fileManager.openFile(canvasRef.getPixels());
+            int[] fileContent = fileManager.getRGB(mainUI);
+            if (fileContent != null)
+                new MainUI(fileContent);
+
         }
         else if (e.getSource() == clear) {
             canvasRef.clearCanvas();
