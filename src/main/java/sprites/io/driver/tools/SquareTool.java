@@ -59,7 +59,7 @@ public class SquareTool extends Tool{
 
     private void squareSizeTwo(Canvas canvas, Color color, int mouseCurrentLocation, int[] orderedX, int[] orderedY,
                                int repeatXCount, int repeatYCount) {
-        // Draw 2 horizontal lines
+        // First layer
         drawHorizontalLine(canvas, color, orderedX[0], orderedY[0], repeatXCount);
         drawHorizontalLine(canvas, color, orderedX[0], orderedY[1], repeatXCount);
 
@@ -68,14 +68,51 @@ public class SquareTool extends Tool{
         drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
 
 
-        // inner layer
+        // Second layer
         if (repeatXCount > 1 && repeatYCount > 1) {
+            // numbers changed with addition/subtraction to be inside the first square
             drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatXCount-1);
             drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[1]-1, repeatXCount-1);
 
+            // numbers changed with addition/subtraction to be inside the first square
             drawVerticallLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatYCount-1);
             drawVerticallLine(canvas, color, orderedX[1]-1, orderedY[0]+1, repeatYCount-1);
         }
+    }
+
+    private void squareSizeThree(Canvas canvas, Color color, int mouseCurrentLocation, int[] orderedX, int[] orderedY,
+                               int repeatXCount, int repeatYCount) {
+        // First layer
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[0], repeatXCount);
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[1], repeatXCount);
+
+        // Draw 2 vertical lines and complete the square
+        drawVerticallLine(canvas, color, orderedX[0], orderedY[0], repeatYCount);
+        drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
+
+
+        // Second layer
+        if (repeatXCount > 1 && repeatYCount > 1) {
+            // numbers changed with addition/subtraction to be inside the first square
+            drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatXCount-1);
+            drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[1]-1, repeatXCount-1);
+
+            // numbers changed with addition/subtraction to be inside the first square
+            drawVerticallLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatYCount-1);
+            drawVerticallLine(canvas, color, orderedX[1]-1, orderedY[0]+1, repeatYCount-1);
+        }
+
+        // Third layer
+        if (repeatXCount > 2 && repeatYCount > 2) {
+            // numbers changed with addition/subtraction to be inside the second square
+            drawHorizontalLine(canvas, color, orderedX[0]+2, orderedY[0]+2, repeatXCount-2);
+            drawHorizontalLine(canvas, color, orderedX[0]+2, orderedY[1]-2, repeatXCount-2);
+
+            // numbers changed with addition/subtraction to be inside the second square
+            drawVerticallLine(canvas, color, orderedX[0]+2, orderedY[0]+2, repeatYCount-2);
+            drawVerticallLine(canvas, color, orderedX[1]-2, orderedY[0]+2, repeatYCount-2);
+        }
+
     }
 
     public void drawToSize(Canvas canvas, Color color, int mouseCurrentLocation){
@@ -96,7 +133,7 @@ public class SquareTool extends Tool{
                 squareSizeTwo(canvas, color, mouseCurrentLocation, orderedX, orderedY, repeatXCount, repeatYCount);
                 break;
             case 3:
-
+                squareSizeThree(canvas, color, mouseCurrentLocation, orderedX, orderedY, repeatXCount, repeatYCount);
                 break;
         }
     }
