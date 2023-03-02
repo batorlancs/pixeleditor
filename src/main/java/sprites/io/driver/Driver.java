@@ -20,10 +20,10 @@ public class Driver {
 
     private int mousePressLocation = 0;
     private int mouseCurrentLocation = 0;
-    private Tool currTool = new PenTool();
+    private int brushSize = 1;
+    private Tool currTool = new Brush(this);
     private Color currColor = new Color(0, 0, 0);
     private Color[] prevColors = new Color[8];
-    private int brushSize = 1;
 
     /**
      * For use by the undo function
