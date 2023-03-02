@@ -67,13 +67,15 @@ public class SquareTool extends Tool{
         drawVerticallLine(canvas, color, orderedX[0], orderedY[0], repeatYCount);
         drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
 
+
         // inner layer
+        if (repeatXCount > 1 && repeatYCount > 1) {
+            drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatXCount-1);
+            drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[1]-1, repeatXCount-1);
 
-        drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatXCount-1);
-        drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[1]-1, repeatXCount-1);
-
-        drawVerticallLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatYCount-1);
-        drawVerticallLine(canvas, color, orderedX[1]-1, orderedY[0]+1, repeatYCount-1);
+            drawVerticallLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatYCount-1);
+            drawVerticallLine(canvas, color, orderedX[1]-1, orderedY[0]+1, repeatYCount-1);
+        }
     }
 
     public void drawToSize(Canvas canvas, Color color, int mouseCurrentLocation){
