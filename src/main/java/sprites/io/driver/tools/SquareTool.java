@@ -57,6 +57,25 @@ public class SquareTool extends Tool{
         drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
     }
 
+    private void squareSizeTwo(Canvas canvas, Color color, int mouseCurrentLocation, int[] orderedX, int[] orderedY,
+                               int repeatXCount, int repeatYCount) {
+        // Draw 2 horizontal lines
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[0], repeatXCount);
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[1], repeatXCount);
+
+        // Draw 2 vertical lines and complete the square
+        drawVerticallLine(canvas, color, orderedX[0], orderedY[0], repeatYCount);
+        drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
+
+        // inner layer
+
+        drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatXCount-1);
+        drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[1]-1, repeatXCount-1);
+
+        drawVerticallLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatYCount-1);
+        drawVerticallLine(canvas, color, orderedX[1]-1, orderedY[0]+1, repeatYCount-1);
+    }
+
     public void drawToSize(Canvas canvas, Color color, int mouseCurrentLocation){
         endingXValue = getXValue(mouseCurrentLocation);
         endingYValue = getYValue(mouseCurrentLocation);
@@ -72,7 +91,7 @@ public class SquareTool extends Tool{
                 squareSizeOne(canvas, color, mouseCurrentLocation, orderedX, orderedY, repeatXCount, repeatYCount);
                 break;
             case 2:
-
+                squareSizeTwo(canvas, color, mouseCurrentLocation, orderedX, orderedY, repeatXCount, repeatYCount);
                 break;
             case 3:
 
