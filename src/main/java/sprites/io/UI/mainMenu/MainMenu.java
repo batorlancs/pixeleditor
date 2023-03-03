@@ -3,6 +3,7 @@ package sprites.io.UI.mainMenu;
 import sprites.io.UI.MainUI;
 import sprites.io.UI.buttonStyles.StyledButton;
 import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.UI.canvaspanel.Layer;
 import sprites.io.file.FileManager;
 
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class MainMenu extends JPanel implements ActionListener
 {
@@ -67,7 +69,7 @@ public class MainMenu extends JPanel implements ActionListener
 
             System.out.println("opening file..");
             mainFrame.dispose();
-            int[] fileContent = fileManager.getRGB(null);
+            ArrayList<Layer> fileContent = fileManager.getLayersFromFile(null);
             if (fileContent != null)
                 new MainUI(fileContent);
             else
@@ -81,4 +83,5 @@ public class MainMenu extends JPanel implements ActionListener
             new MainUI();
         }
     }
+
 }
