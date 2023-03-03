@@ -1,6 +1,7 @@
 package sprites.io.UI;
 
 import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.UI.canvaspanel.Layer;
 import sprites.io.UI.menupanel.MenuPanel;
 import sprites.io.UI.toolpanel.ToolPanel;
 import sprites.io.UI.infoPanel.InfoPanel;
@@ -9,6 +10,7 @@ import sprites.io.driver.Driver;
 
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -27,7 +29,18 @@ public class MainUI extends JFrame {
     public MainUI() {
         this.createDisplay();
     }
-    public MainUI(int[] fileContent) {
+//    public MainUI(int[] fileContent) {
+//        canvas = new Canvas(70, 6, 500, 500, this, fileContent);
+//        infoPanel = new InfoPanel(0, 0);
+//        menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);
+//        canvasPanel = new JPanel();
+//        driver = new Driver(canvas, infoPanel, this);
+//        toolPanel = new ToolPanel(0, 64, 128, 600, driver);
+//        layerPanel = new LayersPanel(canvas, this);
+//
+//        this.createDisplay();
+//    }
+    public MainUI(ArrayList<Layer> fileContent) {
         canvas = new Canvas(70, 6, 500, 500, this, fileContent);
         infoPanel = new InfoPanel(0, 0);
         menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);

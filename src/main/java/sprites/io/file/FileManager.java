@@ -1,6 +1,7 @@
 package sprites.io.file;
 
 import sprites.io.UI.MainUI;
+import sprites.io.UI.canvaspanel.Layer;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -14,15 +15,15 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 
 
 public class FileManager {
+
     /**
-     * Saves file to the given filename.
-     * @param pixels Pixels of the canvas to save each RGB value.
+     * Saves current project (only the layers and its colors)
+     * @param layers all the layers
      */
-    public void saveFile(JLabel[] pixels) {
+    public void saveFile(ArrayList<Layer> layers) {
 
         File chosenFile;
         JFileChooser fileChooser = new JFileChooser();
@@ -36,8 +37,13 @@ public class FileManager {
 
         try {
             FileWriter fileWriter = new FileWriter(chosenFile);
-            for (JLabel pixel : pixels) {
-                fileWriter.write(pixel.getBackground().getRGB() + "\n");
+            int i = 0;
+            for (Layer layer: layers) {
+                i++;
+                fileWriter.write(i + "\n");
+                for (Color pixel: layer.getAllPixels()) {
+                    fileWriter.write(pixel.getRGB() + "\n");
+                }
             }
             fileWriter.close();
             System.out.println("file writing successful");
@@ -70,46 +76,38 @@ public class FileManager {
         return scaledImage;
     }
 
-    /**
-     * allows the user to save as a png
-     * @param pixels the pixels that are going to be save
-     * @param width the width of canvas
-     * @param height the hight of canvas
-     * @param widthBuff the new width if the user wants it larger
-     * @param heightBuff the new hight if the user wants it larger
-     */
-    public void exportAsPng(JLabel[] pixels, int width, int height, int widthBuff, int heightBuff) {
+    public void exportAsPng(JLabel[] pixels, int width, int height, int size) {
         File chosenFile;
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filterPng = new FileNameExtensionFilter("PNG files","png");
         fileChooser.setFileFilter(filterPng);
         int result = fileChooser.showSaveDialog(null);
 
-    if(result == JFileChooser.APPROVE_OPTION){
+        if(result == JFileChooser.APPROVE_OPTION){
             chosenFile = new File(addPngToString(fileChooser.getSelectedFile().getAbsolutePath()));
         }else  return;
 
-    try {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        for (int i =0; i<pixels.length; i++){
-            JLabel pixel = pixels[i];
-            int x = i % width;
-            int y = i / width;
-            image.setRGB(x,y,pixel.getBackground().getRGB());
-        }
-        if (widthBuff == 0){
+        try {
+            BufferedImage image = new BufferedImage(width*size, height*size, BufferedImage.TYPE_INT_RGB);
+            for (int i = 0; i < pixels.length; i++) {
+                int x = (i % width) * size;
+                int y = (i / width) * size;
+                for (int posx = x; posx < x + size; posx++) {
+                    for (int posy = y; posy < y + size; posy++) {
+                        image.setRGB(posx, posy, pixels[i].getBackground().getRGB());
+                    }
+                }
+
+            }
             ImageIO.write(image, "png", chosenFile);
+            System.out.println("file exported as png");
+        } catch (IOException e){
+            e.printStackTrace();
+            System.out.println("file export fail");
         }
-        if(widthBuff >0) {
-            ImageIO.write(scaleImage(image,widthBuff,heightBuff),"png",chosenFile);
-        }
-        System.out.println("file exported as png");
-    } catch (IOException e){
-        e.printStackTrace();
-        System.out.println("file export fail");
-    }
 
     }
+
     /**
      * Opens file by the given filename.
      * @param pixels Pixels of the canvas to change the background of each pixel.
@@ -141,12 +139,13 @@ public class FileManager {
     }
 
     /**
-     * This is used to open a file from the main menu as this has to create a canvas that is already filled in
-     * @return this returns the values that are the pixels so it can be filled in.
+     * Opens a file and reads in all the layers and contents of a saved project
+     * @param mainUI reference of the MainUI
+     * @return the layers read into a list
      */
-    public int[] getRGB(MainUI mainUI) {
+    public ArrayList<Layer> getLayersFromFile(MainUI mainUI) {
 
-        int results[] = new int[2500];
+        ArrayList<Layer> fileLayers = new ArrayList<>();
 
         File chosenFile;
         JFileChooser fileChooser = new JFileChooser();
@@ -158,19 +157,27 @@ public class FileManager {
             chosenFile = new File(fileChooser.getSelectedFile().getAbsolutePath());
         } else return null;
 
-        int i = 0;
         try {
             Scanner scan = new Scanner(chosenFile);
+            boolean isVisible = true;
             while (scan.hasNextLine()) {
-                results[i] = Integer.parseInt(scan.nextLine());
-                i++;
+                String layerName = scan.nextLine();
+                int i = 0;
+                int[] results = new int[2500];
+                while (scan.hasNextLine() && i < 2500) {
+                    results[i] = Integer.parseInt(scan.nextLine());
+                    i++;
+                }
+                fileLayers.add(new Layer("Layer " + layerName, results, isVisible));
+                isVisible = false;
             }
+
             if (mainUI != null) mainUI.dispose();
 
         } catch (Exception e) {
             System.out.println("There was a problem opening the file");
         }
-        return results;
+        return fileLayers;
     }
 
     /**

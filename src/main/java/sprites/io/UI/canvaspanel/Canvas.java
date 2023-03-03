@@ -30,7 +30,31 @@ public class Canvas extends JPanel implements MouseListener {
      * @param width Width of canvas.
      * @param height Height of canvas.
      */
-    public Canvas(int posx, int posy, int width, int height, MainUI mainUI, int[] pixels) {
+//    public Canvas(int posx, int posy, int width, int height, MainUI mainUI, int[] pixels) {
+//        this.mainUI = mainUI;
+//        this.setBounds(posx, posy, width, height);
+//        this.setLayout(new GridLayout(50, 50, 0, 0));
+//        this.setBackground(Color.gray);
+//
+//        // create the first layer
+//        layers = new ArrayList<>();
+//        if (pixels == null)
+//            layers.add(new Layer("Layer 1"));
+//        else
+//            layers.add(new Layer("Layer 1", pixels));
+//
+//        // set the current pixels based on the color of the first layer
+//        for (int i = 0; i < pixelNumber; i++) {
+//            currentPixels[i] = new JLabel();
+//            currentPixels[i].setBackground(layers.get(0).getPixel(i));
+//            currentPixels[i].setOpaque(true);
+//            this.add(currentPixels[i]);
+//            currentPixels[i].addMouseListener(this);
+//        }
+//
+//    }
+
+    public Canvas(int posx, int posy, int width, int height, MainUI mainUI, ArrayList<Layer> fileLayers) {
         this.mainUI = mainUI;
         this.setBounds(posx, posy, width, height);
         this.setLayout(new GridLayout(50, 50, 0, 0));
@@ -38,11 +62,14 @@ public class Canvas extends JPanel implements MouseListener {
 
         // create the first layer
         layers = new ArrayList<>();
-        if (pixels == null)
+
+
+        if (fileLayers == null)
             layers.add(new Layer("Layer 1"));
-        else
-            layers.add(new Layer("Layer 1", pixels));
-        
+        else {
+            layers.addAll(fileLayers);
+        }
+
         // set the current pixels based on the color of the first layer
         for (int i = 0; i < pixelNumber; i++) {
             currentPixels[i] = new JLabel();
@@ -52,20 +79,26 @@ public class Canvas extends JPanel implements MouseListener {
             currentPixels[i].addMouseListener(this);
         }
 
+        updateCanvas();
+        this.repaint();
+
     }
 
     /**
      * These methods are required for the layer implementation.
      */
     public void addLayer() {
-        
-        // if there is already a selected layer, deselect it
-//        if (layers.get(currentLayer).isSelected()) {
-//            layers.get(currentLayer).setSelected(false);
-//        }
 
         // create a new layer in the list
         layers.add(new Layer("Layer " + (layers.size() + 1) + ""));
+        currentLayer = layers.size() - 1;
+
+        updateCanvas();
+        this.repaint();
+    }
+
+    public void addLayer(Layer layer) {
+        layers.add(layer);
         currentLayer = layers.size() - 1;
 
         updateCanvas();
