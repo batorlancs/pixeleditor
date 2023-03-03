@@ -23,12 +23,26 @@ public class Layer extends JPanel {
 
     public Layer(String name, int[] pixels) {
         this.setBounds(0, 0, 500, 500);
+        this.visible = false;
         this.name = name;
         // set grid layout of 50x50
         this.setLayout(new GridLayout(50, 50, 0, 0));
         for (int i = 0; i < 2500; i++) {
             this.pixels[i] = new Color(pixels[i]);
         }
+
+    }
+
+    public Layer(String name, int[] pixels, boolean isVisible) {
+        this.setBounds(0, 0, 500, 500);
+        this.visible = isVisible;
+        this.name = name;
+        // set grid layout of 50x50
+        this.setLayout(new GridLayout(50, 50, 0, 0));
+        for (int i = 0; i < 2500; i++) {
+            this.pixels[i] = new Color(pixels[i]);
+        }
+
     }
 
     public void setPixel(int pixelNumber, Color color) {
@@ -37,6 +51,10 @@ public class Layer extends JPanel {
 
     public Color getPixel(int pixelNumber) {
         return pixels[pixelNumber];
+    }
+
+    public Color[] getAllPixels() {
+        return pixels;
     }
 
     public void setVisible(boolean visible) {

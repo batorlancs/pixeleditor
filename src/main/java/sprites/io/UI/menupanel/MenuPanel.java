@@ -3,12 +3,14 @@ package sprites.io.UI.menupanel;
 import sprites.io.UI.MainUI;
 import sprites.io.UI.buttonStyles.StyledButton;
 import sprites.io.UI.canvaspanel.Canvas;
+import sprites.io.UI.canvaspanel.Layer;
 import sprites.io.file.FileManager;
 
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MenuPanel extends JPanel implements ActionListener {
 
@@ -60,11 +62,11 @@ public class MenuPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == save) {
             System.out.println("saving file..");
-            fileManager.saveFile(canvasRef.getPixels());
+            fileManager.saveFile(canvasRef.getLayers());
         }
         else if (e.getSource() == open) {
             System.out.println("opening file..");
-            int[] fileContent = fileManager.getRGB(mainUI);
+            ArrayList<Layer> fileContent = fileManager.getLayersFromFile(mainUI);
             if (fileContent != null)
                 new MainUI(fileContent);
 
@@ -88,7 +90,7 @@ public class MenuPanel extends JPanel implements ActionListener {
          */
         else if (e.getSource() == exportPng){
 
-            Object[] options = {"small(50x50)", "medium(250x250)", "large(500x500)"};
+            Object[] options = {"Small", "Medium (Recommended)", "Large"};
             int n = JOptionPane.showOptionDialog(null,
                     "Choose a size for the image",
                     "File Size",
@@ -100,15 +102,15 @@ public class MenuPanel extends JPanel implements ActionListener {
 
             if(n==0)
             {
-                fileManager.exportAsPng(canvasRef.getPixels(),50,50,0,0);
+                fileManager.exportAsPng(canvasRef.getPixels(), 50, 50, 6);
             }
             if(n==1)
             {
-                fileManager.exportAsPng(canvasRef.getPixels(),50,50,250,250);
+                fileManager.exportAsPng(canvasRef.getPixels(), 50, 50, 10);
             }
             if(n==2)
             {
-                fileManager.exportAsPng(canvasRef.getPixels(),50,50,500,500);
+                fileManager.exportAsPng(canvasRef.getPixels(), 50, 50, 14);
             }
 
         }
