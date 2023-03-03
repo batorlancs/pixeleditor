@@ -12,7 +12,13 @@ public class SquareTool extends Tool{
     int endingXValue;
     int endingYValue;
 
+    private Driver driver;
+
     public Color[] startingPixels;
+
+    public SquareTool(Driver driver) {
+        this.driver = driver;
+    }
 
     @Override
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation) {
@@ -24,7 +30,7 @@ public class SquareTool extends Tool{
                 }
             } else {
                 canvas.updateCanvasArray(startingPixels);
-                drawSquare(canvas, color, mouseCurrentLocation);
+                drawToSize(canvas, color, mouseCurrentLocation);
             }
 
             startingXValue = getXValue(mousePressLocation);
@@ -36,11 +42,80 @@ public class SquareTool extends Tool{
     public void release(Canvas canvas, Driver driver, Color color, int mouseCurrentLocation) {
         // calling it again to reduce buggy effects when updating the canvas
         canvas.updateCanvasArray(startingPixels);
-        drawSquare(canvas, color, mouseCurrentLocation);
+        drawToSize(canvas, color, mouseCurrentLocation);
         startingPixels = null;
     }
 
-    private void drawSquare(Canvas canvas, Color color, int mouseCurrentLocation) {
+    private void squareSizeOne(Canvas canvas, Color color, int mouseCurrentLocation, int[] orderedX, int[] orderedY,
+                            int repeatXCount, int repeatYCount) {
+        // Draw 2 horizontal lines
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[0], repeatXCount);
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[1], repeatXCount);
+
+        // Draw 2 vertical lines and complete the square
+        drawVerticallLine(canvas, color, orderedX[0], orderedY[0], repeatYCount);
+        drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
+    }
+
+    private void squareSizeTwo(Canvas canvas, Color color, int mouseCurrentLocation, int[] orderedX, int[] orderedY,
+                               int repeatXCount, int repeatYCount) {
+        // First layer
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[0], repeatXCount);
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[1], repeatXCount);
+
+        // Draw 2 vertical lines and complete the square
+        drawVerticallLine(canvas, color, orderedX[0], orderedY[0], repeatYCount);
+        drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
+
+
+        // Second layer
+        if (repeatXCount > 1 && repeatYCount > 1) {
+            // numbers changed with addition/subtraction to be inside the first square
+            drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatXCount-1);
+            drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[1]-1, repeatXCount-1);
+
+            // numbers changed with addition/subtraction to be inside the first square
+            drawVerticallLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatYCount-1);
+            drawVerticallLine(canvas, color, orderedX[1]-1, orderedY[0]+1, repeatYCount-1);
+        }
+    }
+
+    private void squareSizeThree(Canvas canvas, Color color, int mouseCurrentLocation, int[] orderedX, int[] orderedY,
+                               int repeatXCount, int repeatYCount) {
+        // First layer
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[0], repeatXCount);
+        drawHorizontalLine(canvas, color, orderedX[0], orderedY[1], repeatXCount);
+
+        // Draw 2 vertical lines and complete the square
+        drawVerticallLine(canvas, color, orderedX[0], orderedY[0], repeatYCount);
+        drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
+
+
+        // Second layer
+        if (repeatXCount > 1 && repeatYCount > 1) {
+            // numbers changed with addition/subtraction to be inside the first square
+            drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatXCount-1);
+            drawHorizontalLine(canvas, color, orderedX[0]+1, orderedY[1]-1, repeatXCount-1);
+
+            // numbers changed with addition/subtraction to be inside the first square
+            drawVerticallLine(canvas, color, orderedX[0]+1, orderedY[0]+1, repeatYCount-1);
+            drawVerticallLine(canvas, color, orderedX[1]-1, orderedY[0]+1, repeatYCount-1);
+        }
+
+        // Third layer
+        if (repeatXCount > 2 && repeatYCount > 2) {
+            // numbers changed with addition/subtraction to be inside the second square
+            drawHorizontalLine(canvas, color, orderedX[0]+2, orderedY[0]+2, repeatXCount-2);
+            drawHorizontalLine(canvas, color, orderedX[0]+2, orderedY[1]-2, repeatXCount-2);
+
+            // numbers changed with addition/subtraction to be inside the second square
+            drawVerticallLine(canvas, color, orderedX[0]+2, orderedY[0]+2, repeatYCount-2);
+            drawVerticallLine(canvas, color, orderedX[1]-2, orderedY[0]+2, repeatYCount-2);
+        }
+
+    }
+
+    public void drawToSize(Canvas canvas, Color color, int mouseCurrentLocation){
         endingXValue = getXValue(mouseCurrentLocation);
         endingYValue = getYValue(mouseCurrentLocation);
 
@@ -50,14 +125,17 @@ public class SquareTool extends Tool{
         int repeatXCount = Math.abs(endingXValue - startingXValue) + 1;
         int repeatYCount = Math.abs(endingYValue - startingYValue);
 
-
-        // Draw 2 horizontal lines
-        drawHorizontalLine(canvas, color, orderedX[0], orderedY[0], repeatXCount);
-        drawHorizontalLine(canvas, color, orderedX[0], orderedY[1], repeatXCount);
-
-        // Draw 2 vertical lines and complete the square
-        drawVerticallLine(canvas, color, orderedX[0], orderedY[0], repeatYCount);
-        drawVerticallLine(canvas, color, orderedX[1], orderedY[0], repeatYCount);
+        switch(driver.getBrushSize()){
+            case 1:
+                squareSizeOne(canvas, color, mouseCurrentLocation, orderedX, orderedY, repeatXCount, repeatYCount);
+                break;
+            case 2:
+                squareSizeTwo(canvas, color, mouseCurrentLocation, orderedX, orderedY, repeatXCount, repeatYCount);
+                break;
+            case 3:
+                squareSizeThree(canvas, color, mouseCurrentLocation, orderedX, orderedY, repeatXCount, repeatYCount);
+                break;
+        }
     }
 
     private int[] orderXValues(int val1, int val2) {
