@@ -21,7 +21,7 @@ public class FileManager {
 
     /**
      * Saves current project (only the layers and its colors)
-     * @param layers all the layers
+     * @param layers all the layers to be saved
      */
     public void saveFile(ArrayList<Layer> layers) {
 
@@ -42,7 +42,11 @@ public class FileManager {
                 i++;
                 fileWriter.write(i + "\n");
                 for (Color pixel: layer.getAllPixels()) {
-                    fileWriter.write(pixel.getRGB() + "\n");
+                    int rgb = 0;
+                    if (pixel != null) {
+                        rgb = pixel.getRGB();
+                    }
+                    fileWriter.write(rgb + "\n");
                 }
             }
             fileWriter.close();
@@ -53,6 +57,11 @@ public class FileManager {
         }
     }
 
+    /**
+     * Add Png extension to a string
+     * @param filePath string to put png on
+     * @return filename with png extension
+     */
     private String addPngToString(String filePath){
         if(!filePath.endsWith(".png")){
             return filePath + ".png";
@@ -61,21 +70,12 @@ public class FileManager {
     }
 
     /**
-     *
-     * @param image the image that has been made
-     * @param newWidth the new size
-     * @param newHeight the new size
-     * @return the new image
+     * export project as png
+     * @param pixels current pixels that are displayed on the canvas
+     * @param width width of canvas
+     * @param height height of canvas
+     * @param size size of image (multiplies the width/height of canvas)
      */
-    public BufferedImage scaleImage(BufferedImage image, int newWidth, int newHeight){
-        BufferedImage scaledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = scaledImage.createGraphics();
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2d.drawImage(image, 0, 0, newWidth, newHeight, null);
-        g2d.dispose();
-        return scaledImage;
-    }
-
     public void exportAsPng(JLabel[] pixels, int width, int height, int size) {
         File chosenFile;
         JFileChooser fileChooser = new JFileChooser();
@@ -88,7 +88,7 @@ public class FileManager {
         }else  return;
 
         try {
-            BufferedImage image = new BufferedImage(width*size, height*size, BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(width*size, height*size, BufferedImage.TYPE_INT_ARGB);
             for (int i = 0; i < pixels.length; i++) {
                 int x = (i % width) * size;
                 int y = (i / width) * size;
@@ -106,36 +106,6 @@ public class FileManager {
             System.out.println("file export fail");
         }
 
-    }
-
-    /**
-     * Opens file by the given filename.
-     * @param pixels Pixels of the canvas to change the background of each pixel.
-     */
-    public void openFile(JLabel[] pixels) {
-
-        File chosenFile;
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt only", "txt", "text");
-        fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            chosenFile = new File(fileChooser.getSelectedFile().getAbsolutePath());
-        } else return;
-
-        try {
-            Scanner scan = new Scanner(chosenFile);
-            int counter = 0;
-            while (scan.hasNextLine()) {
-                int rgb = Integer.parseInt(scan.nextLine());
-                pixels[counter].setBackground(new Color(rgb));
-                counter++;
-            }
-
-        } catch (Exception e) {
-            System.out.println("There was a problem opening the file");
-        }
     }
 
     /**
