@@ -13,6 +13,7 @@ public class Eraser extends Brush {
 
     @Override
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation) {
+        // draw with null color
         super.draw(canvas, null, isMousePressed, mousePressLocation, mouseCurrentLocation);
     }
 }
