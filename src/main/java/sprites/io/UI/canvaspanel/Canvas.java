@@ -286,7 +286,7 @@ public class Canvas extends JPanel implements MouseListener {
 
         // clear the pixels
         for (int i = 0; i < pixelNumber; i++) {
-            layers.get(layer).setPixel(i, Color.white);
+            layers.get(layer).setPixel(i, null);
         }
 
         updateCanvas();
