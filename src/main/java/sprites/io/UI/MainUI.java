@@ -10,7 +10,9 @@ import sprites.io.driver.Driver;
 
 
 import java.awt.*;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.swing.*;
 
@@ -25,21 +27,10 @@ public class MainUI extends JFrame {
     private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 600, driver);
     private LayersPanel layerPanel = new LayersPanel(canvas, this);
 
-
     public MainUI() {
         this.createDisplay();
     }
-//    public MainUI(int[] fileContent) {
-//        canvas = new Canvas(70, 6, 500, 500, this, fileContent);
-//        infoPanel = new InfoPanel(0, 0);
-//        menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);
-//        canvasPanel = new JPanel();
-//        driver = new Driver(canvas, infoPanel, this);
-//        toolPanel = new ToolPanel(0, 64, 128, 600, driver);
-//        layerPanel = new LayersPanel(canvas, this);
-//
-//        this.createDisplay();
-//    }
+
     public MainUI(ArrayList<Layer> fileContent) {
         canvas = new Canvas(70, 6, 500, 500, this, fileContent);
         infoPanel = new InfoPanel(0, 0);
@@ -61,6 +52,8 @@ public class MainUI extends JFrame {
         this.setLayout(null);
         this.setResizable(false);
         this.getContentPane().setBackground(Color.darkGray);
+        this.setIconImage(new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/AppIcon.png"))).getImage());
+        this.setTitle("Sprites.io Pixel Editor");
 
         canvas.addDriver(driver);
 
