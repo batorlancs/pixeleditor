@@ -76,7 +76,8 @@ public class FileManager {
      * @param height height of canvas
      * @param size size of image (multiplies the width/height of canvas)
      */
-    public void exportAsPng(JLabel[] pixels, int width, int height, int size) {
+    public void exportAsPng(JLabel[] pixels, boolean[] transparentPixels, int width, int height, int size) {
+        int transparent = 0x00FFFFFF;
         File chosenFile;
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filterPng = new FileNameExtensionFilter("PNG files","png");
@@ -94,7 +95,8 @@ public class FileManager {
                 int y = (i / width) * size;
                 for (int posx = x; posx < x + size; posx++) {
                     for (int posy = y; posy < y + size; posy++) {
-                        image.setRGB(posx, posy, pixels[i].getBackground().getRGB());
+                        if (transparentPixels[i]) image.setRGB(posx, posy, transparent);
+                        else image.setRGB(posx, posy, pixels[i].getBackground().getRGB());
                     }
                 }
 
