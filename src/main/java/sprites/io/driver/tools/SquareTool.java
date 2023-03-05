@@ -39,6 +39,7 @@ public class SquareTool extends Tool{
 
     }
 
+    @Override
     public void release(Canvas canvas, Driver driver, Color color, int mouseCurrentLocation) {
         // calling it again to reduce buggy effects when updating the canvas
         canvas.updateCanvasArray(startingPixels);

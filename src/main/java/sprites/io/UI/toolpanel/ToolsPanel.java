@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 
 public class ToolsPanel extends JPanel implements ActionListener {
 
+    // line button counter to determine which line tool to use
+    private int lineButtonCounter = 0;
 
     private StyledButton drawButton = new StyledButton("penIcon.png", "", "Draw Tool");
     private StyledButton eraseButton = new StyledButton("eraserIcon.png", "", "Eraser Tool");
@@ -69,6 +71,8 @@ public class ToolsPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        setLineButton(0);
+
         if (e.getSource() == drawButton) {
             driverRef.setCurrColor(driverRef.getPrevColor(0));
             driverRef.setCurrToolToBrushSize();
@@ -91,7 +95,18 @@ public class ToolsPanel extends JPanel implements ActionListener {
         }
 
         if (e.getSource() == lineButton) {
-            driverRef.setCurrToolToSquare();
+            lineButtonCounter++;
+            if(lineButtonCounter > 2){
+                lineButtonCounter = 1;
+            }
+            if(lineButtonCounter == 1){
+                driverRef.setCurrToolToLine(1);
+                setLineButton(1);
+            }
+            else if(lineButtonCounter == 2){
+                driverRef.setCurrToolToLine(2);
+                setLineButton(2);
+            }
             setButtonHighlighted(lineButton);
         }
 
@@ -106,6 +121,19 @@ public class ToolsPanel extends JPanel implements ActionListener {
 
         if (e.getSource() == redoButton) {
             driverRef.redoChange();
+        }
+    }
+
+    public void setLineButton(int flag){
+        if(flag == 0){
+            // set normal line button icon
+            lineButton.setNewIcon("lineIcon.png");
+        }
+        else if(flag == 1){ //if vertical line is selected
+            lineButton.setNewIcon("lineVerticalIcon.png");
+        }
+        else if(flag == 2){ //if horizontal line is selected
+            lineButton.setNewIcon("lineHorizontalIcon.png");
         }
     }
 
