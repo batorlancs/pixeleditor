@@ -88,7 +88,7 @@ public class FileManager {
         }else  return;
 
         try {
-            BufferedImage image = new BufferedImage(width*size, height*size, BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(width*size, height*size, BufferedImage.TYPE_INT_ARGB);
             for (int i = 0; i < pixels.length; i++) {
                 int x = (i % width) * size;
                 int y = (i / width) * size;
