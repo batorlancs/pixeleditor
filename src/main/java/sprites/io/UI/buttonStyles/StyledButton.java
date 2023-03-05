@@ -86,4 +86,11 @@ public class StyledButton extends JButton {
         this.setBackground(Color.gray);
         this.setBorder(BorderFactory.createEtchedBorder());
     }
+
+    // method to change the button's icon path
+    public void setNewIcon(String iconName) {
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/" + iconName)));
+        Image image = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setIcon(new ImageIcon(image));
+    }
 }
