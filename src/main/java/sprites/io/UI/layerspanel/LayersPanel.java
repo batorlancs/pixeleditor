@@ -109,9 +109,12 @@ public class LayersPanel extends JPanel {
             layerPreviewPanel.setBounds(15, 25, 50, 50);
             layerPreviewPanel.setLayout(new GridLayout(50, 50));
             JLabel[] pixels = new JLabel[2500];
+            Layer backgroundLayer = new Layer("Background");
+            backgroundLayer.makeTransparentBackground();
+            backgroundLayer.merge(layer);
             for (int j = 0; j < 2500; j++) {
                 pixels[j] = new JLabel();
-                pixels[j].setBackground(layer.getPixel(j));
+                pixels[j].setBackground(backgroundLayer.getPixel(j));
                 pixels[j].setOpaque(true);
                 layerPreviewPanel.add(pixels[j]);
             }

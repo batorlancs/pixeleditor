@@ -102,15 +102,15 @@ public class MenuPanel extends JPanel implements ActionListener {
 
             if(n==0)
             {
-                fileManager.exportAsPng(canvasRef.getPixels(), 50, 50, 6);
+                fileManager.exportAsPng(canvasRef.getPixels(), canvasRef.getTransparentPixels(), 50, 50, 6);
             }
             if(n==1)
             {
-                fileManager.exportAsPng(canvasRef.getPixels(), 50, 50, 10);
+                fileManager.exportAsPng(canvasRef.getPixels(), canvasRef.getTransparentPixels(), 50, 50, 10);
             }
             if(n==2)
             {
-                fileManager.exportAsPng(canvasRef.getPixels(), 50, 50, 14);
+                fileManager.exportAsPng(canvasRef.getPixels(), canvasRef.getTransparentPixels(), 50, 50, 14);
             }
 
         }

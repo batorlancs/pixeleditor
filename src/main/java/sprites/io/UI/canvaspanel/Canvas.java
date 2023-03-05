@@ -130,7 +130,7 @@ public class Canvas extends JPanel implements MouseListener {
         }
         
         // create a new layer with the merged layers
-        Layer mergedLayer = new Layer("Merged Layer");
+        Layer mergedLayer = new Layer("Merging Layer");
         for (int i = 0; i < temp.size(); i++) {
             mergedLayer.merge(temp.get(i));
         }
@@ -303,6 +303,34 @@ public class Canvas extends JPanel implements MouseListener {
         return this.currentPixels;
     }
 
+    public boolean[] getTransparentPixels() {
+        boolean[] result = new boolean[2500];
+        // fill everything with true
+        for (int i = 0; i < 2500; i++) {
+            result[i] = true;
+        }
+
+        // get the selected layers
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).isSelected()) {
+                selectedLayers.add(layers.get(i));
+            }
+        }
+
+        // iterate through each layer to find non-transparent pixels
+        for (int i = 0; i < selectedLayers.size(); i++) {
+            Layer tempLayer = selectedLayers.get(i);
+            for (int j = 0; j < 2500; j++) {
+                if (tempLayer.getPixel(j) != null) {
+                    result[j] = false;
+                }
+            }
+        }
+
+        selectedLayers.clear();
+        return result;
+    }
+
     public Color getCurrentPixel(int number) {
         return this.currentPixels[number].getBackground();
     }
@@ -376,13 +404,11 @@ public class Canvas extends JPanel implements MouseListener {
     }
 
     public void updateCanvas() {
-        
-        int onlyLayer = 0;
+
         // get the selected layers
         for (int i = 0; i < layers.size(); i++) {
             if (layers.get(i).isSelected()) {
                 selectedLayers.add(layers.get(i));
-                onlyLayer = i;
             }
         }
 
@@ -391,7 +417,6 @@ public class Canvas extends JPanel implements MouseListener {
             for (int i = 0; i < layers.size(); i++) {
                 if (layers.get(i).isVisible()) {
                     selectedLayers.add(layers.get(i));
-                    onlyLayer = i;
                     break;
                 }
             }
@@ -399,36 +424,14 @@ public class Canvas extends JPanel implements MouseListener {
             selectedLayers.get(0).setSelected(true);
             // recall this method to update the layers
             updateCanvas();
-        } else if (selectedLayers.size() == 1) {
 
-            // if current pixels are null then create them
-            if (currentPixels[0] == null) {
-                currentPixels = new JLabel[pixelNumber];
-                for (int i = 0; i < pixelNumber; i++) {
-                    currentPixels[i] = new JLabel();
-                    currentPixels[i].setOpaque(true);
-                    Color currentPixelBackground = layers.get(0).getPixel(i);
-                    if (currentPixelBackground == null) {
-                        currentPixelBackground = Color.white;
-                    }
-                    currentPixels[i].setBackground(currentPixelBackground);
-                    currentPixels[i].addMouseListener(this);
-                    this.add(currentPixels[i]);
-                }
-            }
-
-            // update the current pixels with the selected layer
-            for (int i = 0; i < pixelNumber; i++) {
-                Color onlyLayerBackground = layers.get(onlyLayer).getPixel(i);
-                if (onlyLayerBackground == null) {
-                    onlyLayerBackground = Color.white;
-                }
-                currentPixels[i].setBackground(onlyLayerBackground);
-            }
-
-        } else { // if there is more than one layer selected, then merge the layers
+        }
+        // if there is more than one layer selected, then merge the layers
+        else {
             // create a new layer with the merged layers
             Layer mergedLayer = new Layer("Merged Layer");
+            mergedLayer.makeTransparentBackground();
+
             for (int i = 0; i < selectedLayers.size(); i++) {
                 mergedLayer.merge(selectedLayers.get(i));
             }
