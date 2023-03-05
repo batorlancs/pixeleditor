@@ -24,36 +24,14 @@ public class Canvas extends JPanel implements MouseListener {
     private ArrayList<Layer> selectedLayers = new ArrayList<>();
 
     /**
-     * Create Canvas with 50x50 pixels.
-     * @param posx Position X of canvas.
-     * @param posy Position Y of canvas.
-     * @param width Width of canvas.
-     * @param height Height of canvas.
+     * Create the canvas
+     * @param posx position x of the canvas
+     * @param posy position y of the canvas
+     * @param width width of the canvas
+     * @param height height of the canvas
+     * @param mainUI reference of the main ui
+     * @param fileLayers all the layers to be displayed (if opened from file)
      */
-//    public Canvas(int posx, int posy, int width, int height, MainUI mainUI, int[] pixels) {
-//        this.mainUI = mainUI;
-//        this.setBounds(posx, posy, width, height);
-//        this.setLayout(new GridLayout(50, 50, 0, 0));
-//        this.setBackground(Color.gray);
-//
-//        // create the first layer
-//        layers = new ArrayList<>();
-//        if (pixels == null)
-//            layers.add(new Layer("Layer 1"));
-//        else
-//            layers.add(new Layer("Layer 1", pixels));
-//
-//        // set the current pixels based on the color of the first layer
-//        for (int i = 0; i < pixelNumber; i++) {
-//            currentPixels[i] = new JLabel();
-//            currentPixels[i].setBackground(layers.get(0).getPixel(i));
-//            currentPixels[i].setOpaque(true);
-//            this.add(currentPixels[i]);
-//            currentPixels[i].addMouseListener(this);
-//        }
-//
-//    }
-
     public Canvas(int posx, int posy, int width, int height, MainUI mainUI, ArrayList<Layer> fileLayers) {
         this.mainUI = mainUI;
         this.setBounds(posx, posy, width, height);
@@ -64,6 +42,7 @@ public class Canvas extends JPanel implements MouseListener {
         layers = new ArrayList<>();
 
 
+        // if you opened a project display all the layers, if not just create blank layer
         if (fileLayers == null)
             layers.add(new Layer("Layer 1"));
         else {
@@ -73,7 +52,11 @@ public class Canvas extends JPanel implements MouseListener {
         // set the current pixels based on the color of the first layer
         for (int i = 0; i < pixelNumber; i++) {
             currentPixels[i] = new JLabel();
-            currentPixels[i].setBackground(layers.get(0).getPixel(i));
+            Color currentPixelBackground = layers.get(0).getPixel(i);
+            if (currentPixelBackground == null) {
+                currentPixelBackground = Color.white;
+            }
+            currentPixels[i].setBackground(currentPixelBackground);
             currentPixels[i].setOpaque(true);
             this.add(currentPixels[i]);
             currentPixels[i].addMouseListener(this);
@@ -91,14 +74,6 @@ public class Canvas extends JPanel implements MouseListener {
 
         // create a new layer in the list
         layers.add(new Layer("Layer " + (layers.size() + 1) + ""));
-        currentLayer = layers.size() - 1;
-
-        updateCanvas();
-        this.repaint();
-    }
-
-    public void addLayer(Layer layer) {
-        layers.add(layer);
         currentLayer = layers.size() - 1;
 
         updateCanvas();
@@ -328,6 +303,10 @@ public class Canvas extends JPanel implements MouseListener {
         return this.currentPixels;
     }
 
+    public Color getCurrentPixel(int number) {
+        return this.currentPixels[number].getBackground();
+    }
+
     public Color getPixel(int number) {
 
         // get the first visible layer
@@ -428,7 +407,11 @@ public class Canvas extends JPanel implements MouseListener {
                 for (int i = 0; i < pixelNumber; i++) {
                     currentPixels[i] = new JLabel();
                     currentPixels[i].setOpaque(true);
-                    currentPixels[i].setBackground(Color.white);
+                    Color currentPixelBackground = layers.get(0).getPixel(i);
+                    if (currentPixelBackground == null) {
+                        currentPixelBackground = Color.white;
+                    }
+                    currentPixels[i].setBackground(currentPixelBackground);
                     currentPixels[i].addMouseListener(this);
                     this.add(currentPixels[i]);
                 }
@@ -436,7 +419,11 @@ public class Canvas extends JPanel implements MouseListener {
 
             // update the current pixels with the selected layer
             for (int i = 0; i < pixelNumber; i++) {
-                currentPixels[i].setBackground(layers.get(onlyLayer).getPixel(i));
+                Color onlyLayerBackground = layers.get(onlyLayer).getPixel(i);
+                if (onlyLayerBackground == null) {
+                    onlyLayerBackground = Color.white;
+                }
+                currentPixels[i].setBackground(onlyLayerBackground);
             }
 
         } else { // if there is more than one layer selected, then merge the layers

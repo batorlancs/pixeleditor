@@ -11,16 +11,22 @@ public class Layer extends JPanel {
     private boolean selected = true;
     private String name;
 
+    /**
+     * Create an empty layer
+     * @param name name of layer
+     */
     public Layer(String name) {
         this.setBounds(0, 0, 500, 500);
         this.name = name;
         // set grid layout of 50x50
         this.setLayout(new GridLayout(50, 50, 0, 0));
-        for (int i = 0; i < 2500; i++) {
-            pixels[i] = Color.WHITE;
-        }
     }
 
+    /**
+     * Create a Layer with the given pixels
+     * @param name name of layer
+     * @param pixels layer content
+     */
     public Layer(String name, int[] pixels) {
         this.setBounds(0, 0, 500, 500);
         this.visible = false;
@@ -28,11 +34,19 @@ public class Layer extends JPanel {
         // set grid layout of 50x50
         this.setLayout(new GridLayout(50, 50, 0, 0));
         for (int i = 0; i < 2500; i++) {
-            this.pixels[i] = new Color(pixels[i]);
+            if (pixels[i] != 0) {
+                this.pixels[i] = new Color(pixels[i]);
+            }
         }
 
     }
 
+    /**
+     * Create a Layer with the given pixels and make it current
+     * @param name name of layer
+     * @param pixels layer content
+     * @param isVisible if yes make this visible, the "current" layer
+     */
     public Layer(String name, int[] pixels, boolean isVisible) {
         this.setBounds(0, 0, 500, 500);
         this.visible = isVisible;
@@ -40,7 +54,10 @@ public class Layer extends JPanel {
         // set grid layout of 50x50
         this.setLayout(new GridLayout(50, 50, 0, 0));
         for (int i = 0; i < 2500; i++) {
-            this.pixels[i] = new Color(pixels[i]);
+            // 0 is transparent color
+            if (pixels[i] != 0) {
+                this.pixels[i] = new Color(pixels[i]);
+            }
         }
 
     }
@@ -77,16 +94,16 @@ public class Layer extends JPanel {
         return pixels.length;
     }
 
+    /**
+     * Merge the given on top of this layer
+     * @param layer this will be merged on top
+     */
     public void merge(Layer layer) {
         for (int i = 0; i < pixels.length; i++) {
-            if (layer.getPixel(i) != Color.white && pixels[i] == Color.white) {
+            if (layer.getPixel(i) != null) {
                 pixels[i] = layer.getPixel(i);
-            } else if (layer.getPixel(i) != Color.white && pixels[i] != Color.white) {
-                // merge the colors
-                int red = (pixels[i].getRed() + layer.getPixel(i).getRed()) / 2;
-                int green = (pixels[i].getGreen() + layer.getPixel(i).getGreen()) / 2;
-                int blue = (pixels[i].getBlue() + layer.getPixel(i).getBlue()) / 2;
-                pixels[i] = new Color(red, green, blue);
+            } else if (layer.getPixel(i) == null && pixels[i] == null) {
+                pixels[i] = Color.white;
             }
         }
     }
