@@ -23,7 +23,7 @@ public class MainMenu extends JPanel implements ActionListener
 
     private JLabel mainMenulbl = new JLabel();
     private ImageIcon appIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/AppIcon.png")));
-    private Color backgroundColor = new Color(245, 86, 86);
+    private Color backgroundColor = Color.darkGray;
     private StyledButton openBtn = new StyledButton("Open", false);
     private StyledButton newBtn = new StyledButton("New", false);
 
