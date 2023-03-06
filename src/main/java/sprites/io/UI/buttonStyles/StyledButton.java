@@ -45,7 +45,7 @@ public class StyledButton extends JButton {
 
     public StyledButton(String title, boolean isOpaque) {
         createButton(title, 15);
-        this.setBackground(new Color(209, 75, 75));
+        this.setBackground(new Color(50, 50, 50));
         this.setForeground(Color.white);
     }
 
