@@ -79,7 +79,7 @@ public class LayersPanel extends JPanel {
             if (layer.isSelected()) {
                 backgroundColor = new Color(80, 80, 80);
                 titleColor = Color.lightGray;
-                selectedColor = new Color(86, 166, 245);
+                selectedColor = new Color(123, 245, 86);
                 selectedText = "Selected";
             }
             if (layer.isVisible()) {

@@ -43,6 +43,12 @@ public class StyledButton extends JButton {
         createButton(title, 15);
     }
 
+    public StyledButton(String title, boolean isOpaque) {
+        createButton(title, 15);
+        this.setBackground(new Color(50, 50, 50));
+        this.setForeground(Color.white);
+    }
+
     /**
      * button with position, dimensions and a text
      * @param posx position x
