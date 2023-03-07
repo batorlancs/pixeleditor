@@ -37,6 +37,30 @@ public class FileManager {
 
         try {
             FileWriter fileWriter = new FileWriter(chosenFile);
+
+            // first line which layer is current
+            for (int i = 0; i < layers.size(); i++) {
+                if (layers.get(i).isVisible()) {
+                    fileWriter.write(i + "\n");
+                    break;
+                }
+            }
+//
+//            // next 6 lines which layers are selected
+            for (Layer layer: layers) {
+                if (layer.isSelected())
+                    fileWriter.write(1 + "\n");
+                else
+                    fileWriter.write(0 + "\n");
+            }
+            if (layers.size() < 6) {
+                int remainder = 6-layers.size();
+                for (int i = 0; i < remainder; i++) {
+                    fileWriter.write(0 + "\n");
+                }
+            }
+
+            // fill with each layer
             int i = 0;
             for (Layer layer: layers) {
                 i++;
@@ -118,6 +142,9 @@ public class FileManager {
     public ArrayList<Layer> getLayersFromFile(MainUI mainUI) {
 
         ArrayList<Layer> fileLayers = new ArrayList<>();
+        int visible = 0;
+        boolean[] selected = new boolean[6];
+
 
         File chosenFile;
         JFileChooser fileChooser = new JFileChooser();
@@ -131,7 +158,20 @@ public class FileManager {
 
         try {
             Scanner scan = new Scanner(chosenFile);
-            boolean isVisible = true;
+
+            // first line layer visible
+            if (scan.hasNextLine()) {
+                visible = Integer.parseInt(scan.nextLine());
+            }
+
+            // next 6 lines are which layers are selected
+            int k = 0;
+            while (scan.hasNextLine() && k < 6) {
+                selected[k] = Integer.parseInt(scan.nextLine()) != 0;
+                k++;
+            }
+
+            int layerNum = 0;
             while (scan.hasNextLine()) {
                 String layerName = scan.nextLine();
                 int i = 0;
@@ -140,8 +180,8 @@ public class FileManager {
                     results[i] = Integer.parseInt(scan.nextLine());
                     i++;
                 }
-                fileLayers.add(new Layer("Layer " + layerName, results, isVisible));
-                isVisible = false;
+                fileLayers.add(new Layer("Layer " + layerName, results, visible == layerNum, selected[layerNum]));
+                layerNum++;
             }
 
             if (mainUI != null) mainUI.dispose();
