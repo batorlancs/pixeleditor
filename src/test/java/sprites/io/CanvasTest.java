@@ -33,6 +33,7 @@ public class CanvasTest {
     }
 
     // test that canvas has mouse listener
+    
     //@Test
     //public void mouseListenerTest(){
         //assertTrue(newCanvas.getMouseListeners().length == 1);

@@ -18,15 +18,23 @@ public class LineTool extends Tool {
     boolean isDrawingVertical = false;
 
     int flag;
+    Driver driver;
+    int brushSize;
 
-    public LineTool(int flag) {
+    public LineTool(int flag, Driver driver) {
         super();
         this.flag = flag;
+        this.driver = driver;
+        this.brushSize = driver.getBrushSize();
+
 
     }
 
     @Override
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation) {
+        // update brush size
+        brushSize = driver.getBrushSize();
+        
         if (isMousePressed) {
             if (startingPixels == null) {
                 startingPixels = new Color[canvas.getPixels().length];
@@ -64,7 +72,7 @@ public class LineTool extends Tool {
     
 
     public void drawHorizontalLine(Canvas canvas, Color color, int xValue, int yValue, int mouseCurrentLocation) {
-       
+
         // get current location of mouse
         int endingXValue = getXValue(mouseCurrentLocation);
 
@@ -74,16 +82,7 @@ public class LineTool extends Tool {
         // calculate the number of pixels to draw
         int repeatCount = Math.abs(endingXValue - startXvalue) + 1;
 
-        // draw the line in the other direction if the mouse is moving in the opposite direction
-        if (endingXValue < startXvalue) {
-            for (int i = 0; i < repeatCount; i++) {
-                canvas.setPixel(pixelNum - i, color);
-            }
-        } else {
-            for (int i = 0; i < repeatCount; i++) {
-                canvas.setPixel(pixelNum + i, color);
-            }
-        }
+        drawHorizontalLineToSize(canvas, color, startXvalue, endingXValue, pixelNum, repeatCount);
     }
 
     public void drawVerticalLine(Canvas canvas, Color color, int xValue, int yValue, int mouseCurrentLocation) {
@@ -92,15 +91,7 @@ public class LineTool extends Tool {
         int pixelNum = getPixelNum(xValue, yValue);
         int repeatCount = Math.abs(endingYValue - startYvalue) + 1;
 
-        if (endingYValue < startYvalue) {
-            for (int i = 0; i < repeatCount; i++) {
-                canvas.setPixel(pixelNum - (i * 50), color);
-            }
-        } else {
-            for (int i = 0; i < repeatCount; i++) {
-                canvas.setPixel(pixelNum + (i * 50), color);
-            }
-        }
+        drawVerticalLineToSize(canvas, color, startYvalue, endingYValue, pixelNum, repeatCount);
     }
 
     public void drawPermanentLine(Canvas canvas, Color color, int mouseCurrentLocation){
@@ -111,6 +102,113 @@ public class LineTool extends Tool {
                 break;
             case 2:
                 drawHorizontalLine(canvas, color, startXvalue, startYvalue, mouseCurrentLocation);
+                break;
+        }
+    }
+
+    public void drawHorizontalLineToSize(Canvas canvas, Color color, int startXvalue, int endXvalue, int pixelNum, int repeatCount){
+
+        switch(brushSize){
+            case 1:
+                if (endXvalue < startXvalue) {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum - i, color);
+                    }
+                } else {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum + i, color);
+                    }
+                }
+                break;
+            case 2:
+                if (endXvalue < startXvalue) {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum - i, color);
+                        // color the pixel above and below
+                        canvas.setPixel(pixelNum - i - 50, color);
+                        canvas.setPixel(pixelNum - i + 50, color);
+                    }
+                } else {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum + i, color);
+                        // color the pixel above and below
+                        canvas.setPixel(pixelNum + i - 50, color);
+                        canvas.setPixel(pixelNum + i + 50, color);
+                    }
+                }
+                break;
+            case 3:
+                if (endXvalue < startXvalue) {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum - i, color);
+                        canvas.setPixel(pixelNum - i - 50, color);
+                        canvas.setPixel(pixelNum - i + 50, color);
+                        canvas.setPixel(pixelNum - i - 100, color);
+                        canvas.setPixel(pixelNum - i + 100, color);
+
+                    }
+                } else {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum + i, color);
+                        canvas.setPixel(pixelNum + i - 50, color);
+                        canvas.setPixel(pixelNum + i + 50, color);
+                        canvas.setPixel(pixelNum + i - 100, color);
+                        canvas.setPixel(pixelNum + i + 100, color);
+                    }
+                }
+                break;
+        }
+    }
+
+    public void drawVerticalLineToSize(Canvas canvas, Color color, int startYvalue, int endYvalue, int pixelNum, int repeatCount){
+
+        switch(brushSize){
+            case 1:
+                if (endYvalue < startYvalue) {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum - (i * 50), color);
+                    }
+                } else {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum + (i * 50), color);
+                    }
+                }
+                break;
+            case 2:
+                if (endYvalue < startYvalue) {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum - (i * 50), color);
+                        // color pixel left and right
+                        canvas.setPixel(pixelNum - (i * 50) - 1, color);
+                        canvas.setPixel(pixelNum - (i * 50) + 1, color);
+                    }
+                } else {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum + (i * 50), color);
+                        // color pixel left and right
+                        canvas.setPixel(pixelNum + (i * 50) - 1, color);
+                        canvas.setPixel(pixelNum + (i * 50) + 1, color);
+                    }
+                }
+                break;
+            case 3:
+                if (endYvalue < startYvalue) {
+                    for (int i = 0; i < repeatCount; i++) {
+                        canvas.setPixel(pixelNum - (i * 50), color);
+                        canvas.setPixel(pixelNum - (i * 50) - 1, color);
+                        canvas.setPixel(pixelNum - (i * 50) + 1, color);
+                        canvas.setPixel(pixelNum - (i * 50) - 2, color);
+                        canvas.setPixel(pixelNum - (i * 50) + 2, color);
+                    }
+                    } else {
+                        for (int i = 0; i < repeatCount; i++) {
+                            canvas.setPixel(pixelNum + (i * 50), color);
+                            canvas.setPixel(pixelNum + (i * 50) - 1, color);
+                            canvas.setPixel(pixelNum + (i * 50) + 1, color);
+                            canvas.setPixel(pixelNum + (i * 50) - 2, color);
+                            canvas.setPixel(pixelNum + (i * 50) + 2, color);
+                        }
+                    }
                 break;
         }
     }

@@ -93,18 +93,16 @@ public class Layer extends JPanel {
         pixels[pixelNumber] = color;
     }
 
+    public void setAllPixels(Color[] pixels) {
+        this.pixels = pixels;
+    }
+
     public Color getPixel(int pixelNumber) {
         return pixels[pixelNumber];
     }
 
     public Color[] getAllPixels() {
         return pixels;
-    }
-
-    public void setAllPixels(Color[] pixels) {
-        for (int i = 0; i < 2500; i++) {
-            this.pixels[i] = pixels[i];
-        }
     }
 
     public void setVisible(boolean visible) {

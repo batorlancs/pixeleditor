@@ -1,7 +1,6 @@
 package sprites.io.driver;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import sprites.io.UI.MainUI;
 import sprites.io.UI.canvaspanel.Canvas;
@@ -43,7 +42,7 @@ public class Driver {
     }
 
     public void setCurrToolToSquare() {this.currTool = new SquareTool(this);}
-    public void setCurrToolToLine(int flag) { this.currTool = new LineTool(flag);}
+    public void setCurrToolToLine(int flag) { this.currTool = new LineTool(flag, this);}
     public void setCurrToolToPen() {this.currTool = new PenTool();}
     public void setCurrToolToEraser() {this.currTool = new Eraser(this);}
     public void setCurrToolToBrushSize() {this.currTool = new Brush(this);}
