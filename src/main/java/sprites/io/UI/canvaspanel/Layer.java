@@ -52,9 +52,10 @@ public class Layer extends JPanel {
      * @param pixels layer content
      * @param isVisible if yes make this visible, the "current" layer
      */
-    public Layer(String name, int[] pixels, boolean isVisible) {
+    public Layer(String name, int[] pixels, boolean isVisible, boolean isSelected) {
         this.setBounds(0, 0, 500, 500);
         this.visible = isVisible;
+        this.selected = isSelected;
         this.name = name;
         // set grid layout of 50x50
         this.setLayout(new GridLayout(50, 50, 0, 0));
