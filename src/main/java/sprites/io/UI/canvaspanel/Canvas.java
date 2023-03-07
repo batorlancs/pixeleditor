@@ -513,7 +513,8 @@ public class Canvas extends JPanel implements MouseListener {
 
             // update the current pixels with the selected layer
             for (int i = 0; i < pixelNumber; i++) {
-                currentPixels[i].setBackground(selectedLayers.get(0).getPixel(i));
+                if (selectedLayers.size() > 0)
+                    currentPixels[i].setBackground(selectedLayers.get(0).getPixel(i));
             }
 
         } else { // if there is more than one layer selected, then merge the layers
