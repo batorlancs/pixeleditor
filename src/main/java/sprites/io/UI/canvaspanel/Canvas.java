@@ -159,6 +159,57 @@ public class Canvas extends JPanel implements MouseListener {
 
     }
 
+    public void moveLayerUp(Layer layer) {
+        int layerPos = 0;
+        // search for specific layer
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i) == layer) {
+                layerPos = i;
+                break;
+            }
+        }
+        // check bounds
+        if (layerPos < 1) return;
+        // move layer up
+        Layer tempLayer = layers.get(layerPos - 1);
+        layers.set(layerPos - 1, layer);
+        layers.set(layerPos, tempLayer);
+
+        updateCurrentLayerAfterMoving();
+        updateCanvas();
+        this.repaint();
+    }
+
+    public void moveLayerDown(Layer layer) {
+        int layerPos = 0;
+        // search for specific layer
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i) == layer) {
+                layerPos = i;
+                break;
+            }
+        }
+        // check bounds
+        if (layerPos >= layers.size()-1) return;
+        // move layer up
+        Layer tempLayer = layers.get(layerPos + 1);
+        layers.set(layerPos + 1, layer);
+        layers.set(layerPos, tempLayer);
+
+        updateCurrentLayerAfterMoving();
+        updateCanvas();
+        this.repaint();
+    }
+
+    public void updateCurrentLayerAfterMoving() {
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).isVisible()) {
+                currentLayer = i;
+                break;
+            }
+        }
+    }
+
     public int getLayerNumber() {
         return layers.size();
     }

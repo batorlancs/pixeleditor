@@ -106,6 +106,18 @@ public class LayersPanel extends JPanel {
             layerSelectedCheckBox.addActionListener(new LayerSelectedAction(layer));
             layerPanel.add(layerSelectedCheckBox);
 
+            JPanel layerMovePanel = new JPanel();
+            layerMovePanel.setBounds(225, 25, 25, 50);
+            layerMovePanel.setLayout(new GridLayout(2, 1));
+            layerMovePanel.setBackground(Color.green);
+            StyledButton moveUpButton = new StyledButton("upIcon.png", "", "move layer up by 1");
+            moveUpButton.addActionListener(new MoveAction(layer, true));
+            layerMovePanel.add(moveUpButton);
+            StyledButton moveDownButton = new StyledButton("downIcon.png", "", "move layer down by 1");
+            moveDownButton.addActionListener(new MoveAction(layer, false));
+            layerMovePanel.add(moveDownButton);
+            layerPanel.add(layerMovePanel);
+
             JPanel layerPreviewPanel = new JPanel();
             layerPreviewPanel.setBounds(15, 25, 50, 50);
             layerPreviewPanel.setLayout(new GridLayout(50, 50));
@@ -214,6 +226,22 @@ public class LayersPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             canvas.mergeLayers();
+            updateLayers();
+        }
+    }
+
+    private class MoveAction implements ActionListener {
+        private Layer layer;
+        private boolean moveUp;
+
+        public MoveAction(Layer layer, boolean moveUp) {
+            this.layer = layer;
+            this.moveUp = moveUp;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (moveUp) canvas.moveLayerUp(layer);
+            else canvas.moveLayerDown(layer);
             updateLayers();
         }
     }
