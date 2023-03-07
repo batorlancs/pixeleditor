@@ -81,11 +81,13 @@ public class Canvas extends JPanel implements MouseListener {
     }
 
     public void removeLayer() {
-        
+        boolean isCurrentOnSelectedLayer = false;
+
         // temp arraylist to store the layers that are selected
         ArrayList<Layer> temp = new ArrayList<>();
         for (int i = 0; i < layers.size(); i++) {
             if (layers.get(i).isSelected()) {
+                if (layers.get(i).isVisible()) isCurrentOnSelectedLayer = true;
                 temp.add(layers.get(i));
             }
         }
@@ -97,11 +99,13 @@ public class Canvas extends JPanel implements MouseListener {
             currentLayer = 0;
         } else {
             // set the current layer to the first non-selected layer
-            for (int i = 0; i < layers.size(); i++) {
-                if (!layers.get(i).isSelected()) {
-                    currentLayer = i;
-                    layers.get(currentLayer).setVisible(true);
-                    break;
+            if (isCurrentOnSelectedLayer) {
+                for (int i = 0; i < layers.size(); i++) {
+                    if (!layers.get(i).isSelected()) {
+                        currentLayer = i;
+                        layers.get(currentLayer).setVisible(true);
+                        break;
+                    }
                 }
             }
             
@@ -115,7 +119,8 @@ public class Canvas extends JPanel implements MouseListener {
         }
 
         temp.clear();
-
+        mainUI.updateLayers();
+        updateCurrentLayer();
         updateCanvas();
         this.repaint();
     }
@@ -157,6 +162,57 @@ public class Canvas extends JPanel implements MouseListener {
         updateCanvas();
         this.repaint();
 
+    }
+
+    public void moveLayerUp(Layer layer) {
+        int layerPos = 0;
+        // search for specific layer
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i) == layer) {
+                layerPos = i;
+                break;
+            }
+        }
+        // check bounds
+        if (layerPos < 1) return;
+        // move layer up
+        Layer tempLayer = layers.get(layerPos - 1);
+        layers.set(layerPos - 1, layer);
+        layers.set(layerPos, tempLayer);
+
+        updateCurrentLayer();
+        updateCanvas();
+        this.repaint();
+    }
+
+    public void moveLayerDown(Layer layer) {
+        int layerPos = 0;
+        // search for specific layer
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i) == layer) {
+                layerPos = i;
+                break;
+            }
+        }
+        // check bounds
+        if (layerPos >= layers.size()-1) return;
+        // move layer up
+        Layer tempLayer = layers.get(layerPos + 1);
+        layers.set(layerPos + 1, layer);
+        layers.set(layerPos, tempLayer);
+
+        updateCurrentLayer();
+        updateCanvas();
+        this.repaint();
+    }
+
+    public void updateCurrentLayer() {
+        for (int i = 0; i < layers.size(); i++) {
+            if (layers.get(i).isVisible()) {
+                currentLayer = i;
+                break;
+            }
+        }
     }
 
     public int getLayerNumber() {

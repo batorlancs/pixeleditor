@@ -86,7 +86,7 @@ public class StyledButton extends JButton {
         this.setFocusable(false);
         this.setHorizontalTextPosition(JButton.CENTER);
         this.setVerticalTextPosition(JButton.CENTER);
-        this.setFont(new Font("Comic Sans", Font.PLAIN, fontSize));
+        this.setFont(new Font("Dialog", Font.PLAIN, fontSize));
         this.setIconTextGap(-15);
         this.setForeground(Color.black);
         this.setBackground(Color.gray);

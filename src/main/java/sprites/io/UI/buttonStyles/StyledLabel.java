@@ -8,7 +8,7 @@ public class StyledLabel extends JLabel {
         this.setText(title);
         this.setBounds(posx, posy, width, height);
         this.setHorizontalAlignment(JLabel.CENTER);
-        this.setFont(new Font("Comic Sans", Font.BOLD, 15));
+        this.setFont(new Font("Dialog", Font.BOLD, 15));
         this.setForeground(Color.lightGray);
     }
 }

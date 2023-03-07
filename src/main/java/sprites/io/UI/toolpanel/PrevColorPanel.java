@@ -11,8 +11,10 @@ public class PrevColorPanel extends JPanel implements ActionListener {
 
     private JButton[] buttons = new JButton[8];
     private Driver driver;
+    private ToolPanel toolPanel;
 
-    public PrevColorPanel(int posx, int posy, int width, int height, Driver driver) {
+    public PrevColorPanel(int posx, int posy, int width, int height, Driver driver, ToolPanel toolPanel) {
+        this.toolPanel = toolPanel;
         this.driver = driver;
         this.setBounds(posx, posy, width, height);
         this.setBackground(Color.darkGray);

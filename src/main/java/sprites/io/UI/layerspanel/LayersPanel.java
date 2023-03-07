@@ -99,12 +99,25 @@ public class LayersPanel extends JPanel {
 
             // add checkbox to set layer as selected and add action listener and default value to false
             JCheckBox layerSelectedCheckBox = new JCheckBox(selectedText, layer.isSelected());
+            layerSelectedCheckBox.setFont(new Font("Dialog", Font.PLAIN, 12));
             layerSelectedCheckBox.setBounds(80, 25, 100, 20);
             layerSelectedCheckBox.setBackground(backgroundColor);
             layerSelectedCheckBox.setForeground(selectedColor);
             layerSelectedCheckBox.setFocusable(false);
             layerSelectedCheckBox.addActionListener(new LayerSelectedAction(layer));
             layerPanel.add(layerSelectedCheckBox);
+
+            JPanel layerMovePanel = new JPanel();
+            layerMovePanel.setBounds(225, 25, 25, 50);
+            layerMovePanel.setLayout(new GridLayout(2, 1));
+            layerMovePanel.setBackground(Color.green);
+            StyledButton moveUpButton = new StyledButton("upIcon.png", "", "move layer up by 1");
+            moveUpButton.addActionListener(new MoveAction(layer, true));
+            layerMovePanel.add(moveUpButton);
+            StyledButton moveDownButton = new StyledButton("downIcon.png", "", "move layer down by 1");
+            moveDownButton.addActionListener(new MoveAction(layer, false));
+            layerMovePanel.add(moveDownButton);
+            layerPanel.add(layerMovePanel);
 
             JPanel layerPreviewPanel = new JPanel();
             layerPreviewPanel.setBounds(15, 25, 50, 50);
@@ -214,6 +227,22 @@ public class LayersPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             canvas.mergeLayers();
+            updateLayers();
+        }
+    }
+
+    private class MoveAction implements ActionListener {
+        private Layer layer;
+        private boolean moveUp;
+
+        public MoveAction(Layer layer, boolean moveUp) {
+            this.layer = layer;
+            this.moveUp = moveUp;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (moveUp) canvas.moveLayerUp(layer);
+            else canvas.moveLayerDown(layer);
             updateLayers();
         }
     }

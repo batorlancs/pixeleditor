@@ -1,9 +1,7 @@
 package sprites.io.UI.infoPanel;
 
 import javax.swing.*;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Color;
+import java.awt.*;
 
 
 public class InfoPanel extends JPanel {
@@ -13,14 +11,13 @@ public class InfoPanel extends JPanel {
     private Color color = Color.black;
 
     public InfoPanel(int x, int y){
-//        setPreferredSize(new Dimension(128, 128));
-//        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setLayout(null);
         this.setBounds(x, y, 128, 64);
         this.setBackground(Color.darkGray);
 
         brushSizeLabel = new JLabel("Brush Size: " + "Small");
-        brushSizeLabel.setForeground(Color.white);
+        brushSizeLabel.setForeground(Color.lightGray);
+        brushSizeLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
         brushSizeLabel.setBounds(10, 0, 118, 32);
         this.add(brushSizeLabel);
 
@@ -30,7 +27,8 @@ public class InfoPanel extends JPanel {
         currentColorPanel.setBounds(10, 20, 118, 32);
 
         JLabel colorLabel = new JLabel("Current Color:");
-        colorLabel.setForeground(Color.white);
+        colorLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
+        colorLabel.setForeground(Color.lightGray);
         currentColorPanel.add(colorLabel);
 
 
@@ -58,7 +56,7 @@ public class InfoPanel extends JPanel {
                 brushSizeLabel.setText("Brush Size: " + "Small");
                 break;
             case 2:
-                brushSizeLabel.setText("Brush Size: " + "Medium");
+                brushSizeLabel.setText("Brush Size: " + "Med");
                 break;
             case 3:
                 brushSizeLabel.setText("Brush Size: " + "Large");
