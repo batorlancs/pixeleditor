@@ -3,9 +3,14 @@ package sprites.io.UI.canvaspanel;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 
 public class Layer extends JPanel {
+
+    private ArrayList<Color[]> undoArray = new ArrayList<>();
+    private ArrayList<Color[]> redoArray = new ArrayList<>();
+
     private Color[] pixels = new Color[2500];
     private boolean visible = true;
     private boolean selected = true;
@@ -95,6 +100,12 @@ public class Layer extends JPanel {
         return pixels;
     }
 
+    public void setAllPixels(Color[] pixels) {
+        for (int i = 0; i < 2500; i++) {
+            this.pixels[i] = pixels[i];
+        }
+    }
+
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
@@ -125,5 +136,54 @@ public class Layer extends JPanel {
                 pixels[i] = layer.getPixel(i);
             }
         }
+        undoArray.clear();
+        redoArray.clear();
+    }
+
+    public void addToUndoArray() {
+        if (undoArray.size() > 9) undoArray.remove(0);
+
+        // create new pixels array
+        Color[] newPixels = new Color[2500];
+        for (int i = 0; i < 2500; i++) {
+            newPixels[i] = this.pixels[i];
+        }
+
+        undoArray.add(newPixels);
+        redoArray.clear();
+    }
+
+    public void undo() {
+        if (undoArray.size() == 0) return;
+
+        // pixels from the undo Array
+        Color[] newPixels = new Color[2500];
+        // current pixels on the layer
+        Color[] currPixels =  new Color[2500];
+        for (int i = 0; i < 2500; i++) {
+            newPixels[i] = this.undoArray.get(undoArray.size()-1)[i];
+            currPixels[i] = pixels[i];
+        }
+
+        redoArray.add(currPixels);
+        setAllPixels(newPixels);
+        undoArray.remove(undoArray.size()-1);
+    }
+
+    public void redo() {
+        if (redoArray.size() == 0) return;
+
+        // pixels from the redo Array
+        Color[] newPixels = new Color[2500];
+        // current pixels on the layer
+        Color[] currPixels =  new Color[2500];
+        for (int i = 0; i < 2500; i++) {
+            newPixels[i] = this.redoArray.get(redoArray.size()-1)[i];
+            currPixels[i] = pixels[i];
+        }
+
+        undoArray.add(currPixels);
+        setAllPixels(newPixels);
+        redoArray.remove(redoArray.size()-1);
     }
 }

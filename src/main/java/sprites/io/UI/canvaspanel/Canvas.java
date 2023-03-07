@@ -171,8 +171,12 @@ public class Canvas extends JPanel implements MouseListener {
         return layers;
     }
 
-    public int getCurrentLayer () {
+    public int getCurrentLayerNumber () {
         return currentLayer;
+    }
+
+    public Layer getCurrentLayer() {
+        return layers.get(currentLayer);
     }
 
     public void setCurrentLayer(int layer) {
@@ -212,6 +216,11 @@ public class Canvas extends JPanel implements MouseListener {
      */
     @Override
     public void mousePressed(MouseEvent e) {
+
+        // add current pixels to the undo array in layer
+        if (!driver.isMousePressed() && !driver.isCurrToolColorPicker()) {
+            this.getCurrentLayer().addToUndoArray();
+        }
 
         driver.setMousePressed(true);
 
@@ -274,7 +283,7 @@ public class Canvas extends JPanel implements MouseListener {
     }
 
     public void clearCanvas() {
-        
+
         // get the first visible layer
         int layer = 0;
         for (int i = 0; i < layers.size(); i++) {
@@ -283,6 +292,8 @@ public class Canvas extends JPanel implements MouseListener {
                 break;
             }
         }
+
+        layers.get(layer).addToUndoArray();
 
         // clear the pixels
         for (int i = 0; i < pixelNumber; i++) {
@@ -404,6 +415,7 @@ public class Canvas extends JPanel implements MouseListener {
     }
 
     public void updateCanvas() {
+        selectedLayers.clear();
 
         // get the selected layers
         for (int i = 0; i < layers.size(); i++) {
