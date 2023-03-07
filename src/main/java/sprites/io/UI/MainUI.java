@@ -121,6 +121,8 @@ public class MainUI extends JFrame {
 
         g2d.setColor(Color.BLACK);
         g2d.drawOval(8, 8, 16, 16);
+        g2d.setColor(Color.WHITE);
+        g2d.drawOval(10, 10, 12, 12);
         g2d.dispose();
 
         // create a new cursor with the custom image
@@ -140,6 +142,8 @@ public class MainUI extends JFrame {
 
         g2d.setColor(Color.BLACK);
         g2d.drawOval(4, 4, 24, 24);
+        g2d.setColor(Color.WHITE);
+        g2d.drawOval(6, 6, 20, 20);
         g2d.dispose();
 
         // create a new cursor with the custom image
@@ -159,6 +163,8 @@ public class MainUI extends JFrame {
 
         g2d.setColor(Color.BLACK);
         g2d.drawOval(1, 1, 30, 30);
+        g2d.setColor(Color.WHITE);
+        g2d.drawOval(3, 3, 26, 26);
         g2d.dispose();
 
         // create a new cursor with the custom image
