@@ -99,6 +99,7 @@ public class LayersPanel extends JPanel {
 
             // add checkbox to set layer as selected and add action listener and default value to false
             JCheckBox layerSelectedCheckBox = new JCheckBox(selectedText, layer.isSelected());
+            layerSelectedCheckBox.setFont(new Font("Dialog", Font.PLAIN, 12));
             layerSelectedCheckBox.setBounds(80, 25, 100, 20);
             layerSelectedCheckBox.setBackground(backgroundColor);
             layerSelectedCheckBox.setForeground(selectedColor);

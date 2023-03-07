@@ -20,11 +20,11 @@ public class MainUI extends JFrame {
 
 
     private Canvas canvas  = new Canvas(70, 6, 500, 500, this, null);
-    private InfoPanel infoPanel = new InfoPanel(0, 0);
+    private InfoPanel infoPanel = new InfoPanel(0, 500);
     private MenuPanel menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);
     private JPanel canvasPanel = new JPanel();
     private Driver driver = new Driver(canvas, infoPanel, this);
-    private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 600, driver, this, canvas);
+    private ToolPanel toolPanel = new ToolPanel(0, 10, 128, 600, driver, this, canvas);
     private LayersPanel layerPanel = new LayersPanel(canvas, this);
 
     public MainUI() {
@@ -33,11 +33,11 @@ public class MainUI extends JFrame {
 
     public MainUI(ArrayList<Layer> fileContent) {
         canvas = new Canvas(70, 6, 500, 500, this, fileContent);
-        infoPanel = new InfoPanel(0, 0);
+        infoPanel = new InfoPanel(0, 500);
         menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);
         canvasPanel = new JPanel();
         driver = new Driver(canvas, infoPanel, this);
-        toolPanel = new ToolPanel(0, 64, 128, 600, driver, this, canvas);
+        toolPanel = new ToolPanel(0, 10, 128, 600, driver, this, canvas);
         layerPanel = new LayersPanel(canvas, this);
 
         this.createDisplay();
@@ -46,7 +46,7 @@ public class MainUI extends JFrame {
     public void createDisplay()
     {
 
-        this.setSize(1100, 620);
+        this.setSize(1070, 620);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
@@ -65,11 +65,12 @@ public class MainUI extends JFrame {
 
         layerPanel.setCanvas(canvas);
 
+        toolPanel.add(infoPanel);
+
         this.add(canvasPanel);
         this.add(toolPanel);
         this.add(layerPanel);
         this.add(menuPanel);
-        this.add(infoPanel);
 
         this.setVisible(true);
     }

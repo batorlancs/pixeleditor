@@ -47,13 +47,14 @@ public class MainMenu extends JPanel implements ActionListener
         Image image = appIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         appIcon = new ImageIcon(image);
         mainMenulbl.setIcon(appIcon);
+        mainMenulbl.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 50), 10));
 
-        topPanel.setBounds(50, 25, 300, 225);
+        topPanel.setBounds(45, 25, 300, 225);
         topPanel.setBackground(backgroundColor);
         topPanel.add(mainMenulbl);
 
-        buttonPanel.setBounds(45, 275, 300, 40);
-        buttonPanel.setLayout(new GridLayout(1, 2, 50, 0));
+        buttonPanel.setBounds(85, 275, 220, 40);
+        buttonPanel.setLayout(new GridLayout(1, 2, 20, 0));
         buttonPanel.setBackground(backgroundColor);
 
         newBtn.addActionListener(this);

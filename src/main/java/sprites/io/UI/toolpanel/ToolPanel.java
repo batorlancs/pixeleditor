@@ -24,6 +24,8 @@ public class ToolPanel extends JPanel implements ActionListener {
     private StyledButton colorPickerButton;
     private StyledLabel prevColorLabel;
     private PrevColorPanel prevColorPanel;
+    private StyledLabel currColorLabel;
+    private JPanel currColorPanel;
 
     public ToolPanel(int posx, int posy, int width, int height, Driver driver, MainUI mainUI, Canvas canvas) {
         this.driverRef = driver;
@@ -37,7 +39,7 @@ public class ToolPanel extends JPanel implements ActionListener {
         this.colorPickerPanel = new ColorPickerPanel(0, 290, 128, 75, driverRef, this);
         this.colorPickerButton = new StyledButton(0, 365, 128, 30, "More Colors", "Pick From More Color Options");
         this.prevColorLabel = new StyledLabel(0, 405,128, 30, "Previous");
-        this.prevColorPanel = new PrevColorPanel(0, 435, 128, 50, driverRef);
+        this.prevColorPanel = new PrevColorPanel(0, 435, 128, 50, driverRef, this);
 
         this.setBounds(posx, posy, width, height);
         this.setLayout(null);
