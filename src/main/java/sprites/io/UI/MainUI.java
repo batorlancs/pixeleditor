@@ -167,13 +167,13 @@ public class MainUI extends JFrame {
     }
 
     public void setCursorToFill() {
-        Image cursorImage = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/fillIcon.png"))).getImage();
+        Image cursorImage = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/fillIcon.png"))).getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT);
         Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(25, 20), "fill");
         currCursor = cursor;
     }
 
     public void setCursorToColorPicker() {
-        Image cursorImage = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/colorPickerIcon.png"))).getImage();
+        Image cursorImage = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/colorPickerIcon.png"))).getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT);
         Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(4, 25), "colorPicker");
         currCursor = cursor;
     }

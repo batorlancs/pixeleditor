@@ -26,7 +26,7 @@ public class InfoPanel extends JPanel {
         currentColorPanel.setBackground(Color.darkGray);
         currentColorPanel.setBounds(10, 20, 118, 32);
 
-        JLabel colorLabel = new JLabel("Current Color:");
+        JLabel colorLabel = new JLabel("Color:");
         colorLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
         colorLabel.setForeground(Color.lightGray);
         currentColorPanel.add(colorLabel);
@@ -53,13 +53,13 @@ public class InfoPanel extends JPanel {
     public void setBrushSize(int size){
         switch (size) {
             case 1:
-                brushSizeLabel.setText("Brush Size: " + "Small");
+                brushSizeLabel.setText("Brush: " + "Small");
                 break;
             case 2:
-                brushSizeLabel.setText("Brush Size: " + "Med");
+                brushSizeLabel.setText("Brush: " + "Med");
                 break;
             case 3:
-                brushSizeLabel.setText("Brush Size: " + "Large");
+                brushSizeLabel.setText("Brush: " + "Large");
                 break;
         }
     }
