@@ -15,7 +15,7 @@ public class InfoPanel extends JPanel {
         this.setBounds(x, y, 128, 64);
         this.setBackground(Color.darkGray);
 
-        brushSizeLabel = new JLabel("Brush Size: " + "Small");
+        brushSizeLabel = new JLabel("Brush: Small");
         brushSizeLabel.setForeground(Color.lightGray);
         brushSizeLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
         brushSizeLabel.setBounds(10, 0, 118, 32);
