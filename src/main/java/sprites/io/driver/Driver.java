@@ -53,6 +53,9 @@ public class Driver {
     public boolean isCurrToolColorPicker() {
         return "ColorPickerTool".equals(this.currTool.getName());
     }
+    public boolean isCurrToolBrushOrEraser() {
+        return ("Brush".equals(this.currTool.getName()) || "Eraser".equals(this.currTool.getName()));
+    }
 
     /**
      * change the current color
