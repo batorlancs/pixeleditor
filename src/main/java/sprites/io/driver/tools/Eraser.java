@@ -11,6 +11,10 @@ public class Eraser extends Brush {
         super(driver);
     }
 
+    public String getName() {
+        return "Eraser";
+    }
+
     @Override
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation) {
         super.draw(canvas, null, isMousePressed, mousePressLocation, mouseCurrentLocation);

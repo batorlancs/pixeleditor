@@ -62,6 +62,7 @@ public class ToolsPanel extends JPanel implements ActionListener {
         this.add(redoButton);
 
         setButtonHighlighted(drawButton);
+        mainUI.setCursorToCircle();
     }
 
     private void setButtonHighlighted(JButton button) {
@@ -83,21 +84,25 @@ public class ToolsPanel extends JPanel implements ActionListener {
             driverRef.setCurrColor(driverRef.getPrevColor(0));
             driverRef.setCurrToolToBrushSize();
             setButtonHighlighted(drawButton);
+            mainUI.setCursorToCircle();
         }
 
         if (e.getSource() == eraseButton) {
             driverRef.setCurrToolToEraser();
             setButtonHighlighted(eraseButton);
+            mainUI.setCursorToCircle();
         }
 
         if (e.getSource() == fillButton){
             driverRef.setCurrToolToFillTool();
             setButtonHighlighted(fillButton);
+            mainUI.setCursorToFill();
         }
 
         if (e.getSource() == colorButton) {
             driverRef.setCurrToolToColorPicker();
             setButtonHighlighted(colorButton);
+            mainUI.setCursorToColorPicker();
         }
 
         if (e.getSource() == lineButton) {
@@ -114,11 +119,13 @@ public class ToolsPanel extends JPanel implements ActionListener {
                 setLineButton(2);
             }
             setButtonHighlighted(lineButton);
+            mainUI.setCursorToCrossHair();
         }
 
         if (e.getSource() == squareButton) {
             driverRef.setCurrToolToSquare();
             setButtonHighlighted(squareButton);
+            mainUI.setCursorToCrossHair();
         }
 
         if (e.getSource() == undoButton) {
