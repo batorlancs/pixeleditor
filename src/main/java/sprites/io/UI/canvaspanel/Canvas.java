@@ -23,6 +23,7 @@ public class Canvas extends JPanel implements MouseListener {
     private int currentLayer = 0;
     private ArrayList<Layer> selectedLayers = new ArrayList<>();
 
+
     /**
      * Create the canvas
      * @param posx position x of the canvas
@@ -160,6 +161,7 @@ public class Canvas extends JPanel implements MouseListener {
 
         // set the current layer to the merged layer
         currentLayer = layers.indexOf(mergedLayer);
+
         updateCanvas();
         this.repaint();
 
@@ -249,6 +251,7 @@ public class Canvas extends JPanel implements MouseListener {
 
         // set this layer to be selected
         layers.get(currentLayer).setSelected(true);
+
         updateCanvas();
         this.repaint();
     }
@@ -306,6 +309,7 @@ public class Canvas extends JPanel implements MouseListener {
 
         driver.release();
         mainUI.updateLayers();
+        
     }
 
     /**
@@ -495,9 +499,24 @@ public class Canvas extends JPanel implements MouseListener {
             // recall this method to update the layers
             updateCanvas();
 
-        }
-        // if there is more than one layer selected, then merge the layers
-        else {
+            // if current pixels are null then create them
+            if (currentPixels[0] == null) {
+                currentPixels = new JLabel[pixelNumber];
+                for (int i = 0; i < pixelNumber; i++) {
+                    currentPixels[i] = new JLabel();
+                    currentPixels[i].setOpaque(true);
+                    currentPixels[i].setBackground(Color.white);
+                    currentPixels[i].addMouseListener(this);
+                    this.add(currentPixels[i]);
+                }
+            }
+
+            // update the current pixels with the selected layer
+            for (int i = 0; i < pixelNumber; i++) {
+                currentPixels[i].setBackground(selectedLayers.get(0).getPixel(i));
+            }
+
+        } else { // if there is more than one layer selected, then merge the layers
             // create a new layer with the merged layers
             Layer mergedLayer = new Layer("Merged Layer");
             mergedLayer.makeTransparentBackground();
