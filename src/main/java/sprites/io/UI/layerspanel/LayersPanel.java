@@ -67,6 +67,7 @@ public class LayersPanel extends JPanel {
 
 
     public void updateLayers(){
+        this.layers = canvas.getLayers();
         layersContainer.removeAll();
         for(int i = 0; i < layers.size(); i++){
             Layer layer = layers.get(i);
@@ -120,9 +121,9 @@ public class LayersPanel extends JPanel {
             }
 
             layerPanel.add(layerPreviewPanel);
-
             layersContainer.add(layerPanel);
         }
+
         layersContainer.revalidate();
     }
     public void setCanvas(Canvas canvas){

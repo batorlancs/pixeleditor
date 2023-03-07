@@ -1,13 +1,16 @@
 package sprites.io.UI.toolpanel;
 
+import sprites.io.UI.MainUI;
+import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.UI.buttonStyles.StyledButton;
 import sprites.io.driver.Driver;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.file.Paths;
 
 public class ToolsPanel extends JPanel implements ActionListener {
 
@@ -26,11 +29,14 @@ public class ToolsPanel extends JPanel implements ActionListener {
     private StyledButton undoButton = new StyledButton("undoIcon.png", "", "Undo");
     private StyledButton redoButton = new StyledButton("redoIcon.png", "", "Redo");
 
+    private Canvas canvasRef;
+    private Driver driverRef;
+    private MainUI mainUI;
 
-    Driver driverRef;
-
-    public ToolsPanel(int posx, int posy, int width, int height, Driver driver) {
-        driverRef = driver;
+    public ToolsPanel(int posx, int posy, int width, int height, Driver driver, MainUI mainUI, Canvas canvas) {
+        this.mainUI = mainUI;
+        this.driverRef = driver;
+        this.canvasRef = canvas;
 
         this.setBackground(Color.darkGray);
         this.setBounds(posx,posy,width,height);
@@ -116,11 +122,15 @@ public class ToolsPanel extends JPanel implements ActionListener {
         }
 
         if (e.getSource() == undoButton) {
-            driverRef.undoChange();
+            canvasRef.getCurrentLayer().undo();
+            canvasRef.updateCanvas();
+            mainUI.updateLayers();
         }
 
         if (e.getSource() == redoButton) {
-            driverRef.redoChange();
+            canvasRef.getCurrentLayer().redo();
+            canvasRef.updateCanvas();
+            mainUI.updateLayers();
         }
     }
 

@@ -24,7 +24,7 @@ public class MainUI extends JFrame {
     private MenuPanel menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);
     private JPanel canvasPanel = new JPanel();
     private Driver driver = new Driver(canvas, infoPanel, this);
-    private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 600, driver);
+    private ToolPanel toolPanel = new ToolPanel(0, 64, 128, 600, driver, this, canvas);
     private LayersPanel layerPanel = new LayersPanel(canvas, this);
 
     public MainUI() {
@@ -37,7 +37,7 @@ public class MainUI extends JFrame {
         menuPanel = new MenuPanel(128, 0, 640, 64, canvas, this);
         canvasPanel = new JPanel();
         driver = new Driver(canvas, infoPanel, this);
-        toolPanel = new ToolPanel(0, 64, 128, 600, driver);
+        toolPanel = new ToolPanel(0, 64, 128, 600, driver, this, canvas);
         layerPanel = new LayersPanel(canvas, this);
 
         this.createDisplay();

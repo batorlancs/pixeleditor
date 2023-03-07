@@ -12,4 +12,8 @@ public class ColorPicker extends Tool {
             canvas.updatePrevColors();
         }
     }
+
+    public String getName() {
+        return "ColorPickerTool";
+    }
 }

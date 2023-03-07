@@ -13,4 +13,8 @@ public class Tool {
     public void release(Canvas canvas, Driver driver, Color color, int mouseCurrentLocation) {
 
     }
+
+    public String getName() {
+        return "Any Tool";
+    }
 }

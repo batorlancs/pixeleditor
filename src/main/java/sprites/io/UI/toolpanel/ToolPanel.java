@@ -1,7 +1,9 @@
 package sprites.io.UI.toolpanel;
 
+import sprites.io.UI.MainUI;
 import sprites.io.UI.buttonStyles.StyledButton;
 import sprites.io.UI.buttonStyles.StyledLabel;
+import sprites.io.UI.canvaspanel.Canvas;
 import sprites.io.driver.Driver;
 import javax.swing.*;
 import java.awt.Color;
@@ -11,6 +13,8 @@ import java.awt.event.ActionListener;
 public class ToolPanel extends JPanel implements ActionListener {
 
     private Driver driverRef;
+    private MainUI mainUI;
+    private Canvas canvas;
     private StyledLabel toolsLabel;
     private ToolsPanel toolsPanel;
     private StyledLabel brushSizeLabel;
@@ -21,10 +25,12 @@ public class ToolPanel extends JPanel implements ActionListener {
     private StyledLabel prevColorLabel;
     private PrevColorPanel prevColorPanel;
 
-    public ToolPanel(int posx, int posy, int width, int height, Driver driver) {
+    public ToolPanel(int posx, int posy, int width, int height, Driver driver, MainUI mainUI, Canvas canvas) {
         this.driverRef = driver;
+        this.mainUI = mainUI;
+        this.canvas = canvas;
         this.toolsLabel = new StyledLabel(0, 0, 128, 30, "Tools");
-        this.toolsPanel = new ToolsPanel(0, 30, 128, 150, driverRef);
+        this.toolsPanel = new ToolsPanel(0, 30, 128, 150, driverRef, mainUI, canvas);
         this.brushSizeLabel = new StyledLabel(0, 180, 128, 50, "Brush Size");
         this.brushSizePanel = new BrushSizePanel(0, 220, 128, 30, driverRef, this);
         this.colorPickerLabel = new StyledLabel(0, 260, 128, 30, "Colors");
