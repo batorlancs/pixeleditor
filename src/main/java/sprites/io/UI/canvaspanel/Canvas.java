@@ -37,6 +37,7 @@ public class Canvas extends JPanel implements MouseListener {
         this.setBounds(posx, posy, width, height);
         this.setLayout(new GridLayout(50, 50, 0, 0));
         this.setBackground(Color.gray);
+        this.addMouseListener(this);
 
         // create the first layer
         layers = new ArrayList<>();
@@ -319,11 +320,12 @@ public class Canvas extends JPanel implements MouseListener {
             }
         }
         driver.draw();
+        mainUI.setCursorToCurrent();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        mainUI.setCursorToDefault();
     }
 
     /*

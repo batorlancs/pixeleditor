@@ -17,7 +17,10 @@ public class Brush extends Tool {
     public Brush(Driver driver) {
         this.driver = driver;
     }
-    
+
+    public String getName() {
+        return "Brush";
+    }
 
     public void draw(Canvas canvas, Color color, boolean isMousePressed, int mousePressLocation, int mouseCurrentLocation){
 

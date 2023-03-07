@@ -1,5 +1,6 @@
 package sprites.io.UI.toolpanel;
 
+import sprites.io.UI.MainUI;
 import sprites.io.UI.buttonStyles.StyledButton;
 import sprites.io.driver.Driver;
 
@@ -12,10 +13,12 @@ public class BrushSizePanel extends JPanel implements ActionListener {
 
     private StyledButton[] buttons = new StyledButton[3];
     private String[] buttonToolTips = {"Small", "Medium", "Large"};
+    private MainUI mainUI;
     private Driver driver;
     private ToolPanel toolPanel;
 
-    public BrushSizePanel(int posx, int posy, int width, int height, Driver driver, ToolPanel toolPanel) {
+    public BrushSizePanel(int posx, int posy, int width, int height, Driver driver, ToolPanel toolPanel, MainUI mainUI) {
+        this.mainUI = mainUI;
         this.driver = driver;
         this.toolPanel = toolPanel;
 
@@ -50,6 +53,7 @@ public class BrushSizePanel extends JPanel implements ActionListener {
             if (e.getSource() == buttons[i]) {
                 driver.setBrushSize(i+1);
                 setButtonHighlighted(i);
+                mainUI.setCursorToCircle();
             }
         }
     }

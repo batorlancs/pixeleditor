@@ -10,6 +10,7 @@ import sprites.io.driver.Driver;
 
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -26,6 +27,9 @@ public class MainUI extends JFrame {
     private Driver driver = new Driver(canvas, infoPanel, this);
     private ToolPanel toolPanel = new ToolPanel(0, 10, 128, 600, driver, this, canvas);
     private LayersPanel layerPanel = new LayersPanel(canvas, this);
+
+    private Cursor currCursor;
+    private Cursor brushSizeCursor;
 
     public MainUI() {
         this.createDisplay();
@@ -73,6 +77,113 @@ public class MainUI extends JFrame {
         this.add(menuPanel);
 
         this.setVisible(true);
+    }
+
+    public void setCursorToCrossHair() {
+        BufferedImage cursorImg = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = cursorImg.createGraphics();
+
+        // Draw a filled circle with a white border
+        g2d.setStroke(new BasicStroke(2));
+        g2d.setColor(new Color(0, 0, 0, 0));
+        g2d.fillRect(0, 0, 32, 32);
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawLine(8, 16, 24, 16);
+        g2d.drawLine(16, 8, 16, 24);
+        g2d.dispose();
+
+        // create a new cursor with the custom image
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(16, 16), "circle");
+        currCursor = cursor;
+    }
+
+    public void setCursorToCircle() {
+        if (!driver.isCurrToolBrushOrEraser()) return;
+        if (driver.getBrushSize() == 1) {
+            currCursor = setCursorToCircleSmall();
+        } else if (driver.getBrushSize() == 2) {
+            currCursor = setCursorToCircleMedium();
+        } else {
+            currCursor = setCursorToCircleLarge();
+        }
+    }
+
+    private Cursor setCursorToCircleSmall() {
+
+        BufferedImage cursorImg = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = cursorImg.createGraphics();
+
+        // Draw a filled circle with a white border
+        g2d.setStroke(new BasicStroke(2));
+        g2d.setColor(new Color(0, 0, 0, 0));
+        g2d.fillRect(0, 0, 32, 32);
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(8, 8, 16, 16);
+        g2d.dispose();
+
+        // create a new cursor with the custom image
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(16, 16), "circle");
+        return cursor;
+    }
+
+    private Cursor setCursorToCircleMedium() {
+
+        BufferedImage cursorImg = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = cursorImg.createGraphics();
+
+        // Draw a filled circle with a white border
+        g2d.setStroke(new BasicStroke(2));
+        g2d.setColor(new Color(0, 0, 0, 0));
+        g2d.fillRect(0, 0, 32, 32);
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(4, 4, 24, 24);
+        g2d.dispose();
+
+        // create a new cursor with the custom image
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(12, 12), "circle");
+        return cursor;
+    }
+
+    private Cursor setCursorToCircleLarge() {
+
+        BufferedImage cursorImg = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = cursorImg.createGraphics();
+
+        // Draw a filled circle with a white border
+        g2d.setStroke(new BasicStroke(2));
+        g2d.setColor(new Color(0, 0, 0, 0));
+        g2d.fillRect(0, 0, 32, 32);
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(1, 1, 30, 30);
+        g2d.dispose();
+
+        // create a new cursor with the custom image
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(16, 16), "circle");
+        return cursor;
+    }
+
+    public void setCursorToFill() {
+        Image cursorImage = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/fillIcon.png"))).getImage();
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(25, 20), "fill");
+        currCursor = cursor;
+    }
+
+    public void setCursorToColorPicker() {
+        Image cursorImage = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/colorPickerIcon.png"))).getImage();
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(4, 25), "colorPicker");
+        currCursor = cursor;
+    }
+
+    public void setCursorToCurrent() {
+        this.setCursor(currCursor);
+    }
+
+    public void setCursorToDefault() {
+        this.setCursor(Cursor.getDefaultCursor());
     }
 
     public void updateLayers() {

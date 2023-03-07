@@ -34,7 +34,7 @@ public class ToolPanel extends JPanel implements ActionListener {
         this.toolsLabel = new StyledLabel(0, 0, 128, 30, "Tools");
         this.toolsPanel = new ToolsPanel(0, 30, 128, 150, driverRef, mainUI, canvas);
         this.brushSizeLabel = new StyledLabel(0, 180, 128, 50, "Brush Size");
-        this.brushSizePanel = new BrushSizePanel(0, 220, 128, 30, driverRef, this);
+        this.brushSizePanel = new BrushSizePanel(0, 220, 128, 30, driverRef, this, mainUI);
         this.colorPickerLabel = new StyledLabel(0, 260, 128, 30, "Colors");
         this.colorPickerPanel = new ColorPickerPanel(0, 290, 128, 75, driverRef, this);
         this.colorPickerButton = new StyledButton(0, 365, 128, 30, "More Colors", "Pick From More Color Options");
